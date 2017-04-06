@@ -1,4 +1,4 @@
-package edu.udel.cisc275.section011.team0.EstuaryGame.model;
+package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.util.HashMap;
 
