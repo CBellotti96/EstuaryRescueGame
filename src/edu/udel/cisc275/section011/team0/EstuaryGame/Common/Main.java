@@ -1,4 +1,4 @@
-package edu.udel.cisc275.section011.team0.EstuaryGame;
+package edu.udel.cisc275.section011.team0.EstuaryGame.Common;
 
 public class Main {
 
