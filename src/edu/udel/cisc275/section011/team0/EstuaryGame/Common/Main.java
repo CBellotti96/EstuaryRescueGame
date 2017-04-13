@@ -14,7 +14,7 @@ public class Main extends JFrame implements ActionListener {
 
 	private static Main instance;
 	
-	public Main getInstance() {
+	public static Main getInstance() {
 		return instance;
 	}
 	
