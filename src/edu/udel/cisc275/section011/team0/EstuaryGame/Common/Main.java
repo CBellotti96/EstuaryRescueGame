@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.Controller;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 
 public class Main extends JFrame implements ActionListener {
@@ -36,7 +37,7 @@ public class Main extends JFrame implements ActionListener {
 				timer.setRepeats(true);
 				timer.start();
 				
-				setController(new MenuController());
+				instance.setController(new MenuController());
 			}
 		});
 	}
