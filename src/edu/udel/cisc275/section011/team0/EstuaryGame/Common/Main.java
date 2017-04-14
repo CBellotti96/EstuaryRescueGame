@@ -38,8 +38,7 @@ public class Main extends JFrame implements ActionListener {
 				timer.setRepeats(true);
 				timer.start();
 				
-				//instance.setController(new MenuController());
-				instance.setController(new MazeController());
+				instance.setController(new MenuController());
 			}
 		});
 	}
@@ -48,8 +47,9 @@ public class Main extends JFrame implements ActionListener {
 		currentController = controller;
 		getContentPane().removeAll();
 		getContentPane().add(controller.getView());
-		repaint();
 		controller.getView().requestFocusInWindow();
+		pack();
+		setSize(800, 600);
 	}
 
 	@Override
