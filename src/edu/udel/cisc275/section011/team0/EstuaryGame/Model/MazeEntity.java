@@ -4,37 +4,26 @@ public abstract class MazeEntity {
 
 	private double xPos;
 	private double yPos;
-	private double xVel;
-	private double yVel;
+	private final double speed = 0.1;
 	
-	public double getxPos() {
+	public double getXPos() {
 		return xPos;
 	}
-	public void setxPos(double xPos) {
+	public void setXPos(double xPos) {
 		this.xPos = xPos;
 	}
 	
-	public double getyPos() {
+	public double getYPos() {
 		return yPos;
 	}
-	public void setyPos(double yPos) {
+	public void setYPos(double yPos) {
 		this.yPos = yPos;
+
+		System.out.println(yPos);
 	}
 	
-	public double getxVel() {
-		return xVel;
+	public double getSpeed() {
+		return speed;
 	}
-	public void setxVel(double xVel) {
-		this.xVel = xVel;
-	}
-	
-	public double getyVel() {
-		return yVel;
-	}
-	public void setyVel(double yVel) {
-		this.yVel = yVel;
-	}
-	
-	
 	
 }

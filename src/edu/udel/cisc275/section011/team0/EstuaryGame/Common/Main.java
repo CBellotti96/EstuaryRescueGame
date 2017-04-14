@@ -8,10 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.Controller;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MazeController;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 
 public class Main extends JFrame implements ActionListener {
-
+	
 	private static Main instance;
 	
 	public static Main getInstance() {
@@ -23,7 +24,7 @@ public class Main extends JFrame implements ActionListener {
 	private Main() {
 		setBackground(Color.gray);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setSize(View.FRAME_WIDTH, View.FRAME_HEIGHT);
+		setSize(800, 600);
 		setVisible(true);
 	}
 
@@ -32,12 +33,13 @@ public class Main extends JFrame implements ActionListener {
 			public void run() {
 				instance = new Main();
 
-				Timer timer = new Timer(75, instance);
+				Timer timer = new Timer(16, instance);
 				timer.setActionCommand("Tick");
 				timer.setRepeats(true);
 				timer.start();
 				
-				instance.setController(new MenuController());
+				//instance.setController(new MenuController());
+				instance.setController(new MazeController());
 			}
 		});
 	}
@@ -46,7 +48,8 @@ public class Main extends JFrame implements ActionListener {
 		currentController = controller;
 		getContentPane().removeAll();
 		getContentPane().add(controller.getView());
-
+		repaint();
+		controller.getView().requestFocusInWindow();
 	}
 
 	@Override

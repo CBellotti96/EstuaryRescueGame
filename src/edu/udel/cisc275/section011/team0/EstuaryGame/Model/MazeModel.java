@@ -5,8 +5,10 @@ import java.util.List;
 
 public class MazeModel {
 
-	private double salinity;
-	private MazeWeather weather;
+	private final double maxSalinity = 30; // TODO change value based on  
+	private final double minSalinity = 4;  // specific estuary, these are tesing
+	private double salinity = 4;          // values based on horsehoe crab
+	private MazeWeather weather = MazeWeather.RAIN;
 	private final MazeCrab player;
 	private long timeRemaining;
 	private List<MazeSection> sections = new ArrayList<>();
@@ -20,6 +22,12 @@ public class MazeModel {
 	}
 	public void setSalinity(double salinity) {
 		this.salinity = salinity;
+	}
+	public double getMinSalinity() {
+		return minSalinity;
+	}
+	public double getMaxSalinity() {
+		return maxSalinity;
 	}
 
 	public MazeWeather getWeather() {
