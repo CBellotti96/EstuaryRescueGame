@@ -12,9 +12,7 @@ public class StoryMenuItem implements MenuItem {
 
 	@Override
 	public void onClick() {
-		// TODO Auto-generated method stub
 		Main.getInstance().setController(new StoryController());
-
 	}
 
 }

@@ -1,5 +1,8 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.ShoreController;
+
 public class ShoreMenuItem implements MenuItem {
 
 	@Override
@@ -9,8 +12,7 @@ public class ShoreMenuItem implements MenuItem {
 
 	@Override
 	public void onClick() {
-		// TODO Auto-generated method stub
-
+		Main.getInstance().setController(new ShoreController());
 	}
 
 }
