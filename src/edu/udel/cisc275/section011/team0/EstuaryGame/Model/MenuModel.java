@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuModel {
-	List<MenuItem> menuItems = new ArrayList<>();
-	
+	private final List<MenuItem> menuItems = new ArrayList<>();
 	
 	public MenuModel(){
 		menuItems.add(new MazeMenuItem());
@@ -13,4 +12,7 @@ public class MenuModel {
 		menuItems.add(new StoryMenuItem());
 	}
 
+	public List<MenuItem> getMenuItems(){
+		return this.menuItems;
+	}
 }
