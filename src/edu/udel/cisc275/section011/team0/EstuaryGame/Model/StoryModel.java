@@ -1,9 +1,12 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.util.ArrayList;
+
 public class StoryModel {
 
 		private String story; 
 		private StoryMode mode;
+		private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>(); 
 		
 		public enum StoryMode{
 			INPUT,PLAYBACK
@@ -23,5 +26,25 @@ public class StoryModel {
 		
 		public void setMode(StoryMode mode) {
 			this.mode = mode;
+		}
+		
+		public ArrayList<StoryCube> getCubes () {
+			return this.cubes;
+		}
+		
+		public StoryModel () {
+			for (int i = 0; i < 8; i++) {
+				StoryCube sc = new StoryCube();
+				sc.setCubePosition(StoryCubePosition.cubeStartPositions[i]);
+				cubes.add(sc);
+			}
+		}
+		
+		public StoryCube containedIn (StoryCubePosition scp) {
+			for (StoryCube sc : cubes) {
+				if (sc.getCubePosition().equals(scp))
+					return sc;
+			}
+			return null;
 		}
 }
