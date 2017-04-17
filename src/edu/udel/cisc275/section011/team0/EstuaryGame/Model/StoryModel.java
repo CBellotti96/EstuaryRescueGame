@@ -6,7 +6,8 @@ public class StoryModel {
 
 		private String story; 
 		private StoryMode mode;
-		private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>(); 
+		private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>();
+		private boolean rolled;
 		
 		public enum StoryMode{
 			INPUT,PLAYBACK
@@ -32,6 +33,14 @@ public class StoryModel {
 			return this.cubes;
 		}
 		
+		public boolean isRolled () {
+			return this.rolled;
+		}
+		
+		public void setRolled (boolean rolled) {
+			this.rolled = rolled;
+		}
+		
 		public StoryModel () {
 			for (int i = 0; i < 8; i++) {
 				StoryCube sc = new StoryCube();
@@ -46,5 +55,10 @@ public class StoryModel {
 					return sc;
 			}
 			return null;
+		}
+		
+		public void roll () {
+			for (StoryCube sc : cubes)
+				sc.setRolling(true);
 		}
 }

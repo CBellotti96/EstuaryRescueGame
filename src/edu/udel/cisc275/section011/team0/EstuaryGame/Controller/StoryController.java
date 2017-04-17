@@ -23,7 +23,7 @@ public class StoryController extends MouseAdapter implements Controller {
 	}
 	
 	@Override
-	public void tick(){
+	public void tick() {
 		view.repaint();
 	}
 
@@ -34,8 +34,11 @@ public class StoryController extends MouseAdapter implements Controller {
 	
 	@Override
 	public void mouseClicked (MouseEvent arg0) {
-		if (selectedCube == null) {
-			StoryCubePosition scp = view.containerOf(arg0, StoryCubePosition.values());
+		if (!model.isRolled()) {
+			model.roll();
+			model.setRolled(true);
+		} else if (selectedCube == null) {
+			StoryCubePosition scp = view.containerOf(arg0.getPoint(), StoryCubePosition.values());
 			if (scp == null)
 				return;
 			StoryCube sc = model.containedIn(scp);
@@ -46,7 +49,7 @@ public class StoryController extends MouseAdapter implements Controller {
 			this.selectedCube = sc;
 		} else {
 			this.selectedCube.setSelected(false);
-			StoryCubePosition scp = view.containerOf(arg0, StoryCubePosition.cubeEndPositions);
+			StoryCubePosition scp = view.containerOf(arg0.getPoint(), StoryCubePosition.cubeEndPositions);
 			if (scp != null) {
 				StoryCube sc = model.containedIn(scp);
 				if (sc == null)
