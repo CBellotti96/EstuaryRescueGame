@@ -4,8 +4,18 @@ public abstract class MazeEntity {
 
 	private double xPos;
 	private double yPos;
-	private final double speed = 0.1;
+	private double speed;
 	
+	public MazeEntity() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public MazeEntity(double xPos, double yPos, double speed){
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.speed = speed;
+	}
+
 	public double getXPos() {
 		return xPos;
 	}
@@ -16,14 +26,17 @@ public abstract class MazeEntity {
 	public double getYPos() {
 		return yPos;
 	}
+	
 	public void setYPos(double yPos) {
 		this.yPos = yPos;
-
-		System.out.println(yPos);
 	}
 	
 	public double getSpeed() {
 		return speed;
+	}
+	
+	public void setSpeed(double speed){
+		this.speed = speed;
 	}
 	
 }
