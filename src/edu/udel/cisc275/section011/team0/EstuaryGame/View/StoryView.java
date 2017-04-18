@@ -32,6 +32,7 @@ public class StoryView extends JComponent {
 		WIDTH = getWidth();
 		SIZE = Math.min(HEIGHT/12, WIDTH/16);
 		MARGIN = Math.max(WIDTH - SIZE * 16, HEIGHT - SIZE * 12) / 2;
+		StoryCubePosition.updateSizeAndMargin(SIZE, MARGIN);
 		renderFinalPositions(g);
 		renderCubes(g);
 	}
@@ -39,8 +40,6 @@ public class StoryView extends JComponent {
 	private void renderFinalPositions (Graphics g) {
 		g.setColor(Color.BLACK);
 		for (StoryCubePosition scp : StoryCubePosition.cubeEndPositions) {
-			scp.setSize(SIZE);
-			scp.setMargin(MARGIN);
 			Rectangle r = scp.getRect();
 			g.drawRect(r.x, r.y, r.width, r.height);
 		}

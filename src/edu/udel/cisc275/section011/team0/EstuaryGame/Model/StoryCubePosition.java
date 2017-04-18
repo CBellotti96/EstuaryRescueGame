@@ -12,7 +12,7 @@ public enum StoryCubePosition {
 	private int x;
 	private int y;
 	private int size;
-	private int margin = 0;
+	private int margin;
 	
 	public int getX () {
 		return x * size + margin;
@@ -22,18 +22,16 @@ public enum StoryCubePosition {
 		return y * size;
 	}
 	
-	public void setSize (int size) {
-		this.size = size;
-	}
-	
-	public void setMargin (int margin) {
-		this.margin = margin;
-	}
-	
 	private StoryCubePosition (int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.size = 0;
+	}
+	
+	public static void updateSizeAndMargin (int size, int margin) {
+		for (StoryCubePosition scp : StoryCubePosition.values()) {
+			scp.size = size;
+			scp.margin = margin;
+		}
 	}
 	
 	public Rectangle getRect () {

@@ -48,7 +48,6 @@ public class StoryCube {
 			this.x = MouseInfo.getPointerInfo().getLocation().x - size;
 			this.y = MouseInfo.getPointerInfo().getLocation().y - size;
 		} else {
-			home.setSize(size);
 			int homeX = home.getX();
 			int homeY = home.getY();
 			if (Math.abs(x - homeX) < 2 * speed && Math.abs(y - homeY) < 2 * speed) {
