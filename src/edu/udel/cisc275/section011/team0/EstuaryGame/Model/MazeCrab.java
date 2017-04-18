@@ -2,22 +2,18 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 public class MazeCrab extends MazeEntity {
 	
-	private final double defaultSpeed = 1.0;
+	private final static double defaultSpeed = 1.0;
 	
-	public MazeCrab(){
-		super();
-	}
-	
-	public MazeCrab (double xPos, double yPos, double speed){
-		super(xPos, yPos, speed);
+	public MazeCrab (double xPos, double yPos){
+		super(xPos, yPos, defaultSpeed);
 	}
 	
 	// getters/setters for xPos, yPos, and speed are already present in superclass
 	
-	public double changeSpeed(int proportion){
+	public void changeSpeed(int proportion){
 		//for walking through seaweed, powerup
 		//proportion > 1 increases; <1 decreases 
-		return this.getSpeed()*proportion;
+		this.setSpeed(this.getSpeed()*proportion); 
 	}
 	
 	public void resetSpeed(){

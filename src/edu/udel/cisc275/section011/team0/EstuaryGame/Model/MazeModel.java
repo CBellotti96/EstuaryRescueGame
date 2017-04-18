@@ -14,7 +14,7 @@ public class MazeModel {
 	private List<MazeSection> sections = new ArrayList<>();
 	
 	public MazeModel() {
-		player = new MazeCrab();
+		player = new MazeCrab(0,0);
 	}
 
 	public double getSalinity() {
