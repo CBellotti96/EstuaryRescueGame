@@ -18,6 +18,13 @@ public enum Direction {
 		this.yDir = yDir;
 	}
 	
+	public int getxDir(){
+		return xDir;
+	}
+	
+	public int getyDir(){
+		return yDir;
+	}
 	
 	
 }
