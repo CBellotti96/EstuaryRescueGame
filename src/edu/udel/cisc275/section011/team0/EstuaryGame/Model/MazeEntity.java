@@ -6,10 +6,6 @@ public abstract class MazeEntity {
 	private double yPos;
 	private double speed;
 	
-	public MazeEntity() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	public MazeEntity(double xPos, double yPos, double speed){
 		this.xPos = xPos;
 		this.yPos = yPos;

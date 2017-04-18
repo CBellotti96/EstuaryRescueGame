@@ -58,6 +58,7 @@ public class MazeView extends JComponent {
 		
 		// draw maze
 		int unit = (int) (zoom * screenWidth / 10);
+		int centerOffset = screenWidth / 2 - unit / 2;
 		for (int x = 0, i = 0; x < screenWidth; x += unit, i++) {
 			for (int y = 0, j = 0; y < screenHeight; y += unit, j++) {
 				if (i % 2 == 0 && j % 2 == 0) {
@@ -72,8 +73,12 @@ public class MazeView extends JComponent {
 				
 				//g.drawRect(x, y, unit, unit);
 				//g.fillRect(x, y, unit, unit);
-				g.drawRect(x - (int) (player.getXPos() * unit), y - (int) (player.getYPos() * unit), unit, unit);
-				g.fillRect(x - (int) (player.getXPos() * unit), y - (int) (player.getYPos() * unit), unit, unit);
+				g.drawRect(x - (int) (player.getXPos() * unit) + centerOffset, 
+						y - (int) (player.getYPos() * unit) + centerOffset, 
+						unit, unit);
+				g.fillRect(x - (int) (player.getXPos() * unit) + centerOffset, 
+						y - (int) (player.getYPos() * unit) + centerOffset, 
+						unit, unit);
 			}
 		}
 		
@@ -81,8 +86,8 @@ public class MazeView extends JComponent {
 		g.setColor(Color.RED);
 		//g.drawRect((int) (player.getXPos() * unit), (int) (player.getYPos() * unit), unit, unit);
 		//g.fillRect((int) (player.getXPos() * unit), (int) (player.getYPos() * unit), unit, unit);
-		g.drawRect(0, 0, unit, unit);
-		g.fillRect(0, 0, unit, unit);
+		g.drawRect(centerOffset, centerOffset, unit, unit);
+		g.fillRect(centerOffset, centerOffset, unit, unit);
 		
 	}
 	

@@ -14,18 +14,21 @@ public class MazeModel {
 	private List<MazeSection> sections = new ArrayList<>();
 	
 	public MazeModel() {
-		player = new MazeCrab();
+		player = new MazeCrab(0,0);
 	}
 
 	public double getSalinity() {
 		return salinity;
 	}
+	
 	public void setSalinity(double salinity) {
 		this.salinity = salinity;
 	}
+	
 	public double getMinSalinity() {
 		return minSalinity;
 	}
+	
 	public double getMaxSalinity() {
 		return maxSalinity;
 	}
@@ -33,6 +36,7 @@ public class MazeModel {
 	public MazeWeather getWeather() {
 		return weather;
 	}
+	
 	public void setWeather(MazeWeather weather) {
 		this.weather = weather;
 	}

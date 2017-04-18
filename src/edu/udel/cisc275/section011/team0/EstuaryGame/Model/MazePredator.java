@@ -7,4 +7,6 @@ public class MazePredator extends MazeEntity {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
 }

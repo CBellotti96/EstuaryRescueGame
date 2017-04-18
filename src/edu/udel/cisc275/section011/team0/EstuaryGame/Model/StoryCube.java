@@ -1,6 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 public class StoryCube {
@@ -12,18 +13,18 @@ public class StoryCube {
 	private int y;
 	private int size;
 	private StoryCubeFace cubeFace;
-	
 	private StoryCubePosition home;
-	
 	private boolean selected;
 	private boolean rolling;
+	private int rollState;
 	
 	public int getID () {return this.id;}	
 	public int getX () {return this.x;}	
 	public int getY () {return this.y;}	
 	public int getSize () {return this.size * 2;}	
-	public StoryCubeFace getCubeFace () {return rolling ? StoryCubeFace.random() : this.cubeFace;}
+	public StoryCubeFace getCubeFace () {return this.cubeFace;}
 	public StoryCubePosition getHome () {return this.home;}
+	public boolean isRolling () {return this.rolling;}
 	
 	public void setX (int x) {this.x = x;}	
 	public void setY (int y) {this.y = y;}
@@ -37,16 +38,23 @@ public class StoryCube {
 		this.cubeFace = StoryCubeFace.random();
 		this.home = home;
 		this.rolling = false;
+		this.rollState = 0;
+	}
+	
+	public void incrementRoll () {
+		this.rollState = (rollState + 1) % 5;
+		if (rollState == 0)
+			this.cubeFace = StoryCubeFace.random();
 	}
 	
 	public Rectangle getRect () {
 		return new Rectangle(x, y, size * 2, size * 2);
 	}
 	
-	public void move () {
+	public void move (Point mousePos) {
 		if (selected) {
-			this.x = MouseInfo.getPointerInfo().getLocation().x - size;
-			this.y = MouseInfo.getPointerInfo().getLocation().y - size;
+			this.x = mousePos.x - size;
+			this.y = mousePos.y - size;
 		} else {
 			int homeX = home.getX();
 			int homeY = home.getY();

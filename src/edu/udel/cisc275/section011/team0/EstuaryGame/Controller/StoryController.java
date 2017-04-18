@@ -25,7 +25,7 @@ public class StoryController extends MouseAdapter implements Controller {
 	@Override
 	public void tick() {
 		view.repaint();
-		model.tick();
+		model.tick(this.getView().getMousePosition());
 	}
 
 	@Override
@@ -49,11 +49,18 @@ public class StoryController extends MouseAdapter implements Controller {
 		} else {
 			this.selectedCube.setSelected(false);
 			StoryCubePosition endPosition = null;
-			for (StoryCubePosition scp : StoryCubePosition.cubeEndPositions)
+			for (StoryCubePosition scp : StoryCubePosition.getEndPositions())
 				if (scp.getRect().contains(arg0.getPoint()))
 					endPosition = scp;
 			if (endPosition != null) {
-				this.selectedCube.setHome(endPosition);
+				boolean occupied = false;
+				for (StoryCube sc : model.getCubes()) {
+					if (sc.getHome().equals(endPosition)) {
+						occupied = true;
+					}
+				}
+				if (!occupied)
+					this.selectedCube.setHome(endPosition);
 			}
 			this.selectedCube = null;
 		}
