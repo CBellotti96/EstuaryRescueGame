@@ -65,18 +65,20 @@ public class StoryView extends JComponent {
 				sc.setY(HEIGHT/2 - scSize/2);
 				sc.setRolled(true);
 			} else if (sc.isRolling()) {
-				if (sc.getX() < cpX)
+				boolean doneRollingX = false;
+				if (sc.getX() < cpX - speed)
 					sc.vX(speed);
-				else if (sc.getX() > cpX)
+
+				else if (sc.getX() > cpX + speed)
 					sc.vX(-speed);
 				else
-					sc.setRolling(false);
+					doneRollingX = true;
 				
-				if (sc.getY() < cpY)
+				if (sc.getY() < cpY - speed)
 					sc.vY(speed);
-				else if (sc.getY() > cpY)
+				else if (sc.getY() > cpY + speed)
 					sc.vY(-speed);
-				else
+				else if (doneRollingX)
 					sc.setRolling(false);
 				
 				if (sc.getX()%2 == 0)
