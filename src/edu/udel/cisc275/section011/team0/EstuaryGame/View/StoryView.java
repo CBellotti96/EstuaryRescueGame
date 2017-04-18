@@ -2,10 +2,12 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.View;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import javax.swing.JComponent;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryCube;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryCubePosition;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryModel;
 
 public class StoryView extends JComponent {
@@ -35,27 +37,24 @@ public class StoryView extends JComponent {
 	}
 	
 	private void renderFinalPositions (Graphics g) {
-		
-		g.setColor(Color.BLUE);
-		for (int i = 0; i < 8; i++) {
-			int x = i * 2 * SIZE + MARGIN;
-			int y = 5 * SIZE;
-			int size = SIZE * 2;
-			g.drawRect(x, y, size, size);
+		g.setColor(Color.BLACK);
+		for (StoryCubePosition scp : StoryCubePosition.cubeEndPositions) {
+			scp.setSize(SIZE);
+			scp.setMargin(MARGIN);
+			Rectangle r = scp.getRect();
+			g.drawRect(r.x, r.y, r.width, r.height);
 		}
 	}
 	
 	private void renderCubes (Graphics g) {
 		for (StoryCube sc : this.model.getCubes()) {
-			sc.setSize(SIZE * 2);
-			sc.updateHome(SIZE);
-			if (model.isRolled()) {
-				g.setColor(sc.getCubeFace().getColor());
-				g.fillRect(sc.getX(), sc.getY(), sc.getSize(), sc.getSize());
-			} else {
-				sc.setX(WIDTH/2 - SIZE);
+			sc.setSize(SIZE);
+			if (!model.isRolled()) {
+				sc.setX(WIDTH/2 - SIZE + MARGIN);
 				sc.setY(HEIGHT/2 - SIZE);
 			}
+			g.setColor(sc.getCubeFace().getColor());
+			g.fillRect(sc.getX(), sc.getY(), sc.getSize(), sc.getSize());
 		}
 	}
 }

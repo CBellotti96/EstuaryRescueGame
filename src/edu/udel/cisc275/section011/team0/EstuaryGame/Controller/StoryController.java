@@ -44,18 +44,18 @@ public class StoryController extends MouseAdapter implements Controller {
 					selected = sc;
 			if (selected != null) {
 				selected.setSelected(true);
-				selected.setOffsets(arg0.getPoint().x - selected.getX(), arg0.getPoint().y - selected.getY());
 				this.selectedCube = selected;
 			}
 		} else {
-			//this.selectedCube.setSelected(false);
-			//StoryCubePosition scp = view.containerOf(arg0.getPoint(), StoryCubePosition.cubeEndPositions);
-			//if (scp != null) {
-				//StoryCube sc = model.containedIn(scp);
-				//if (sc == null)
-					//this.selectedCube.setCubePosition(scp);
-			//}			
-			//this.selectedCube = null;
+			this.selectedCube.setSelected(false);
+			StoryCubePosition endPosition = null;
+			for (StoryCubePosition scp : StoryCubePosition.cubeEndPositions)
+				if (scp.getRect().contains(arg0.getPoint()))
+					endPosition = scp;
+			if (endPosition != null) {
+				this.selectedCube.setHome(endPosition);
+			}
+			this.selectedCube = null;
 		}
 	}
 	
