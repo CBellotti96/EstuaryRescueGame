@@ -71,13 +71,69 @@ public class ShoreModel {
 		}
 	}
 	
+	public int getGameWidth() {
+		return gameWidth;
+	}
+
+	public void setGameWidth(int gameWidth) {
+		this.gameWidth = gameWidth;
+	}
+
+	public int getGameHeight() {
+		return gameHeight;
+	}
+
+	public void setGameHeight(int gameHeight) {
+		this.gameHeight = gameHeight;
+	}
+
+	public int getCountdown() {
+		return countdown;
+	}
+
+	public void setCountdown(int countdown) {
+		this.countdown = countdown;
+	}
+
+	public ShoreTile[][] getTiles() {
+		return tiles;
+	}
+
+	public void setTiles(ShoreTile[][] tiles) {
+		this.tiles = tiles;
+	}
+
+	public int getTilesInRow() {
+		return tilesInRow;
+	}
+
+	public void setTilesInRow(int tilesInRow) {
+		this.tilesInRow = tilesInRow;
+	}
+
+	public int getTilesInColumn() {
+		return tilesInColumn;
+	}
+
+	public void setTilesInColumn(int tilesInColumn) {
+		this.tilesInColumn = tilesInColumn;
+	}
+
+	public int getTileSize() {
+		return tileSize;
+	}
+
+	public void setTileSize(int tileSize) {
+		this.tileSize = tileSize;
+	}
+
 	public void onTick(){ //updates position of moving objects
 		for (int i = 0; i < tilesInRow; i++){
 			for (int j = 0; j < tilesInColumn; j++){
 				if(!tiles[i][j].isVacant() && tiles[i][j].getTileContents() != null){
 					
 					if(tiles[i][j].getTileContents() instanceof ShoreWave){
-						Object o = tiles[i][j].getTileContents();
+						Object  o = tiles[i][j].getTileContents();
 						handleWaveMovement((ShoreWave)o);
 					}
 					else if(tiles[i][j].getTileContents() instanceof ShoreBoat){
