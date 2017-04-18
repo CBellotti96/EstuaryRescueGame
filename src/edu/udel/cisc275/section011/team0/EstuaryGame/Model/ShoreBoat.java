@@ -1,35 +1,44 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-public class ShoreBoat {
+public class ShoreBoat{
 
-	private double xPos;
-	private double yPos;
+	private ShorePosition boatPos;
 	private final ShoreBoatType type;
+	private int countNumWaves;
+	private int waveTile;
 	
-	public double getXPos () {
-		return this.xPos;
+	public int getCountNumWaves() {
+		return countNumWaves;
 	}
 	
-	public double getYPos () {
-		return this.yPos;
+	public int getWaveTile() {
+		return waveTile;
+	}
+	
+	public void setCountNumWaves(int countNumWaves) {
+		this.countNumWaves = countNumWaves;
+	}
+	
+	public void setWaveTile(int waveTile) {
+		this.waveTile = waveTile;
+	}
+
+	public ShorePosition getboatPos () {
+		return this.boatPos;
 	}
 	
 	public ShoreBoatType getType () {
 		return this.type;
 	}
 	
-	public void setXPos (double xPos) {
-		this.xPos = xPos;
+	public void setBoatPos (ShorePosition boatPos) {
+		this.boatPos = boatPos;
 	}
 	
-	public void setYPos (double yPos) {
-		this.yPos = yPos;
-	}
-	
-	public ShoreBoat (double xPos, double yPos, ShoreBoatType type) {
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public ShoreBoat (ShorePosition boatPos, ShoreBoatType type, int waveTile) {
+		this.boatPos = boatPos;
 		this.type = type;
+		this.waveTile = -1;
 	}
 	
 }

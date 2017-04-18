@@ -1,34 +1,25 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-public class ShoreItem {
+public class ShoreItem extends ShoreItemType{
 	
-	private double xPos;
-	private double yPos;
+	private ShorePosition itemPos;
 	private final ShoreItemType type;
 	
-	public double getXPos () {
-		return this.xPos;
-	}
-	
-	public double getYPos () {
-		return this.yPos;
+	public ShorePosition getItemPos () {
+		return this.itemPos;
 	}
 	
 	public ShoreItemType getType () {
 		return this.type;
 	}
 	
-	public void setXPos (double xPos) {
-		this.xPos = xPos;
+	public void setItemPos (ShorePosition itemPos) {
+		this.itemPos = itemPos;
 	}
 	
-	public void setYPos (double yPos) {
-		this.yPos = yPos;
-	}
-	
-	public ShoreItem (double xPos, double yPos, ShoreItemType type) {
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public ShoreItem (ShorePosition itemPos, ShoreItemType type) {
+		super(type.getName());
+		this.itemPos = itemPos;
 		this.type = type;
 	}
 

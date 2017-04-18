@@ -1,34 +1,25 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-public class ShoreDefense {
+public class ShoreDefense extends ShoreDefenseType{
 	
-	private double xPos;
-	private double yPos;
+	private ShorePosition defensePos;
 	private final ShoreDefenseType type;
 	
-	public double getXPos () {
-		return this.xPos;
-	}
-	
-	public double getYPos () {
-		return this.yPos;
+	public ShorePosition getDefensePos () {
+		return this.defensePos;
 	}
 	
 	public ShoreDefenseType getType () {
 		return this.type;
 	}
 	
-	public void setXPos (double xPos) {
-		this.xPos = xPos;
+	public void setDefensePos (ShorePosition defensePos) {
+		this.defensePos = defensePos;
 	}
 	
-	public void setYPos (double yPos) {
-		this.yPos = yPos;
-	}
-	
-	public ShoreDefense (double xPos, double yPos, ShoreDefenseType type) {
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public ShoreDefense (ShorePosition defensePos, ShoreDefenseType type) {
+		super(type.getName());
+		this.defensePos = defensePos;
 		this.type = type;
 	}
 

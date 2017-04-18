@@ -2,10 +2,21 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 public class ShoreDefenseType {
 	
-	private final String name;
-	private final double placementZoneStartY;
-	private final double placementZoneEndY;
-	private final double shoreHealthEffect;
+	private String name;
+	private double placementZoneStartY;
+	private double placementZoneEndY;
+	private double shoreHealthEffect;
+	private int numItemsRequired;
+	
+	public void setPlacementZoneStartY(double placementZoneStartY) {
+		this.placementZoneStartY = placementZoneStartY;
+	}
+
+	public void setPlacementZoneEndY(double placementZoneEndY) {
+		this.placementZoneEndY = placementZoneEndY;
+	}
+
+	private int durability;
 	
 	public String getName () {
 		return this.name;
@@ -23,11 +34,46 @@ public class ShoreDefenseType {
 		return this.shoreHealthEffect;
 	}
 	
-	public ShoreDefenseType (String name, double placementZoneStartY, double placementZoneEndY, double shoreHealthEffect) {
+	public int getNumItemsRequired(){
+		return this.numItemsRequired;
+	}
+	
+	public int getDurability(){
+		return this.durability;
+	}
+	
+	public void setDurability(int durability){
+		this.durability = durability;
+	}
+	
+	public ShoreDefenseType (String name) {
 		this.name = name;
-		this.placementZoneStartY = placementZoneStartY;
-		this.placementZoneEndY = placementZoneEndY;
-		this.shoreHealthEffect = shoreHealthEffect;
+		if (name == "Sea Wall"){
+			this.placementZoneEndY = 0;
+			this.placementZoneStartY = 0;
+			this.shoreHealthEffect = -.1;
+			this.numItemsRequired = 3;
+			this.durability = 3;
+		}
+		else if (name == "Gabion"){
+			this.placementZoneEndY = 0;
+			this.placementZoneStartY = 0;
+			this.shoreHealthEffect = +.2;
+			this.numItemsRequired = 3;
+			this.durability = 9999;
+		}
+		else{
+			this.placementZoneEndY = 0;
+			this.placementZoneStartY = 0;
+			this.shoreHealthEffect = +.1;
+			this.numItemsRequired = 1;
+			this.durability = 0;
+		}
+		//this.placementZoneStartY = placementZoneStartY;
+		//this.placementZoneEndY = placementZoneEndY;
+		//this.shoreHealthEffect = shoreHealthEffect;
+		//this.numItemsRequired = numItemsRequired;
+		//this.durability = durability;
 	}
 
 }

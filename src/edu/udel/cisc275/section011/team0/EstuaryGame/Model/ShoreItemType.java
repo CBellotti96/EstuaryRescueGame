@@ -2,32 +2,29 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 public class ShoreItemType {
 	
-	private final String name;
-	private final double spawnZoneStartY;
-	private final double spawnZoneEndY;
-	private final ShoreDefenseType buildsDefense;
+	private String name;
+	private ShoreTileType spawnArea;
+	private ShoreDefenseType buildsDefense;
 	
 	public String getName () {
 		return this.name;
 	}
 
-	public double getSpawnZoneStartY () {
-		return this.spawnZoneStartY;
-	}
-	
-	public double getSpawnZoneEndY () {
-		return this.spawnZoneEndY;
+	public ShoreTileType getSpawnArea () {
+		return this.spawnArea;
 	}
 	
 	public ShoreDefenseType getBuildsDefense () {
 		return this.buildsDefense;
 	}
 	
-	public ShoreItemType (String name, double spawnZoneStartY, double spawnZoneEndY, ShoreDefenseType buildsDefense) {
-		this.name = name;
-		this.spawnZoneStartY = spawnZoneStartY;
-		this.spawnZoneEndY = spawnZoneEndY;
+	public void setBuildsDefense(ShoreDefenseType buildsDefense) {
 		this.buildsDefense = buildsDefense;
+	}
+	
+	public ShoreItemType (String name) {
+		this.name = name;
+		this.spawnArea = ShoreTileType.BEACH;
 	}
 	
 }
