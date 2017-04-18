@@ -10,7 +10,7 @@ public class MazeCrab extends MazeEntity {
 	
 	// getters/setters for xPos, yPos, and speed are already present in superclass
 	
-	public void changeSpeed(int proportion){
+	public void changeSpeed(double proportion){
 		//for walking through seaweed, powerup
 		//proportion > 1 increases; <1 decreases 
 		this.setSpeed(this.getSpeed()*proportion); 
