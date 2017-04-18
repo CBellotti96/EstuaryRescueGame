@@ -1,5 +1,6 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class StoryModel {
@@ -24,10 +25,10 @@ public class StoryModel {
 			}
 		}
 		
-		public void tick () {
+		public void tick (Point mousePos) {
 			if (rolled)
 				for (StoryCube sc : cubes) {
-					sc.move();
+					sc.move(mousePos);
 					if (sc.isRolling())
 						sc.incrementRoll();
 				}

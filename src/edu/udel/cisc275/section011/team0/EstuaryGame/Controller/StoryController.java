@@ -25,7 +25,7 @@ public class StoryController extends MouseAdapter implements Controller {
 	@Override
 	public void tick() {
 		view.repaint();
-		model.tick();
+		model.tick(this.getView().getMousePosition());
 	}
 
 	@Override

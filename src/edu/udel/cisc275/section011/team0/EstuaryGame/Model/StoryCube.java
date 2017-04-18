@@ -1,6 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 public class StoryCube {
@@ -50,10 +51,10 @@ public class StoryCube {
 		return new Rectangle(x, y, size * 2, size * 2);
 	}
 	
-	public void move () {
+	public void move (Point mousePos) {
 		if (selected) {
-			this.x = MouseInfo.getPointerInfo().getLocation().x - size;
-			this.y = MouseInfo.getPointerInfo().getLocation().y - size;
+			this.x = mousePos.x - size;
+			this.y = mousePos.y - size;
 		} else {
 			int homeX = home.getX();
 			int homeY = home.getY();
