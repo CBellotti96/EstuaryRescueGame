@@ -2,7 +2,7 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 public class MazeCrab extends MazeEntity {
 	
-	private final static double defaultSpeed = 1.0;
+	private final static double defaultSpeed = 0.1;
 	
 	public MazeCrab (double xPos, double yPos){
 		super(xPos, yPos, defaultSpeed);
