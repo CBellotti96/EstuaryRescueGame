@@ -39,7 +39,7 @@ public class StoryView extends JComponent {
 	
 	private void renderFinalPositions (Graphics g) {
 		g.setColor(Color.BLACK);
-		for (StoryCubePosition scp : StoryCubePosition.cubeEndPositions) {
+		for (StoryCubePosition scp : StoryCubePosition.getEndPositions()) {
 			Rectangle r = scp.getRect();
 			g.drawRect(r.x, r.y, r.width, r.height);
 		}

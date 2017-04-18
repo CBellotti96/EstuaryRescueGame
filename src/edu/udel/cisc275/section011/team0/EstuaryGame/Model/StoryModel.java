@@ -16,29 +16,26 @@ public class StoryModel {
 		}
 		
 		public StoryModel () {
-			for (int i = 0; i < 8; i++) {
-				StoryCube sc = new StoryCube(i, StoryCubePosition.cubeStartPositions[i]);
+			int n = 6;
+			StoryCubePosition.initializePositions(n);
+			for (int i = 0; i < n; i++) {
+				StoryCube sc = new StoryCube(i, StoryCubePosition.getStartPositions().get(i));
 				cubes.add(sc);
 			}
 		}
 		
 		public void tick () {
 			if (rolled)
-				for (StoryCube sc : cubes)
+				for (StoryCube sc : cubes) {
 					sc.move();
+					if (sc.isRolling())
+						sc.incrementRoll();
+				}
 		}
 		
 		public void roll () {
 			this.rolled = true;
 			for (StoryCube sc : cubes)
 				sc.setRolling(true);
-		}
-		
-		public StoryCube containedIn (StoryCubePosition scp) {
-			for (StoryCube sc : cubes) {
-				if (sc.getHome().equals(scp))
-					return sc;
-			}
-			return null;
 		}
 }

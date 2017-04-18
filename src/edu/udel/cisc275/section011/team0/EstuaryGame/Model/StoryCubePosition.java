@@ -1,18 +1,22 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
-public enum StoryCubePosition {
-	S_ONE (1, 0), S_TWO (5, 0), S_THREE (9, 0), S_FOUR (13, 0), S_FIVE (1, 10), S_SIX (5, 10), S_SEVEN (9, 10), S_EIGHT (13, 10),
-	E_ONE (0, 5), E_TWO (2, 5), E_THREE (4, 5), E_FOUR (6, 5), E_FIVE (8, 5), E_SIX (10, 5), E_SEVEN (12, 5), E_EIGHT (14, 5);
+public class StoryCubePosition {
 	
-	public static final StoryCubePosition[] cubeStartPositions = {S_ONE, S_TWO, S_THREE, S_FOUR, S_FIVE, S_SIX, S_SEVEN, S_EIGHT};
-	public static final StoryCubePosition[] cubeEndPositions = {E_ONE, E_TWO, E_THREE, E_FOUR, E_FIVE, E_SIX, E_SEVEN, E_EIGHT};
+	private static ArrayList<StoryCubePosition> allPositions = new ArrayList<StoryCubePosition>();
+	private static ArrayList<StoryCubePosition> startPositions = new ArrayList<StoryCubePosition>();
+	private static ArrayList<StoryCubePosition> endPositions = new ArrayList<StoryCubePosition>();
 	
 	private int x;
 	private int y;
 	private int size;
 	private int margin;
+	
+	public static ArrayList<StoryCubePosition> getAllPositions () {return allPositions;}
+	public static ArrayList<StoryCubePosition> getStartPositions () {return startPositions;}
+	public static ArrayList<StoryCubePosition> getEndPositions () {return endPositions;}
 	
 	public int getX () {
 		return x * size + margin;
@@ -25,10 +29,26 @@ public enum StoryCubePosition {
 	private StoryCubePosition (int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.size = 0;
+		this.margin = 0;
+	}
+	
+	public static void initializePositions (int n) {
+		for (int i = 0; i < n; i++) {
+			int startX = i % 2 == 0 ? i * 2 + 1 : i * 2 - 1;
+			int startY = i % 2 == 0 ? 0 : 10;
+			System.out.println(startX + ", " + startY);
+			StoryCubePosition iStart = new StoryCubePosition(startX, startY);
+			startPositions.add(iStart);
+			StoryCubePosition iEnd = new StoryCubePosition(i * 2, 5);
+			endPositions.add(iEnd);
+			allPositions.add(iStart);
+			allPositions.add(iEnd);
+		}
 	}
 	
 	public static void updateSizeAndMargin (int size, int margin) {
-		for (StoryCubePosition scp : StoryCubePosition.values()) {
+		for (StoryCubePosition scp : allPositions) {
 			scp.size = size;
 			scp.margin = margin;
 		}

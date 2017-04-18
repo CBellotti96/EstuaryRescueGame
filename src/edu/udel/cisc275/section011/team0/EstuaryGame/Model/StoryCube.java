@@ -12,18 +12,18 @@ public class StoryCube {
 	private int y;
 	private int size;
 	private StoryCubeFace cubeFace;
-	
 	private StoryCubePosition home;
-	
 	private boolean selected;
 	private boolean rolling;
+	private int rollState;
 	
 	public int getID () {return this.id;}	
 	public int getX () {return this.x;}	
 	public int getY () {return this.y;}	
 	public int getSize () {return this.size * 2;}	
-	public StoryCubeFace getCubeFace () {return rolling ? StoryCubeFace.random() : this.cubeFace;}
+	public StoryCubeFace getCubeFace () {return this.cubeFace;}
 	public StoryCubePosition getHome () {return this.home;}
+	public boolean isRolling () {return this.rolling;}
 	
 	public void setX (int x) {this.x = x;}	
 	public void setY (int y) {this.y = y;}
@@ -37,6 +37,13 @@ public class StoryCube {
 		this.cubeFace = StoryCubeFace.random();
 		this.home = home;
 		this.rolling = false;
+		this.rollState = 0;
+	}
+	
+	public void incrementRoll () {
+		this.rollState = (rollState + 1) % 5;
+		if (rollState == 0)
+			this.cubeFace = StoryCubeFace.random();
 	}
 	
 	public Rectangle getRect () {
