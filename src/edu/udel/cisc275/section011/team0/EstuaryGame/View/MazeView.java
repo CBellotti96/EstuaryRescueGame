@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeCrab;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeModel;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeSection;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeWeather;
 
 public class MazeView extends JComponent {
@@ -57,9 +58,11 @@ public class MazeView extends JComponent {
 		MazeCrab player = model.getPlayer();
 		
 		// draw maze
-		int unit = (int) (zoom * screenWidth / 10);
-		int centerOffset = screenWidth / 2 - unit / 2;
-		for (int x = 0, i = 0; x < screenWidth; x += unit, i++) {
+		final int TILE_SIZE = (int) (zoom * screenWidth / 10);
+		final int PLAYER_SIZE = TILE_SIZE / 2;
+		final int centerOffsetX = screenWidth / 2 - PLAYER_SIZE / 2;
+		final int centerOffsetY = screenHeight / 2 - PLAYER_SIZE / 2;
+		/*for (int x = 0, i = 0; x < screenWidth; x += unit, i++) {
 			for (int y = 0, j = 0; y < screenHeight; y += unit, j++) {
 				if (i % 2 == 0 && j % 2 == 0) {
 					g.setColor(Color.ORANGE);
@@ -73,21 +76,55 @@ public class MazeView extends JComponent {
 				
 				//g.drawRect(x, y, unit, unit);
 				//g.fillRect(x, y, unit, unit);
-				g.drawRect(x - (int) (player.getXPos() * unit) + centerOffset, 
-						y - (int) (player.getYPos() * unit) + centerOffset, 
+				g.drawRect(x - (int) (player.getXPos() * unit) + centerOffsetX, 
+						y - (int) (player.getYPos() * unit) + centerOffsetY, 
 						unit, unit);
-				g.fillRect(x - (int) (player.getXPos() * unit) + centerOffset, 
-						y - (int) (player.getYPos() * unit) + centerOffset, 
+				g.fillRect(x - (int) (player.getXPos() * unit) + centerOffsetX, 
+						y - (int) (player.getYPos() * unit) + centerOffsetY, 
 						unit, unit);
 			}
+		}*/
+		g.setColor(Color.BLUE);
+		g.drawRect(0, 0, screenWidth, screenHeight);
+		g.fillRect(0, 0, screenWidth, screenHeight);
+		MazeSection section = model.getCurrentSection();
+		g.setColor(Color.ORANGE);
+		for (int y = 0; y < section.getHeight(); y++) {
+			for (int x = 0; x < section.getWidth(); x++) {
+				if ((section.getCell(y, x) & MazeSection.W) == 0) {
+					g.drawLine((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY, 
+							(int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX, 
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY + TILE_SIZE);
+				}
+				if ((section.getCell(y, x) & MazeSection.E) == 0) {
+					g.drawLine((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX + TILE_SIZE,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY, 
+							(int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX + TILE_SIZE, 
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY + TILE_SIZE);
+				}
+				if ((section.getCell(y, x) & MazeSection.N) == 0) {
+					g.drawLine((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY, 
+							(int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX + TILE_SIZE, 
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY);
+				}
+				if ((section.getCell(y, x) & MazeSection.S) == 0) {
+					g.drawLine((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY + TILE_SIZE, 
+							(int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX + TILE_SIZE, 
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY + TILE_SIZE);
+				}
+			}
+			
 		}
 		
 		// draw player
 		g.setColor(Color.RED);
-		//g.drawRect((int) (player.getXPos() * unit), (int) (player.getYPos() * unit), unit, unit);
-		//g.fillRect((int) (player.getXPos() * unit), (int) (player.getYPos() * unit), unit, unit);
-		g.drawRect(centerOffset, centerOffset, unit, unit);
-		g.fillRect(centerOffset, centerOffset, unit, unit);
+		//g.drawRect(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
+		//g.fillRect(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
+		g.drawOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
+		g.fillOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
 		
 	}
 	
@@ -125,7 +162,7 @@ public class MazeView extends JComponent {
 		final Color MINI_MAP_BORDER_COLOR = Color.GRAY;
 		
 		// draw game
-		renderMazeAndEntities(g, SCREEN_WIDTH, SCREEN_HEIGHT, 1.0);
+		renderMazeAndEntities(g, SCREEN_WIDTH, SCREEN_HEIGHT, 2.0);
 		
 		// draw mini-map
 		Graphics2D miniMapImgGraphics = miniMapImg.createGraphics();
