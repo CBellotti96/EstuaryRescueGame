@@ -4,15 +4,23 @@ import java.util.Random;
 
 public class MazeSection {
 
-	public static final byte N = 1, S = 2, E = 4, W = 8;
+	public static final int N = Direction.NORTH.getFlag();
+	public static final int E = Direction.EAST.getFlag();
+	public static final int S = Direction.SOUTH.getFlag();
+	public static final int W = Direction.WEST.getFlag();
+	public static final int ENTRANCE = 16;
+	public static final int EXIT = 32;
 	
-	private final byte grid[][];
+	private final int grid[][];
 	private final Direction entranceSide;
 	private final Direction exitSide;
 	
-	static MazeSection generateMazeSection(int width, int height, 
+	private final int startTileX;
+	private final int startTileY;
+	
+	static MazeSection generateMazeSection(int height, int width, 
 			Direction entranceSide, Direction exitSide) {
-		byte[][] maze = new byte[width][height];
+		int[][] maze = new int[height][width];
 		
 		// Generate maze using Sidewinder algorithm adapted from 
 		// (http://weblog.jamisbuck.org/2011/2/3/maze-generation-sidewinder-algorithm.html).
@@ -36,22 +44,102 @@ public class MazeSection {
 				}
 			}
 		}
+		// carve and mark exit along top row
+		for (int x = 0; x < maze[0].length; x++) {
+			maze[0][x] = (maze[0][x]) | N | EXIT;
+		}
 		
-		MazeSection section = new MazeSection(maze, entranceSide, exitSide);
-		section.printMaze();
-		System.out.println("-----");
+		// rotate maze so exit side is facing in correct direction
+		System.out.println(exitSide);
+		switch (exitSide) {
+		case EAST: maze = rotateMazeLeft(maze);
+		case SOUTH: maze = rotateMazeLeft(maze);
+		case WEST: maze = rotateMazeLeft(maze);
+		case NORTH:;
+		default:;
+		}
+		
+		// pick appropriate starting position
+		int startX = 0, startY = 0; 
+		if (entranceSide == Direction.NORTH) {
+			startX = rand.nextInt(maze[0].length);
+			startY = 0;
+			maze[startY][startX] = (maze[startY][startX]) | N | ENTRANCE;
+		} else if (entranceSide == Direction.EAST) {
+			startX = maze[0].length - 1;
+			startY = rand.nextInt(width);
+			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
+		} else if (entranceSide == Direction.SOUTH) {
+			startX = rand.nextInt(maze[0].length);
+			startY = maze.length - 1;
+			maze[startY][startX] = (maze[startY][startX]) | S | ENTRANCE;
+		} else if (entranceSide == Direction.EAST) {
+			startX = 0;
+			startY = rand.nextInt(maze.length);
+			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
+		} else if (entranceSide == null) {
+			if (exitSide == Direction.NORTH) {
+				startX = rand.nextInt(maze[0].length);
+				startY = rand.nextInt(maze.length / 2) + maze.length / 2;
+			} else if (exitSide == Direction.EAST) {
+				startX = rand.nextInt(maze[0].length / 2);
+				startY = rand.nextInt(maze.length);
+			} else if (exitSide == Direction.SOUTH) {
+				startX = rand.nextInt(maze[0].length);
+				startY = rand.nextInt(maze.length / 2);
+			} else if (exitSide == Direction.WEST) {
+				startX = rand.nextInt(maze[0].length / 2) + maze[0].length / 2;
+				startY = rand.nextInt(maze.length);
+			}
+		}
+		
+		MazeSection section = new MazeSection(maze, entranceSide, exitSide, 
+				startX, startY);
+		//section.printMaze();
+		//System.out.println("-----");
 		return section;
+	}
+	
+	private static int[][] rotateMazeLeft(int original[][]) {
+		int [][] transposed = new int[original[0].length][original.length];
+		for (int y = 0; y < original.length; y++) {
+			for (int x = 0; x < original[0].length; x++) {
+				if ((original[y][x] & N) != 0) {
+					transposed[x][y] |= W;
+				};
+				if ((original[y][x] & W) != 0) {
+					transposed[x][y] |= S;
+				};
+				if ((original[y][x] & S) != 0) {
+					transposed[x][y] |= E;
+				};
+				if ((original[y][x] & E) != 0) {
+					transposed[x][y] |= N;
+				};
+				if ((original[y][x] & ENTRANCE) != 0) {
+					transposed[x][y] |= ENTRANCE;
+				};
+				if ((original[y][x] & EXIT) != 0) {
+					transposed[x][y] |= EXIT;
+				};
+			}
+		}
+		int rotated[][] = new int[transposed.length][transposed[0].length];
+		for (int y = 0; y < rotated.length; y++) {
+			rotated[rotated.length - y - 1] = transposed[y];
+		}
+		return rotated;
 	}
 	
 	private void printMaze () {
 		for (int y = 0; y < grid.length; y++) {
-			byte row[] = grid[y];
+			int row[] = grid[y];
 			System.out.print("|"); // leftmost wall
 			for (int x = 0; x < row.length; x++) {
-				byte cell = row[x];
+				int cell = row[x];
 				if (cell == 0 && y + 1 < grid.length && grid[y + 1][x] == 0) { // cell is empty, next cell down is within grid and empty
 					System.out.print(" ");
-				} else { //
+				} else {
 					System.out.print(((cell & S) != 0) ? " " : "_");
 				}
 
@@ -68,14 +156,16 @@ public class MazeSection {
 		}
 	}
 	
-	private MazeSection(byte grid[][], Direction entranceSide, 
-			Direction exitSide) {
+	private MazeSection(int grid[][], Direction entranceSide, 
+			Direction exitSide, int startTileX, int startTileY) {
 		this.grid = grid;
 		this.entranceSide = entranceSide;
 		this.exitSide = exitSide;
+		this.startTileX = startTileX;
+		this.startTileY = startTileY;
 	}
 	
-	public byte getCell(int y, int x) {
+	public int getCell(int y, int x) {
 		return grid[y][x];
 	}
 	public int getWidth() {
@@ -93,6 +183,13 @@ public class MazeSection {
 	}
 	public Direction getExitSide() {
 		return exitSide;
+	}
+	
+	public int getStartTileX() {
+		return startTileX;
+	}
+	public int getStartTileY() {
+		return startTileY;
 	}
 	
 }
