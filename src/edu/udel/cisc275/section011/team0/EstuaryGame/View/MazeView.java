@@ -159,7 +159,7 @@ public class MazeView extends JComponent {
 				/ (model.getMaxSalinity() - model.getMinSalinity());
 		final int SALINE_LEVEL_MARGIN = SALINE_GAUGE_WIDTH / 4;
 		final int SALINE_LEVEL_WIDTH = SALINE_GAUGE_WIDTH / 2;
-		final int SALINE_LEVEL_HEIGHT = (int) (salinePercent 
+		final int SALINE_LEVEL_HEIGHT = (int) (salinePercent /*(1 - salinePercent) // FOR BLUE CRAB MODE*/ 
 				* (SALINE_GAUGE_HEIGHT - SALINE_LEVEL_MARGIN * 2));
 		final Color SALINE_LEVEL_COLOR = redYellowGreenGradient(salinePercent);
 		
