@@ -44,6 +44,9 @@ public class MazeController extends KeyAdapter implements Controller {
 			MazeCrab player = model.getPlayer();
 			player.setXPos(player.getXPos() + player.getSpeed());
 		}
+		
+		model.tick();
+		
 		view.repaint();
 	}
 

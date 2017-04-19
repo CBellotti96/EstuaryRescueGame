@@ -5,9 +5,12 @@ public class MazeCrab extends MazeEntity {
 	private final static double defaultSpeed = 0.04;
 	private double xCheckpointPos;
 	private double yCheckpointPos;
+	private final static double width = 0.5; // relative to maze tile size
+	private final static double height = width;
 	
-	public MazeCrab (double xPos, double yPos){
-		super(xPos, yPos, defaultSpeed);
+	
+	public MazeCrab (double xTile, double yTile){
+		super(xTile + (1.0 - width) / 2, yTile + (1.0 - height) / 2, defaultSpeed);
 	}
 	
 	// getters/setters for xPos, yPos, and speed are already present in superclass
@@ -36,6 +39,13 @@ public class MazeCrab extends MazeEntity {
 	public void resetToCheckpoint(){
 		this.setXPos(this.xCheckpointPos);
 		this.setYPos(this.yCheckpointPos);
+	}
+	
+	public static double getWidth() {
+		return width;
+	}
+	public static double getHeight() {
+		return height;
 	}
 	
 }
