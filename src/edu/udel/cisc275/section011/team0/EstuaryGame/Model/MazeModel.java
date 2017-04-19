@@ -9,8 +9,7 @@ public class MazeModel {
 
 	private final double maxSalinity = 30; // TODO change value based on  
 	private final double minSalinity = 4;  // specific estuary, these are tesing
-	private double salinity = 4;          // values based on horsehoe crab
-	private MazeWeather weather = MazeWeather.RAIN;
+	private MazeWeather weather = MazeWeather.SUN;
 	private final MazeCrab player;
 	private long timeRemaining;
 	private static final int NUM_SECTIONS = 3;
@@ -37,16 +36,14 @@ public class MazeModel {
 			sections[i] = section;
 		}
 		
-		player = new MazeCrab(sections[currentSection].getStartTileX(), 
-				sections[currentSection].getStartTileY());
-	}
-
-	public double getSalinity() {
-		return salinity;
+		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
+				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefualtHeight()) / 2);
 	}
 	
-	public void setSalinity(double salinity) {
-		this.salinity = salinity;
+	public double getSalinity() {
+		double sectionSalinityDiff = (maxSalinity - minSalinity) / sections.length;
+		return (getCurrentSection().getProgression(player) + currentSection) * sectionSalinityDiff
+				+ minSalinity;
 	}
 	
 	public double getMinSalinity() {
@@ -82,6 +79,19 @@ public class MazeModel {
 	
 	public void tick () {
 		getCurrentSection().handleCollision(player);
+		
+		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
+		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
+		if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {
+			if (currentSection < sections.length - 1) {
+				currentSection++;
+				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
+				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefualtHeight()) / 2);
+				System.out.println(currentSection);
+			} else {
+				// TODO victory screen
+			}
+		}
 	}
 	
 }

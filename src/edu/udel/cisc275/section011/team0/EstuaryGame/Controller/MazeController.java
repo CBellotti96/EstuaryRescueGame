@@ -29,8 +29,6 @@ public class MazeController extends KeyAdapter implements Controller {
 		if (pressedKeys.contains(KeyEvent.VK_UP)) {
 			MazeCrab player = model.getPlayer();
 			player.setYPos(player.getYPos() - player.getSpeed());
-
-			System.out.println("up");
 		}
 		if (pressedKeys.contains(KeyEvent.VK_DOWN)) {
 			MazeCrab player = model.getPlayer();

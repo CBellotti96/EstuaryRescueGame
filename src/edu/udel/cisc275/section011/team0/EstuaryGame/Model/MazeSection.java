@@ -62,20 +62,44 @@ public class MazeSection {
 		// pick appropriate starting position
 		int startX = 0, startY = 0; 
 		if (entranceSide == Direction.NORTH) {
-			startX = rand.nextInt(maze[0].length);
+			if (exitSide == Direction.EAST) {
+				startX = rand.nextInt(maze[0].length / 2);
+			} else if (exitSide == Direction.SOUTH) {
+				startX = rand.nextInt(maze[0].length);
+			} else if (exitSide == Direction.WEST) {
+				startX = rand.nextInt(maze[0].length / 2) + maze[0].length / 2;
+			}
 			startY = 0;
 			maze[startY][startX] = (maze[startY][startX]) | N | ENTRANCE;
 		} else if (entranceSide == Direction.EAST) {
+			if (exitSide == Direction.NORTH) {
+				startY = rand.nextInt(maze.length / 2) + maze.length / 2;
+			} else if (exitSide == Direction.SOUTH) {
+				startY = rand.nextInt(maze.length / 2);
+			} else if (exitSide == Direction.WEST) {
+				startY = rand.nextInt(maze.length);
+			}
 			startX = maze[0].length - 1;
-			startY = rand.nextInt(width);
 			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
 		} else if (entranceSide == Direction.SOUTH) {
-			startX = rand.nextInt(maze[0].length);
+			if (exitSide == Direction.NORTH) {
+				startX = rand.nextInt(maze[0].length);
+			} else if (exitSide == Direction.EAST) {
+				startX = rand.nextInt(maze[0].length / 2);
+			} else if (exitSide == Direction.WEST) {
+				startX = rand.nextInt(maze[0].length / 2) + maze[0].length / 2;
+			}
 			startY = maze.length - 1;
 			maze[startY][startX] = (maze[startY][startX]) | S | ENTRANCE;
-		} else if (entranceSide == Direction.EAST) {
+		} else if (entranceSide == Direction.WEST) {
+			if (exitSide == Direction.NORTH) {
+				startY = rand.nextInt(maze.length / 2) + maze.length / 2;
+			} else if (exitSide == Direction.EAST) {
+				startY = rand.nextInt(maze.length);
+			} else if (exitSide == Direction.SOUTH) {
+				startY = rand.nextInt(maze.length / 2);
+			}
 			startX = 0;
-			startY = rand.nextInt(maze.length);
 			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
 		} else if (entranceSide == null) {
 			if (exitSide == Direction.NORTH) {
@@ -195,7 +219,6 @@ public class MazeSection {
 	public void handleCollision(MazeCrab crab) {
 		int currentTileX = (int) (crab.getXPos() + crab.getWidth() / 2);
 		int currentTileY = (int) (crab.getYPos() + crab.getHeight() / 2);
-		System.out.println(currentTileX + " " + currentTileY);
 		if(crab.getXPos() < currentTileX 
 				&& (grid[currentTileY][currentTileX] & W) == 0)  {
 			crab.setXPos(currentTileX);
@@ -211,6 +234,16 @@ public class MazeSection {
 		if(crab.getYPos() + crab.getHeight() > currentTileY + 1
 				&& (grid[currentTileY][currentTileX] & S) == 0)  {
 			crab.setYPos(currentTileY + 1 - crab.getHeight());
+		}
+	}
+	
+	public double getProgression(MazeCrab crab) {
+		switch(exitSide) {
+		case NORTH: return 1.0 - crab.getYPos() / (double) getHeight();
+		case EAST: return crab.getXPos() / (double) getWidth();
+		case SOUTH: return crab.getYPos() / (double) getHeight();
+		case WEST: return 1.0 - crab.getXPos() / (double) getWidth();
+		default: return 0.0;
 		}
 	}
 	

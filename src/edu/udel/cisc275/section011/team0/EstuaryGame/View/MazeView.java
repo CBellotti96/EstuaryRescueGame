@@ -115,6 +115,20 @@ public class MazeView extends JComponent {
 							(int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX + TILE_SIZE, 
 							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY + TILE_SIZE);
 				}
+				/*g.setColor(Color.GREEN);
+				if ((section.getCell(y, x) & MazeSection.EXIT) != 0) {
+					g.fillRect((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY, 
+							TILE_SIZE, 
+							TILE_SIZE);
+				}
+				g.setColor(Color.PINK);
+				if ((section.getCell(y, x) & MazeSection.ENTRANCE) != 0) {
+					g.fillRect((int) ((x - player.getXPos()) * TILE_SIZE) + centerOffsetX,
+							(int) ((y - player.getYPos()) * TILE_SIZE) + centerOffsetY, 
+							TILE_SIZE, 
+							TILE_SIZE);
+				}*/
 			}
 			
 		}
