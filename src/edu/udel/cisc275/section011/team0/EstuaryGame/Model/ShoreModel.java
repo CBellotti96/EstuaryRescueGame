@@ -8,6 +8,9 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
+
 public class ShoreModel {
 	
 	private ShorePosition cursorPos;
@@ -303,7 +306,7 @@ public class ShoreModel {
 				}
 			}
 			if(shoreHealth >= 100 || shoreHealth <= 0){
-				//return to main menu
+				Main.getInstance().setController(new MenuController());
 			}
 	}
 			
