@@ -18,10 +18,9 @@ public class MazeModel {
 	private static final int SECTION_HEIGHT = SECTION_WIDTH;
 	private MazeSection sections[] = new MazeSection[NUM_SECTIONS];
 	private int currentSection = 0;
+	private MenuReturnItem exitButton;
 	
 	public MazeModel() {
-		
-		
 		// create maze sections
 		List<Direction> directions = new ArrayList<>();
 		directions.add(Direction.NORTH);
@@ -39,6 +38,8 @@ public class MazeModel {
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX(), 
 				sections[currentSection].getStartTileY());
+		
+		exitButton = new MenuReturnItem();
 	}
 
 	public double getSalinity() {
