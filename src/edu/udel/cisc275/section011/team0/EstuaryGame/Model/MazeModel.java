@@ -1,9 +1,14 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MazeController;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 
 public class MazeModel {
 
@@ -17,10 +22,9 @@ public class MazeModel {
 	private static final int SECTION_HEIGHT = SECTION_WIDTH;
 	private MazeSection sections[] = new MazeSection[NUM_SECTIONS];
 	private int currentSection = 0;
+	private MenuReturnItem exitButton;
 	
 	public MazeModel() {
-		
-		
 		// create maze sections
 		List<Direction> directions = new ArrayList<>();
 		directions.add(Direction.NORTH);
@@ -38,6 +42,8 @@ public class MazeModel {
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
 				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefualtHeight()) / 2);
+		
+		exitButton = new MenuReturnItem();
 	}
 	
 	public double getSalinity() {
@@ -90,6 +96,7 @@ public class MazeModel {
 				System.out.println(currentSection);
 			} else {
 				// TODO victory screen
+				Main.getInstance().setController(new MenuController());
 			}
 		}
 	}
