@@ -35,7 +35,7 @@ public class ShoreBoat{
 		this.boatPos = boatPos;
 	}
 	
-	public ShoreBoat (ShorePosition boatPos, ShoreBoatType type, int waveTile) {
+	public ShoreBoat (ShorePosition boatPos, ShoreBoatType type) {
 		this.boatPos = boatPos;
 		this.type = type;
 		this.waveTile = -1;
