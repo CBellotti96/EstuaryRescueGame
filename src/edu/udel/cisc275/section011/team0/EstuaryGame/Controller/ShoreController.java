@@ -12,9 +12,16 @@ public class ShoreController extends MouseAdapter implements Controller {
 	private ShoreModel model;
 	private ShoreView view;
 	
+	public ShoreController(){
+		
+		model = new ShoreModel(800,600);
+		view = new ShoreView(model);
+		
+	}
+	
 	@Override
 	public void tick(){
-		return;
+		view.repaint();
 	}
 
 	@Override
