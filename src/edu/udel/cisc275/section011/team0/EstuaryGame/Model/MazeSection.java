@@ -192,4 +192,26 @@ public class MazeSection {
 		return startTileY;
 	}
 	
+	public void handleCollision(MazeCrab crab) {
+		int currentTileX = (int) (crab.getXPos() + crab.getWidth() / 2);
+		int currentTileY = (int) (crab.getYPos() + crab.getHeight() / 2);
+		System.out.println(currentTileX + " " + currentTileY);
+		if(crab.getXPos() < currentTileX 
+				&& (grid[currentTileY][currentTileX] & W) == 0)  {
+			crab.setXPos(currentTileX);
+		}
+		if(crab.getXPos() + crab.getWidth() > currentTileX + 1
+				&& (grid[currentTileY][currentTileX] & E) == 0)  {
+			crab.setXPos(currentTileX + 1 - crab.getWidth());
+		}
+		if(crab.getYPos() < currentTileY
+				&& (grid[currentTileY][currentTileX] & N) == 0)  {
+			crab.setYPos(currentTileY);
+		}
+		if(crab.getYPos() + crab.getHeight() > currentTileY + 1
+				&& (grid[currentTileY][currentTileX] & S) == 0)  {
+			crab.setYPos(currentTileY + 1 - crab.getHeight());
+		}
+	}
+	
 }

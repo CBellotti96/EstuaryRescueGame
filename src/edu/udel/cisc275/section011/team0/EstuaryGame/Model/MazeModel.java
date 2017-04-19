@@ -80,4 +80,8 @@ public class MazeModel {
 		return sections[currentSection];
 	}
 	
+	public void tick () {
+		getCurrentSection().handleCollision(player);
+	}
+	
 }
