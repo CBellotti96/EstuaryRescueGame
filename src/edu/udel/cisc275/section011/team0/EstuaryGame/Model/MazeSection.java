@@ -100,7 +100,7 @@ public class MazeSection {
 				startY = rand.nextInt(maze.length / 2);
 			}
 			startX = 0;
-			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
+			maze[startY][startX] = (maze[startY][startX]) | W | ENTRANCE;
 		} else if (entranceSide == null) {
 			if (exitSide == Direction.NORTH) {
 				startX = rand.nextInt(maze[0].length);
