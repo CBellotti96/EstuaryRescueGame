@@ -17,7 +17,7 @@ public class StoryModel {
 		}
 		
 		public StoryModel () {
-			int n = 6;
+			int n = 8;
 			StoryCubePosition.initializePositions(n);
 			for (int i = 0; i < n; i++) {
 				StoryCube sc = new StoryCube(i, StoryCubePosition.getStartPositions().get(i));
