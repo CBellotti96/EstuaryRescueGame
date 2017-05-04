@@ -12,9 +12,10 @@ add this file to your Lab 9 directory (which you will create in section G) and p
 This file is the deliverable for this lab, so make sure you do not forget to push it at the end!
 
 1.  List your team members below.
-
+	
     ```
-
+	Alvin Tang
+	Chris Bellotti
 
 
     ```
@@ -32,6 +33,9 @@ Run the following commands.
 1.  What does `git help` do?
 
     ```
+    git help provides a list of common git commands
+    broken into relevant sections, and provides a 
+    description of each
 	
 
     ```
@@ -39,7 +43,9 @@ Run the following commands.
 2.  What does `-ag` cause `git help` to do?
 
     ```
-
+	-ag caused git help to privde a full list of
+	subcommands on the path, as well as a lsit of common
+	git guides, including a tutorial
 
 
     ```
@@ -47,7 +53,7 @@ Run the following commands.
 G. Basic commands
 -----------------
 
-Open the terminal. Navigate to your team’s repository directory.
+Open the terminal. Navigate to your team's repository directory.
 
 Create a directory inside of your team repository which will act as your submission directory for this lab.
 The directory should be named according to the last names of your team members following the format below.
@@ -60,21 +66,20 @@ Put the names of your team in the file. Save and exit.
 Run `git status` before and after each of these commands.
 
     git add names.txt
-    git commit –m “Add our names.”
+    git commit -m "Add our names.txt"
     git log
 
 1.  What kind of information does `git status` report?
 
     ```
+    Lets you know the status of your local branch in relation to the github repository.
 
-
-
-    ```
+	```
 
 2.  What does `git add names.txt` do?
 
     ```
-
+	Add the file contents of names.txt to the index.
 
 
     ```
@@ -82,7 +87,7 @@ Run `git status` before and after each of these commands.
 3.  What does `git commit -m "Add our names."` do?
 
     ```
-
+	This will record changes to the repository with the message "Add our names"
 
 
     ```
@@ -103,7 +108,8 @@ Run `git status` before and after each of these commands.
 4.  What does `git add .` do? What do you think `.` means?
 
     ```
-
+	Adds the file contents of birthdays.txt and movies.txt to the index
+	the '.' means all available files within the folder
 
 
     ```
@@ -111,7 +117,7 @@ Run `git status` before and after each of these commands.
 5.  What does `git commit` (without -m) do?
 
     ```
-
+	It will record changes to the repository and open the vim editor to ask you to write a message
 
 
     ```
@@ -120,7 +126,7 @@ Run `git status` before and after each of these commands.
     good practice) what command would you use?
 
     ```
-
+	git commit (without -m) so you can use the vim editor.
 
 
     ```
@@ -128,7 +134,7 @@ Run `git status` before and after each of these commands.
 7.  What does `git log do`?
 
     ```
-
+	Lets you see all the previous messages others have entered when committing to the repository
 
 
     ```
@@ -160,7 +166,9 @@ Run the following commands:
 
     ```
 
-
+	names.txt 
+	
+	local version match the version that has been indexed
 
     ```
 
@@ -168,22 +176,24 @@ Run the following commands:
 
     ```
 
-
+	movies.txt 
+	
+	Updated local version has not been indexed yet
 
     ```
 
     **Untracked**
 
     ```
+	foods.txt
 
-
-
+	Files in a directory that have not been added to the index
     ```
 
-1.  If you run `git commit` what changes will be committed (***DON’T DO IT***)?
+1.  If you run `git commit` what changes will be committed (***DON'T DO IT***)?
 
     ```
-
+	names.txt will be committed 
 
 
     ```
@@ -191,7 +201,7 @@ Run the following commands:
 2.  What command do you run to stage changes?
 
     ```
-
+	git add
 
 
     ```
@@ -200,7 +210,7 @@ Run the following commands:
 
     ```
 
-
+	git reset
 
     ```
 
@@ -212,7 +222,7 @@ Run the following commands:
 1.  What does `git diff` display?
 
     ```
-
+	Shows changes between the working tree and the index
 
 
     ```
@@ -220,7 +230,7 @@ Run the following commands:
 2.  What does `git diff --cached` display?
 
     ```
-
+	Shows staged changes in the index against current Head
 
 
     ```
@@ -230,8 +240,8 @@ Run the following commands:
     confirm they worked.
 
     ```
-
-
+    git reset names.txt
+	git add movies.txt
 
     ```
 
@@ -240,7 +250,7 @@ Run the following commands:
     going on.
 
     ```
-
+	The most current version of movies.txt is not staged but the previous version is still in the index.
 
 
     ```
@@ -249,6 +259,7 @@ Run the following commands:
     Explain what you think is going on.
 
     ```
+    It changed the status of names.txt from modifed to deleted because we deleted the file
 
 
 
@@ -258,7 +269,7 @@ Run the following commands:
     and explain.
 
     ```
-
+	It lists movies.txt as deleted since it can no longer find it in the directory and list last-movies as a 	untracked file because it has not been added to the index.
 
 
     ```
@@ -269,16 +280,17 @@ Run the following commands:
 
     ```
 
+	git add .
+	git commit -m "Commit all changes"
 
 
     ```
 
 8.  In git vernacular, `index`, `cache`, and `stage` all refer to the
     same thing. What does it hold?
-
+    
     ```
-
-
+		It lists all files in the current branch that are ready to be commited
 
     ```
 
@@ -286,7 +298,7 @@ Run the following commands:
     commit?
 
     ```
-
+	Allows you to split work into separate commits while not breaking the build.
 
 
     ```
@@ -305,14 +317,14 @@ Run the following commands:
 1.  What does `git reset --soft ``"HEAD^" `do?
 
     ```
-
+	It allows you to add more changes to the previous commit or change the commit message while leaving 	existing changes staged.
 
 
     ```
 
 Run the following commands:
 
-    git commit –m "Redo."
+    git commit -m "Redo."
     git log
     git status
     git reset --hard "HEAD^"
@@ -322,7 +334,7 @@ Run the following commands:
 1.  What does `git reset --hard ``"HEAD^"`` `do?
 
     ```
-
+	changes the files in the working tree adn index the same as the version comminted in <Head^>
 
 
     ```
@@ -330,7 +342,8 @@ Run the following commands:
 2.  What is the difference between `--hard` and `--soft`?
 
     ```
-
+	--hard resets everything back to the previous version 
+	--soft only resets the commit messages 
 
 
     ```
@@ -338,14 +351,14 @@ Run the following commands:
 3.  What do you think `HEAD` means?
 
     ```
-
+	Head is a reference to the current branch
 
     ```
 
 4.  What do you think `HEAD^` means?
 
     ```
-
+	means the first parent of the tip of the current branch.
 
     ```
 
