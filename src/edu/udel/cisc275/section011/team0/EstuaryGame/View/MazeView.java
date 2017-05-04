@@ -6,7 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.Console;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeCrab;
@@ -22,6 +26,8 @@ public class MazeView extends JComponent {
 	
 	private BufferedImage sunWeatherIconImg;
 	private BufferedImage rainWeatherIconImg;
+	private BufferedImage defaultWeatherIconImg;
+	
 	
 	private Rectangle timerRect;
 	
@@ -34,10 +40,31 @@ public class MazeView extends JComponent {
 	private BufferedImage sandTileImg;
 	private BufferedImage waterTileImg;
 	
-	public MazeView(MazeModel model) {
+	public MazeView(MazeModel model){
 		this.model = model;
 		// TODO load images
 		miniMapImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		try {
+			initializeWeatherIcon("./Final Images/Environment Misc/sunnyWeather.png", sunWeatherIconImg);
+			initializeWeatherIcon("./Final Images/Environment Misc/rainyWeather.png", rainWeatherIconImg);
+			initializeWeatherIcon("./Final Images/Environment Misc/variableWeather.png", defaultWeatherIconImg);
+		}catch(IOException e){			
+			e.printStackTrace();
+			System.out.println("Image load failed");
+			
+		}
+	}
+	
+	private void initializeWeatherIcon(String filePath, BufferedImage iconName) throws IOException{
+		//Graphics2D iconGraphics = iconName.createGraphics();
+		File file = new File(filePath);
+		if (false == file.exists()){
+			System.out.println(filePath + " failed to load");
+			throw new IOException();
+		}
+		else{
+			iconName = ImageIO.read(file);
+		}
 	}
 	
 	private Color redYellowGreenGradient(double percent) {
@@ -50,6 +77,14 @@ public class MazeView extends JComponent {
 		case SUN: return Color.YELLOW;
 		case RAIN: return Color.CYAN;
 		default: return Color.BLACK;
+		}
+	}
+	
+	private BufferedImage weatherIcon(MazeWeather weather){
+		switch (weather){
+		case SUN: return sunWeatherIconImg;
+		case RAIN: return rainWeatherIconImg;
+		default: return defaultWeatherIconImg;
 		}
 	}
 	
@@ -168,6 +203,7 @@ public class MazeView extends JComponent {
 		final int WEATHER_ICON_HEIGHT = WEATHER_ICON_WIDTH;
 		final int WEATHER_ICON_MARGIN = SALINE_GAUGE_MARGIN;
 		final Color WEATHER_ICON_COLOR = weatherColor(model.getWeather());
+		final BufferedImage WEATHER_ICON = weatherIcon(model.getWeather());
 		
 		// mini-map dimensions
 		final int MINI_MAP_MARGIN = SALINE_GAUGE_MARGIN;
@@ -218,6 +254,15 @@ public class MazeView extends JComponent {
 		g.fillRect(SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
 				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
 				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT);
+		
+		/* here there be bugs
+		Graphics2D weatherIconGraphics = WEATHER_ICON.createGraphics();
+		renderMazeAndEntities(weatherIconGraphics, 
+				WEATHER_ICON.getWidth(), WEATHER_ICON.getHeight(), 1.0);
+		g.drawImage(WEATHER_ICON, SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
+				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
+				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, null);
+		*/
 	}
 	
 }
