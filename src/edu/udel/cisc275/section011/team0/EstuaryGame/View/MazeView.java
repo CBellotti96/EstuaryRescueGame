@@ -50,16 +50,13 @@ public class MazeView extends JComponent {
 			initializeWeatherIcon("./Final Images/Environment Misc/variableWeather.png", defaultWeatherIconImg);
 		}catch(IOException e){			
 			e.printStackTrace();
-			System.out.println("Image load failed");
 			
 		}
 	}
 	
 	private void initializeWeatherIcon(String filePath, BufferedImage iconName) throws IOException{
-		//Graphics2D iconGraphics = iconName.createGraphics();
 		File file = new File(filePath);
 		if (false == file.exists()){
-			System.out.println(filePath + " failed to load");
 			throw new IOException();
 		}
 		else{
