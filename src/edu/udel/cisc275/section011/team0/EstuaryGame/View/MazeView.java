@@ -45,36 +45,17 @@ public class MazeView extends JComponent {
 		// TODO load images
 		miniMapImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
 		try {
-			initializeWeatherIcon("./Final Images/Environment Misc/sunnyWeather.png", sunWeatherIconImg);
-			initializeWeatherIcon("./Final Images/Environment Misc/rainyWeather.png", rainWeatherIconImg);
-			initializeWeatherIcon("./Final Images/Environment Misc/variableWeather.png", defaultWeatherIconImg);
+			sunWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/sunnyWeather.png"));
+			rainWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/rainyWeather.png"));
+			defaultWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/variableWeather.png"));
 		}catch(IOException e){			
 			e.printStackTrace();
-			
-		}
-	}
-	
-	private void initializeWeatherIcon(String filePath, BufferedImage iconName) throws IOException{
-		File file = new File(filePath);
-		if (false == file.exists()){
-			throw new IOException();
-		}
-		else{
-			iconName = ImageIO.read(file);
 		}
 	}
 	
 	private Color redYellowGreenGradient(double percent) {
 		float hue = (float) (percent * (1.0 / 3.0));
 	    return Color.getHSBColor(hue, 1.0f, 1.0f);
-	}
-	
-	private Color weatherColor(MazeWeather weather) {
-		switch (weather) {
-		case SUN: return Color.YELLOW;
-		case RAIN: return Color.CYAN;
-		default: return Color.BLACK;
-		}
 	}
 	
 	private BufferedImage weatherIcon(MazeWeather weather){
@@ -199,7 +180,6 @@ public class MazeView extends JComponent {
 		final int WEATHER_ICON_WIDTH = SALINE_GAUGE_WIDTH;
 		final int WEATHER_ICON_HEIGHT = WEATHER_ICON_WIDTH;
 		final int WEATHER_ICON_MARGIN = SALINE_GAUGE_MARGIN;
-		final Color WEATHER_ICON_COLOR = weatherColor(model.getWeather());
 		final BufferedImage WEATHER_ICON = weatherIcon(model.getWeather());
 		
 		// mini-map dimensions
@@ -244,22 +224,9 @@ public class MazeView extends JComponent {
 				SALINE_LEVEL_WIDTH, SALINE_LEVEL_HEIGHT);
 		
 		// draw weather icon
-		g.setColor(WEATHER_ICON_COLOR);
-		g.drawRect(SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
-				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
-				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT);
-		g.fillRect(SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
-				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
-				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT);
-		
-		/* here there be bugs
-		Graphics2D weatherIconGraphics = WEATHER_ICON.createGraphics();
-		renderMazeAndEntities(weatherIconGraphics, 
-				WEATHER_ICON.getWidth(), WEATHER_ICON.getHeight(), 1.0);
 		g.drawImage(WEATHER_ICON, SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
 				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
 				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, null);
-		*/
 	}
 	
 }
