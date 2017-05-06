@@ -2,25 +2,35 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 public class ShoreDefense extends ShoreDefenseType{
 	
-	private ShorePosition defensePos;
+	private ShoreTile containedWithin;
+	private int defenseDurability;
 	private final ShoreDefenseType type;
 	
-	public ShorePosition getDefensePos () {
-		return this.defensePos;
+	public ShoreTile getContainedWithin () {
+		return this.containedWithin;
 	}
 	
 	public ShoreDefenseType getType () {
 		return this.type;
 	}
 	
-	public void setDefensePos (ShorePosition defensePos) {
-		this.defensePos = defensePos;
+	public int getDefenseDurability() {
+		return this.defenseDurability;
 	}
 	
-	public ShoreDefense (ShorePosition defensePos, ShoreDefenseType type) {
+	public void setDefenseDurability(int defenseDurability) {
+		this.defenseDurability = defenseDurability;
+	}
+	
+	public void setContainedWithin (ShoreTile containedWithin) {
+		this.containedWithin = containedWithin;
+	}
+	
+	public ShoreDefense (ShoreTile containedWithin, ShoreDefenseType type) {
 		super(type.getName());
-		this.defensePos = defensePos;
+		this.containedWithin = containedWithin;
 		this.type = type;
+		this.defenseDurability = type.getDurability();
 	}
 
 }
