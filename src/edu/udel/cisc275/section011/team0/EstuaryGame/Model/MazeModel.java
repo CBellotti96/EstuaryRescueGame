@@ -3,6 +3,7 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -16,6 +17,9 @@ public class MazeModel {
 	private final double minSalinity = 4;  // specific estuary, these are tesing
 	private MazeWeather weather = MazeWeather.SUN;
 	private final MazeCrab player;
+	private static List obstacles = new ArrayList();
+	private static List predators = new ArrayList();
+	
 	private long timeRemaining;
 	private static final int NUM_SECTIONS = 3;
 	private static final int SECTION_WIDTH = 30;
