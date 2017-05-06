@@ -309,8 +309,6 @@ public class ShoreModel {
 				Main.getInstance().setController(new MenuController());
 			}
 	}
-			
-	
 	public void onClick(ShoreItem click){
 		if(click.getItemPos().getShoreY() != 0){
 			tiles.get((int) (click.getItemPos().getShoreX()/tileSize))
@@ -343,7 +341,6 @@ public class ShoreModel {
 		defenses.add(d);
 		setBuildDefense(false);
 	}
-	
 	public void defensePlacementArea(ShoreDefenseType d){
 		if(d.getName() == "Gabion") { //gabions go in two tiles nearest to ocean
 			d.setPlacementZoneStartY(gameHeight/2);
@@ -354,7 +351,6 @@ public class ShoreModel {
 			d.setPlacementZoneEndY(gameHeight);
 		}
 	}
-	
 	public void handleJetSki(ShoreBoat b, Iterator boatIter){ 
 		int waveStrength = 1;
 		if(b.getWaveTile() == -1){
@@ -391,7 +387,6 @@ public class ShoreModel {
 			b = null;
 		}
 	}
-	
 	public void handleSailboat(ShoreBoat b, Iterator boatIter){
 		int waveStrength = 2;
 		if(b.getWaveTile() == -1){
@@ -418,7 +413,6 @@ public class ShoreModel {
 			b = null;
 		}
 	}
-	
 	public void handleCommercial(ShoreBoat b, Iterator boatIter){
 		int waveStrength = 3;
 		if(b.getWaveTile() == -1){
@@ -459,13 +453,19 @@ public class ShoreModel {
 		}
 		
 	}
-	
+	/**
+	 * @author Chris Bellotti and Alvin Tang
+	 * This method will create the wave tile when the boat reaches a random position
+	 * @param b   the ShoreBoat that the method is using
+	 * @see ShoreWave
+	 * @see ShoreBoat
+	 * @see ShoreTile
+	 */
 	public void genWaveTile(ShoreBoat b){
 		Random rand = new Random();
 		int randTile = rand.nextInt(tilesInRow - 1);
 		b.setWaveTile(randTile);
 	}
-	
 	public void handleWaveMovement(ShoreWave w, Iterator waveIter){
 		w.setWavePos(new ShorePosition((int) (w.getWavePos().getShoreX()),(int) (w.getWavePos().getShoreY() + tileSize)));
 		int i = (int)((w.getWavePos().getShoreX())/tileSize);
@@ -515,7 +515,7 @@ public class ShoreModel {
 	public void countdown(){
 		this.countdown -= 1;
 	}
-
+   
 	public ShoreDefenseType getDefenseWall() {
 		return defenseWall;
 	}
