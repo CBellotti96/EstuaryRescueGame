@@ -12,8 +12,8 @@ public class MazeObstacle extends MazeEntity {
 
 	public void move(Direction direction){
 		if (this.type == MazeObstacleType.TRASH){
-			this.setXPos(this.getXPos() + direction.getXDir() * this.getSpeed());
-			this.setYPos(this.getYPos() + direction.getYDir() * this.getSpeed());
+			this.setXPos(this.getXPos() + direction.getXDir() * MazeObstacleType.TRASH.getDefaultSpeed());
+			this.setYPos(this.getYPos() + direction.getYDir() * MazeObstacleType.TRASH.getDefaultSpeed());
 		}
 		else if (this.type == MazeObstacleType.SEAWEED){
 			return;
