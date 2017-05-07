@@ -51,8 +51,9 @@ public class ShoreBoat{
 	 * 
 	 * @author Chris Bellotti and Alvin Tang
 	 * Defines a Shore Boat Constructor and 
-	 * @param boatPos the location of the boat within a 2d array(its x and y position)
-	 * @param type    defines what kind of boat it is (i.e. sail boat,commercial boat,etc)
+	 * @param containedWithin the tile the boat is in
+	 * @param xDisplacement   the distance across the screen
+	 * @param type    		  defines what kind of boat it is (i.e. sail boat,commercial boat,etc)
 	 */
 	public ShoreBoat (ShoreTile containedWithin, int xDisplacement, ShoreBoatType type) {
 		this.containedWithin = containedWithin;
