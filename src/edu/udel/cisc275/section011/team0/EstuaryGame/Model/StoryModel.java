@@ -28,12 +28,15 @@ public class StoryModel {
 	}
 
 	public void tick () {
-		if (rolled)
-			for (StoryCube sc : cubes) {
+		for (StoryCube sc : cubes) {
+			if (sc.isRolling()) {
+				sc.incrementRoll();
+				if (sc.getRollState() % 3 == 0)
+					sc.move();
+			} else if (rolled) {
 				sc.move();
-				if (sc.isRolling())
-					sc.incrementRoll();
 			}
+		}
 	}
 
 	public void roll () {

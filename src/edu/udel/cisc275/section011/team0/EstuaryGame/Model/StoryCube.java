@@ -49,8 +49,8 @@ public class StoryCube {
 	}
 	
 	public void incrementRoll () {
-		this.rollState = (rollState + 1) % 10;
-		if (rollState == 0) {
+		this.rollState = rollState + 1;
+		if (rollState % 10 == 0) {
 			Random r = new Random();
 			this.cubeFace = r.nextInt(StoryView.numImages);
 		}
