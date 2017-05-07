@@ -1,7 +1,5 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Controller;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -35,10 +33,15 @@ public class StoryController extends MouseAdapter implements Controller {
 		return view;
 	}
 	
+	public StoryModel getModel() {
+		return this.model;
+	}
+	
 	@Override
 	public void mouseClicked (MouseEvent arg0) {
 		if (!model.isRolled()) {
 			model.roll();
+			view.initializeTextBoxes();
 		} else if (selectedCube == null) {
 			StoryCube selected = null;
 			for (StoryCube sc : model.getCubes())

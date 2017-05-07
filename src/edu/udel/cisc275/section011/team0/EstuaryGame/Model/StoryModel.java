@@ -1,6 +1,5 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 public class StoryModel {

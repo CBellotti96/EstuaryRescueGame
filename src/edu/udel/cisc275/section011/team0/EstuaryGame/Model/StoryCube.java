@@ -21,6 +21,7 @@ public class StoryCube {
 	public StoryCubeFace getCubeFace () {return this.cubeFace;}
 	public boolean isSelected () {return this.selected;}
 	public boolean isRolling () {return this.rolling;}
+	public int getRollState () {return this.rollState;}
 	
 	public void setX (int x) {this.x = x;}
 	public void setY (int y) {this.y = y;}
