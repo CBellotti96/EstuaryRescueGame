@@ -72,7 +72,7 @@ public class ShoreView extends JComponent {
 			wallDefenseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/Dialogue2.png"));
 			gabionDefenseImg = ImageIO.read(new File("Final Images/Objects/net(1).png"));
 			plantDefenseImg = ImageIO.read(new File("Final Images/Plants/milkweed_good.png"));
-			waveImg = ImageIO.read(new File("Final Images/Objects/wave.jpg"));
+			waveImg = ImageIO.read(new File("Final Images/Objects/wave.png"));
 			jetSkiImg = ImageIO.read(new File("Final Images/Objects/hotrod_vessel.png"));
 			sailboatImg = ImageIO.read(new File("Final Images/Objects/cleanvessel.png"));
 			commercialBoatImg = ImageIO.read(new File("Final Images/Objects/vessel.png"));
