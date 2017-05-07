@@ -25,7 +25,7 @@ public class StoryView extends JPanel {
 	public final static int numImages = 15;
 	private final static String[] filePaths = {"Final Images/Animals/bluecrab_1.png", "Final Images/Animals/bogturtle_right_2.png", 
 												"Final Images/Animals/fish_catfish_right_0.png", "Final Images/Animals/heron_right.png",
-												"Final Images/Animalshorseshoe_crab_right_0.png", "Final Images/Animals/redknot_right_0.png",
+												"Final Images/Animals/horseshoe_crab_right_0.png", "Final Images/Animals/redknot_right_0.png",
 												"Final Images/Animals/clam_back_0.png", "Final Images/Environment Misc/rainyWeather.png",
 												"Final Images/Environment Misc/sunnyWeather.png", "Final Images/Objects/vessel.png",
 												"Final Images/People and Humanoids/captain_estuary_punch.png", 
@@ -73,12 +73,14 @@ public class StoryView extends JPanel {
 		this.title = new JTextPane();
 		SimpleAttributeSet attribs = new SimpleAttributeSet();
 		StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+		StyleConstants.setFontSize(attribs, 24);
 		title.setParagraphAttributes(attribs, true);
 		title.setBackground(backgroundColor);
 		title.setText("Your title here!");
 		this.add(title);
 		
 		this.story = new JTextPane();
+		StyleConstants.setFontSize(attribs, 16);
 		story.setParagraphAttributes(attribs, true);
 		story.setBackground(backgroundColor);
 		story.setText("Your story here!");
