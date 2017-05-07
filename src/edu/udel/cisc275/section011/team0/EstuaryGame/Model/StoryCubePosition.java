@@ -5,56 +5,55 @@ import java.util.ArrayList;
 
 public class StoryCubePosition {
 	
+	public final static StoryCubePosition center = new StoryCubePosition(80, 60);
 	private static ArrayList<StoryCubePosition> allPositions = new ArrayList<StoryCubePosition>();
 	private static ArrayList<StoryCubePosition> startPositions = new ArrayList<StoryCubePosition>();
 	private static ArrayList<StoryCubePosition> endPositions = new ArrayList<StoryCubePosition>();
 	
+	private final static int size = 15;
+	
 	private int x;
 	private int y;
-	private int size;
-	private int margin;
 	
 	public static ArrayList<StoryCubePosition> getAllPositions () {return allPositions;}
 	public static ArrayList<StoryCubePosition> getStartPositions () {return startPositions;}
 	public static ArrayList<StoryCubePosition> getEndPositions () {return endPositions;}
 	
 	public int getX () {
-		return x * size + margin;
+		return this.x;
 	}
 	
 	public int getY () {
-		return y * size;
+		return this.y;
 	}
 	
 	private StoryCubePosition (int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.size = 0;
-		this.margin = 0;
 	}
 	
 	public static void initializePositions (int n) {
+		int startInterval = StoryModel.xCoordMax / (n / 2 + 1);
+		int startX = 0;
 		for (int i = 0; i < n; i++) {
-			int startX = i % 2 == 0 ? i * 2 + 1 : i * 2 - 1;
-			int startY = i % 2 == 0 ? 0 : 10;
-			System.out.println(startX + ", " + startY);
+			if (i % 2 == 0)
+				startX += startInterval;
+			int startY = i % 2 == 0 ? 30 : 90;
 			StoryCubePosition iStart = new StoryCubePosition(startX, startY);
 			startPositions.add(iStart);
-			StoryCubePosition iEnd = new StoryCubePosition(i * 2, 5);
+			double xOffset = StoryModel.xCoordMax / 2 - (n / 2) * StoryCube.size + StoryCube.size / 2;
+			int endX = (int) (xOffset + StoryCube.size * i);
+			StoryCubePosition iEnd = new StoryCubePosition(endX, 60);
 			endPositions.add(iEnd);
 			allPositions.add(iStart);
 			allPositions.add(iEnd);
 		}
 	}
 	
-	public static void updateSizeAndMargin (int size, int margin) {
-		for (StoryCubePosition scp : allPositions) {
-			scp.size = size;
-			scp.margin = margin;
-		}
-	}
-	
-	public Rectangle getRect () {
-		return new Rectangle(x * size + margin, y * size, size * 2, size * 2);
+	public Rectangle getRect (double scale, int xMargin) {
+		int scaledX = (int) (x * scale);
+		int scaledY = (int) (y * scale);
+		int scaledSize = (int) (size * scale);
+		return new Rectangle(scaledX - scaledSize / 2 + xMargin, scaledY - scaledSize / 2, scaledSize, scaledSize);
 	}
 }
