@@ -21,7 +21,7 @@ public class ShoreController extends MouseAdapter implements Controller {
 	
 	public ShoreController(){
 		
-		model = new ShoreModel(800,600);
+		model = new ShoreModel();
 		view = new ShoreView(model);
 		view.addMouseListener(this);
 		
@@ -36,10 +36,10 @@ public class ShoreController extends MouseAdapter implements Controller {
 	@Override
 	public void mouseClicked(MouseEvent e){
 		for(ShoreItem item: model.getItems()){
-				int BOX_X = (int) item.getItemPos().getShoreX();
-				int BOX_Y = (int) item.getItemPos().getShoreY();
-				if(e.getX() > BOX_X && e.getX() < BOX_X + model.getTileSize()
-				&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileSize()){
+				int BOX_X = (int) item.getContainedWithin().getTileOrigin().getShoreX();
+				int BOX_Y = (int) item.getContainedWithin().getTileOrigin().getShoreY();
+				if(e.getX() > BOX_X && e.getX() < BOX_X + model.getTileWidth()
+				&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileHeight()){
 					clicked = item;
 				}
 				//&& model.getTiles().get(i).get(j).getTileContents() instanceof ShoreItem);
@@ -53,9 +53,10 @@ public class ShoreController extends MouseAdapter implements Controller {
 				for(int j = model.getTilesInColumn()/2 ; j < model.getTilesInColumn(); j++){
 					int TILE_X = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreX();
 					int TILE_Y = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreY();
-					if(e.getX() > TILE_X && e.getX() < TILE_X + model.getTileSize()
-					&& e.getY() > TILE_Y && e.getY() < TILE_Y + model.getTileSize()){
+					if(e.getX() > TILE_X && e.getX() < TILE_X + model.getTileWidth()
+					&& e.getY() > TILE_Y && e.getY() < TILE_Y + model.getTileHeight()){
 						model.buildDefense(i,j);
+						model.setBuildDefense(false);
 					}
 				}
 			}
