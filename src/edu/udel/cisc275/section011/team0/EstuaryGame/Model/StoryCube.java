@@ -1,6 +1,9 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.awt.Rectangle;
+import java.util.Random;
+
+import edu.udel.cisc275.section011.team0.EstuaryGame.View.StoryView;
 
 public class StoryCube {
 	
@@ -11,14 +14,14 @@ public class StoryCube {
 	private int x;
 	private int y;
 	private StoryCubePosition cubePos;
-	private StoryCubeFace cubeFace;
+	private int cubeFace;
 	private boolean selected;
 	private boolean rolling;
 	private int rollState;
 	
 	public int getID () {return this.id;}	
 	public StoryCubePosition getCubePos () {return this.cubePos;}
-	public StoryCubeFace getCubeFace () {return this.cubeFace;}
+	public int getCubeFace () {return this.cubeFace;}
 	public boolean isSelected () {return this.selected;}
 	public boolean isRolling () {return this.rolling;}
 	public int getRollState () {return this.rollState;}
@@ -39,15 +42,18 @@ public class StoryCube {
 	public StoryCube (int id) {
 		this.id = id;
 		setCubePos(StoryCubePosition.center);
-		this.cubeFace = StoryCubeFace.random();
+		Random r = new Random();
+		this.cubeFace = r.nextInt(StoryView.numImages);
 		this.rolling = false;
 		this.rollState = 0;
 	}
 	
 	public void incrementRoll () {
 		this.rollState = (rollState + 1) % 10;
-		if (rollState == 0)
-			this.cubeFace = StoryCubeFace.random();
+		if (rollState == 0) {
+			Random r = new Random();
+			this.cubeFace = r.nextInt(StoryView.numImages);
+		}
 	}
 	
 	public Rectangle getRect (double scale, int xMargin) {
