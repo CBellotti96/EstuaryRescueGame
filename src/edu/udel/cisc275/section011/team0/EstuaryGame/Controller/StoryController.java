@@ -1,5 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Controller;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -25,7 +27,7 @@ public class StoryController extends MouseAdapter implements Controller {
 	@Override
 	public void tick() {
 		view.repaint();
-		model.tick(this.getView().getMousePosition());
+		model.tick();
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class StoryController extends MouseAdapter implements Controller {
 		} else if (selectedCube == null) {
 			StoryCube selected = null;
 			for (StoryCube sc : model.getCubes())
-				if (sc.getRect().contains(arg0.getPoint()))
+				if (sc.getRect(view.getScale(), view.getXMargin()).contains(arg0.getPoint()))
 					selected = sc;
 			if (selected != null) {
 				selected.setSelected(true);
@@ -50,17 +52,17 @@ public class StoryController extends MouseAdapter implements Controller {
 			this.selectedCube.setSelected(false);
 			StoryCubePosition endPosition = null;
 			for (StoryCubePosition scp : StoryCubePosition.getEndPositions())
-				if (scp.getRect().contains(arg0.getPoint()))
+				if (scp.getRect(view.getScale(), view.getXMargin()).contains(arg0.getPoint()))
 					endPosition = scp;
 			if (endPosition != null) {
 				boolean occupied = false;
 				for (StoryCube sc : model.getCubes()) {
-					if (sc.getHome().equals(endPosition)) {
+					if (sc.getCubePos().equals(endPosition)) {
 						occupied = true;
 					}
 				}
 				if (!occupied)
-					this.selectedCube.setHome(endPosition);
+					this.selectedCube.setCubePos(endPosition);
 			}
 			this.selectedCube = null;
 		}
