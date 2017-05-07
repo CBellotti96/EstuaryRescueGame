@@ -67,7 +67,15 @@ public class ShoreView extends JComponent {
 			damagedTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_dirt_north.png"));
 			oceanTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_water_C.png"));
 			rockItemImg = ImageIO.read(new File("Final Images/Animals/food_pellet.png"));
-		
+			oysterItemImg = ImageIO.read(new File("Final Images/Animals/clam_back_0.png"));
+			seedItemImg = ImageIO.read(new File("Final Images/Plants/seed.png"));
+			wallDefenseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/Dialogue2.png"));
+			gabionDefenseImg = ImageIO.read(new File("Final Images/Objects/net(1).png"));
+			plantDefenseImg = ImageIO.read(new File("Final Images/Plants/milkweed_good.png"));
+			waveImg = ImageIO.read(new File("Final Images/Objects/wave.jpg"));
+			jetSkiImg = ImageIO.read(new File("Final Images/Objects/hotrod_vessel.png"));
+			sailboatImg = ImageIO.read(new File("Final Images/Objects/cleanvessel.png"));
+			commercialBoatImg = ImageIO.read(new File("Final Images/Objects/vessel.png"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -127,39 +135,42 @@ public class ShoreView extends JComponent {
 		final int SHORE_HEALTH_LEVEL_WIDTH = SHORE_HEALTH_BAR_WIDTH;
 		final Color SHORE_HEALTH_LEVEL_COLOR = Color.RED;
 		//rock item
+		final BufferedImage ROCK_ITEM_IMAGE = rockItemImg;
 		final int ROCK_ITEM_HEIGHT = (TOOLBAR_HEIGHT/2);
 		final int ROCK_ITEM_WIDTH = ROCK_ITEM_HEIGHT;
 		final Integer ROCK_ITEM_AMOUNT = model.getInventory().get(model.getItemRock());
-		final Color ROCK_ITEM_COLOR = Color.BLACK;
 		//oyster item
+		final BufferedImage OYSTER_ITEM_IMAGE = oysterItemImg;
 		final int OYSTER_ITEM_HEIGHT = ROCK_ITEM_HEIGHT;
 		final int OYSTER_ITEM_WIDTH = ROCK_ITEM_WIDTH;
 		final Integer OYSTER_ITEM_AMOUNT = model.getInventory().get(model.getItemOyster());
-		final Color OYSTER_ITEM_COLOR = Color.LIGHT_GRAY;
 		//seed item
+		final BufferedImage SEED_ITEM_IMAGE = seedItemImg;
 		final int SEED_ITEM_HEIGHT = ROCK_ITEM_HEIGHT;
 		final int SEED_ITEM_WIDTH = ROCK_ITEM_WIDTH;
 		final Integer SEED_ITEM_AMOUNT = model.getInventory().get(model.getItemSeed());
-		final Color SEED_ITEM_COLOR = Color.GREEN;
 		//wall defense
+		final BufferedImage WALL_DEF_IMAGE = wallDefenseImg;
 		final int WALL_DEF_HEIGHT = TILE_HEIGHT;
 		final int WALL_DEF_WIDTH = TILE_WIDTH;
-		final Color WALL_DEF_COLOR = Color.DARK_GRAY;
 		//gabion defense
+		final BufferedImage GABION_DEF_IMAGE = gabionDefenseImg;
 		final int GABION_DEF_HEIGHT = TILE_HEIGHT;
 		final int GABION_DEF_WIDTH = TILE_WIDTH;
-		final Color GABION_DEF_COLOR = Color.WHITE;
 		//plant defense
+		final BufferedImage PLANT_DEF_IMAGE = plantDefenseImg;
 		final int PLANT_DEF_HEIGHT = TILE_HEIGHT;
 		final int PLANT_DEF_WIDTH = TILE_WIDTH;
-		final Color PLANT_DEF_COLOR = Color.GREEN;
 		//wave
+		final BufferedImage WAVE_IMAGE = waveImg;
 		final int WAVE_HEIGHT = TILE_HEIGHT;
 		final int WAVE_WIDTH = TILE_WIDTH;
-		final Color WAVE_COLOR = Color.CYAN;
 		//boat
+		final BufferedImage SAILBOAT_IMAGE = sailboatImg;
+		final BufferedImage JETSKI_IMAGE = jetSkiImg;
+		final BufferedImage COMMERCIAL_IMAGE = commercialBoatImg;
 		final int BOAT_HEIGHT = TILE_HEIGHT;
-		final int BOAT_WIDTH = TILE_WIDTH;
+		final int BOAT_WIDTH = TILE_WIDTH*2;
 		final Color BOAT_COLOR = Color.BLACK;
 		
 		//draw tiles
@@ -191,67 +202,41 @@ public class ShoreView extends JComponent {
 		
 		for (ShoreItem it: model.getItems()){
 			if (it.getType() == model.getItemRock()){
-				g.setColor(ROCK_ITEM_COLOR);
-				g.drawRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT);
-				g.fillRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT);
+				g.drawImage(ROCK_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
+						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT,null);
 			}
 			else if (it.getType() == model.getItemOyster()){
-				g.setColor(OYSTER_ITEM_COLOR);
-				g.drawRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  OYSTER_ITEM_WIDTH,  OYSTER_ITEM_HEIGHT);
-				g.fillRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  OYSTER_ITEM_WIDTH,  OYSTER_ITEM_HEIGHT);
+				g.drawImage(OYSTER_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
+						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  OYSTER_ITEM_WIDTH,  OYSTER_ITEM_HEIGHT,null);
 			}
 			else if (it.getType() == model.getItemSeed()){
-				g.setColor(SEED_ITEM_COLOR);
-				g.drawRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  SEED_ITEM_WIDTH,  SEED_ITEM_HEIGHT);
-				g.fillRect((int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
-						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  SEED_ITEM_WIDTH,  SEED_ITEM_HEIGHT);
+				g.drawImage(SEED_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
+						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  SEED_ITEM_WIDTH,  SEED_ITEM_HEIGHT,null);
 			}
 		}//draw defenses
 		for (ShoreDefense def: model.getDefenses()){
 			if (def.getType() == model.getDefenseWall()){
-				g.setColor(WALL_DEF_COLOR);
-				g.drawRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, WALL_DEF_WIDTH, WALL_DEF_HEIGHT);
-				g.fillRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, WALL_DEF_WIDTH, WALL_DEF_HEIGHT);
+				g.drawImage(WALL_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
+						, WALL_DEF_WIDTH, WALL_DEF_HEIGHT,null);
 			}
 			else if (def.getType() == model.getDefenseGabion()){
-				g.setColor(GABION_DEF_COLOR);
-				g.drawRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, GABION_DEF_WIDTH, GABION_DEF_HEIGHT);
-				g.fillRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, GABION_DEF_WIDTH, GABION_DEF_HEIGHT);
+				g.drawImage(GABION_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
+						, GABION_DEF_WIDTH, GABION_DEF_HEIGHT,null);
 			}
 			else if (def.getType() == model.getDefensePlant()){
-				g.setColor(PLANT_DEF_COLOR);
-				g.drawRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT);
-				g.fillRect((int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
-						, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT);
+				g.drawImage(PLANT_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
+						, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT,null);
 			}
 		}//draw boats
 		for (ShoreBoat b: model.getBoats()){
-			g.setColor(BOAT_COLOR);
-			g.drawRect( (int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
-					, BOAT_WIDTH, BOAT_HEIGHT);
-			//System.out.println((int) (SCREEN_SCALE_WIDTH*(b.getboatPos().getShoreX())));
-			g.fillRect( (int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
-					, BOAT_WIDTH, BOAT_HEIGHT);
+			g.drawImage(SAILBOAT_IMAGE,(int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
+					, BOAT_WIDTH, BOAT_HEIGHT,null);
 		}
 		//draw waves
 		for (ShoreWave w: model.getWaves()){
-			g.setColor(WAVE_COLOR);
-			g.drawRect((int) (w.getContainedWithin().getTileOrigin().getShoreX()),(int) (w.getContainedWithin().getTileOrigin().getShoreY() + w.getYDisplacement())
-					, WAVE_WIDTH, WAVE_HEIGHT);
-			g.fillRect((int) (w.getContainedWithin().getTileOrigin().getShoreX()),(int) (w.getContainedWithin().getTileOrigin().getShoreY() + w.getYDisplacement())
-					, WAVE_WIDTH, WAVE_HEIGHT);
+			g.drawImage(WAVE_IMAGE,(int) (w.getContainedWithin().getTileOrigin().getShoreX()),(int) (w.getContainedWithin().getTileOrigin().getShoreY() + w.getYDisplacement())
+					, WAVE_WIDTH, WAVE_HEIGHT,null);
 		}
-		//model.getItems().remove(r1);
 	}
 	@Override
 	public void paintComponent(Graphics g){
