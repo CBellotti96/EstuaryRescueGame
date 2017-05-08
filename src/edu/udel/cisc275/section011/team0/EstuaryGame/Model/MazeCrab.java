@@ -44,7 +44,7 @@ public class MazeCrab extends MazeEntity {
 	public static double getDefaultWidth() {
 		return defaultWidth;
 	}
-	public static double getDefualtHeight() {
+	public static double getDefaultHeight() {
 		return defaultHeight;
 	}
 	

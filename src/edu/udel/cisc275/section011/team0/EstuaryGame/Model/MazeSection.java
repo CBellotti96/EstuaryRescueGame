@@ -1,6 +1,9 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.lang.Long;
 
 public class MazeSection {
 
@@ -18,8 +21,11 @@ public class MazeSection {
 	private final int startTileX;
 	private final int startTileY;
 	
+	private static List<MazeObstacle> obstacles = new ArrayList();
+	private static List<MazePredator> predators = new ArrayList();
+	
 	static MazeSection generateMazeSection(int height, int width, 
-			Direction entranceSide, Direction exitSide) {
+			Direction entranceSide, Direction exitSide, MazeDifficulty mazeDifficulty) {
 		int[][] maze = new int[height][width];
 		
 		// Generate maze using Sidewinder algorithm adapted from 
@@ -50,6 +56,7 @@ public class MazeSection {
 		}
 		
 		// rotate maze so exit side is facing in correct direction
+		//TODO: Delete print statement
 		System.out.println(exitSide);
 		switch (exitSide) {
 		case EAST: maze = rotateMazeLeft(maze);
@@ -247,4 +254,20 @@ public class MazeSection {
 		}
 	}
 	
+	public void genObstacles(MazeDifficulty mazeDifficulty){
+		for(int i=0; i < mazeDifficulty.getObstacleNum(); i++){
+			double xPos = Math.round(Math.random()*(double)this.getWidth());
+			double yPos = Math.round(Math.random()*(double)this.getHeight());
+			MazeObstacleType type = MazeObstacleType.randomMazeObstacleType();
+			obstacles.add(new MazeObstacle(xPos, yPos, type.getDefaultSpeed(), type));
+		}
+	}
+	
+	public void genPredators(MazeDifficulty mazeDifficulty){
+		for(int i = 0; i < mazeDifficulty.getPredatorNum(); i++){
+			double xPos = Math.round(Math.random()*(double)this.getWidth());
+			double yPos = Math.round(Math.random()*(double)this.getHeight());
+			predators.add(new MazePredator(xPos, yPos));
+		}
+	}
 }
