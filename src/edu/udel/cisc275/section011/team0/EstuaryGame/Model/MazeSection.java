@@ -248,6 +248,9 @@ public class MazeSection {
 				&& (grid[currentTileY][currentTileX] & S) == 0)  {
 			crab.setYPos(currentTileY + 1 - crab.getHeight());
 		}
+		
+		
+		
 	}
 	
 	public double getProgression(MazeCrab crab) {

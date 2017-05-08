@@ -36,6 +36,7 @@ public class MazePredator extends MazeEntity {
 		}
 	}
 	
+	@Override
 	public void interfereCrab(MazeCrab crab){
 		crab.resetToCheckpoint();
 	}

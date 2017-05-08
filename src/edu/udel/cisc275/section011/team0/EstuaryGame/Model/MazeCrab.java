@@ -41,6 +41,16 @@ public class MazeCrab extends MazeEntity {
 		this.setYPos(this.yCheckpointPos);
 	}
 	
+	public void handleCollision(MazeEntity entity){
+		//error must be something with the xvalues
+		/*if(((this.getXPos() - entity.getXPos()) < 0.5) && 
+			((this.getYPos() - entity.getYPos()) < 0.5)){
+			entity.interfereCrab(this);
+			System.out.println("handled");
+		}
+		*/
+	}
+	
 	public static double getDefaultWidth() {
 		return defaultWidth;
 	}

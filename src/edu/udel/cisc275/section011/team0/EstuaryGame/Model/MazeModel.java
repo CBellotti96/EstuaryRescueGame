@@ -29,14 +29,14 @@ public class MazeModel {
 	private List<Direction> directions = new ArrayList<>();
 	
 	public MazeModel() {
-		this.mazeDifficulty = MazeDifficulty.NORMAL;
+		this.mazeDifficulty = MazeDifficulty.HARD;
 		
 		// create maze sections
 		directions.add(Direction.NORTH);
 		directions.add(Direction.EAST);
 		directions.add(Direction.SOUTH);
 		directions.add(Direction.WEST);
-		Random rand = new Random();
+
 		for (int i = 0;  i < sections.length; i++) {
 			MazeSection section = this.generateSection(i);
 			sections[i] = section;
@@ -51,6 +51,7 @@ public class MazeModel {
 	
 	public MazeModel(MazeDifficulty mazeDifficulty){
 		this();
+		
 		this.mazeDifficulty = mazeDifficulty;
 	}
 	
@@ -114,6 +115,11 @@ public class MazeModel {
 		
 		for (MazePredator predator : getCurrentSection().getPredators()) {
 			predator.move();
+			player.handleCollision(predator);
+		}
+		
+		for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
+			player.handleCollision(obstacle);
 		}
 		
 		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);

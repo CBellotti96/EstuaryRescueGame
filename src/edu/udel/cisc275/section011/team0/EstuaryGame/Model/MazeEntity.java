@@ -35,4 +35,7 @@ public abstract class MazeEntity {
 		this.speed = speed;
 	}
 	
+	public void interfereCrab(MazeCrab crab){
+	}
+	
 }
