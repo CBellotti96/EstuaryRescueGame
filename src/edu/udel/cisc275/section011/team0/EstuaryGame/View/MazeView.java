@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.Console;
 import java.io.File;
@@ -16,12 +17,17 @@ import javax.swing.JComponent;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.Direction;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeCrab;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeModel;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeObstacle;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeObstacleType;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazePredator;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeSection;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeWeather;
 
 public class MazeView extends JComponent {
 	
 	private MazeModel model;
+	
+	private final double SCREEN_ZOOM = 2.0;
 	
 	private BufferedImage salinityGaugeBgImg;
 	
@@ -38,8 +44,13 @@ public class MazeView extends JComponent {
 	private final int MINIMAP_BORDER_FULL_WIDTH = 256;
 	private final double MIMIMAP_ZOOM = 0.8;
 	
-	private BufferedImage crabImg;
-	private BufferedImage predatorImg[];
+	private BufferedImage crabImg[];
+	private double crabImgIndex = 0;
+	private final int CRAB_IMG_FRAME_COUNT = 3;
+	private final int CRAB_IMG_FRAME_WIDTH = 243;
+	private final int CRAB_IMG_FRAME_HEIGHT = 119;
+	
+	private BufferedImage predatorImg;
 	private BufferedImage obstacleImage[];
 	
 	private BufferedImage sandbarImg[];
@@ -56,9 +67,23 @@ public class MazeView extends JComponent {
 	
 	public MazeView(MazeModel model){
 		this.model = model;
-		// TODO load images
+
 		miniMapImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
+		
 		try {
+			crabImg = new BufferedImage[CRAB_IMG_FRAME_COUNT];
+			BufferedImage crabImgFull = ImageIO.read(new File("Final Images/Animals/bluecrab.png"));
+			for (int i = 0; i < CRAB_IMG_FRAME_COUNT; i++) {
+				crabImg[i] = crabImgFull.getSubimage(i * CRAB_IMG_FRAME_WIDTH, 0, 
+						CRAB_IMG_FRAME_WIDTH, CRAB_IMG_FRAME_HEIGHT);
+			}
+			
+			obstacleImage = new BufferedImage[MazeObstacleType.values().length];
+			obstacleImage[MazeObstacleType.SEAWEED.ordinal()] = ImageIO.read(new File("Final Images/Plants/seagrass.png"));
+			obstacleImage[MazeObstacleType.TRASH.ordinal()] = ImageIO.read(new File("Final Images/Objects/crumbledpaper.png"));
+
+			predatorImg = ImageIO.read(new File("Final Images/Animals/fish_bass_left.png"));
+			
 			salinityGaugeBgImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/salinity_gauge.png"));
 			
 			sunWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/sunnyWeather.png"));
@@ -142,7 +167,7 @@ public class MazeView extends JComponent {
 	}
 	
 	private void renderMazeAndEntities(Graphics g, int screenWidth, 
-			int screenHeight, double zoom) {
+			int screenHeight, double zoom, boolean minimap) {
 		MazeCrab player = model.getPlayer();
 		
 		// draw maze
@@ -150,7 +175,7 @@ public class MazeView extends JComponent {
 		final int PLAYER_SIZE = TILE_SIZE / 2;
 		final int centerOffsetX = screenWidth / 2 - PLAYER_SIZE / 2;
 		final int centerOffsetY = screenHeight / 2 - PLAYER_SIZE / 2;
-		final int WATER_TILE_SIZE = Math.max(TILE_SIZE, WATER_TILE_IMG_FRAME_SIZE);
+		final int WATER_TILE_SIZE = minimap ? WATER_TILE_IMG_FRAME_SIZE : TILE_SIZE;
 		for (int x = 0, i = 0; x < screenWidth + WATER_TILE_SIZE; x += WATER_TILE_SIZE, i++) {
 			for (int y = 0, j = 0; y < screenHeight + WATER_TILE_SIZE; y += WATER_TILE_SIZE, j++) {
 				g.drawImage(waterTileImg[(int) waterTileImgIndex], x, y,
@@ -193,13 +218,44 @@ public class MazeView extends JComponent {
 			}
 		}
 		
-		// draw player
-		g.setColor(Color.RED);
-		//g.drawRect(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
-		//g.fillRect(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
-		g.drawOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
-		g.fillOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
 		
+		// draw obstacles
+		for (MazeObstacle obstacle : model.getCurrentSection().getObstacles()) {
+			int OBSTACLE_X = (int) ((obstacle.getXPos() - player.getXPos()) * TILE_SIZE) + centerOffsetX;
+			int OBSTACLE_Y = (int) ((obstacle.getYPos() - player.getYPos()) * TILE_SIZE) + centerOffsetY;
+			if (minimap) {
+				g.setColor(Color.YELLOW);
+				g.drawOval(OBSTACLE_X, OBSTACLE_Y, PLAYER_SIZE, PLAYER_SIZE);
+				g.fillOval(OBSTACLE_X, OBSTACLE_Y, PLAYER_SIZE, PLAYER_SIZE);
+			} else {
+				g.drawImage(obstacleImage[obstacle.getType().ordinal()], 
+						OBSTACLE_X, OBSTACLE_Y, PLAYER_SIZE, PLAYER_SIZE, null);
+			}
+		}
+		
+		// draw player
+		if (minimap) {
+			g.setColor(Color.GREEN);
+			g.drawOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
+			g.fillOval(centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE);
+		} else {
+			g.drawImage(crabImg[(int) crabImgIndex], centerOffsetX, centerOffsetY, PLAYER_SIZE, PLAYER_SIZE, null);
+			crabImgIndex = (waterTileImgIndex + 0.1) % CRAB_IMG_FRAME_COUNT;
+		}
+		
+		// draw predators
+		for (MazePredator predator : model.getCurrentSection().getPredators()) {
+
+			int PREDATOR_X = (int) ((predator.getXPos() - player.getXPos()) * TILE_SIZE) + centerOffsetX;
+			int PREDATOR_Y = (int) ((predator.getYPos() - player.getYPos()) * TILE_SIZE) + centerOffsetY;
+			if (minimap) {
+				g.setColor(Color.RED);		
+				g.drawOval(PREDATOR_X, PREDATOR_Y, PLAYER_SIZE, PLAYER_SIZE);
+				g.fillOval(PREDATOR_X, PREDATOR_Y, PLAYER_SIZE, PLAYER_SIZE);
+			} else {
+				g.drawImage(predatorImg, PREDATOR_X, PREDATOR_Y, PLAYER_SIZE, PLAYER_SIZE, null);
+			}
+		}
 	}
 	
 	@Override
@@ -215,13 +271,11 @@ public class MazeView extends JComponent {
 		final Color SALINE_GAUGE_COLOR = Color.GRAY;
 		
 		// saline level dimensions and colors
-		final double salinePercent = (model.getSalinity() - model.getMinSalinity()) 
-				/ (model.getMaxSalinity() - model.getMinSalinity());
 		final int SALINE_LEVEL_MARGIN = SALINE_GAUGE_WIDTH / 4;
 		final int SALINE_LEVEL_WIDTH = SALINE_GAUGE_WIDTH / 2;
-		final int SALINE_LEVEL_HEIGHT = (int) ((1 - salinePercent) /*saline // FOR BLUE CRAB MODE*/ 
+		final int SALINE_LEVEL_HEIGHT = (int) ((1 - model.getSalinityPercent()) /*saline // FOR BLUE CRAB MODE*/ 
 				* (SALINE_GAUGE_HEIGHT - SALINE_LEVEL_MARGIN * 2));
-		final Color SALINE_LEVEL_COLOR = redYellowGreenGradient(salinePercent);
+		final Color SALINE_LEVEL_COLOR = redYellowGreenGradient(model.getSalinityPercent());
 		
 		// weather icon dimensions and colors
 		final int WEATHER_ICON_WIDTH = SALINE_GAUGE_WIDTH;
@@ -244,13 +298,12 @@ public class MazeView extends JComponent {
 		int MINIMAP_BORDER_Y = MINIMAP_Y - (MINIMAP_BORDER_HEIGHT - MINI_MAP_HEIGHT) /2;
 		
 		// draw game
-		renderMazeAndEntities(g, SCREEN_WIDTH, SCREEN_HEIGHT, 2.0);
+		renderMazeAndEntities(g, SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_ZOOM, false);
 		
 		// draw mini-map
-		
 		Graphics2D miniMapImgGraphics = miniMapImg.createGraphics();
 		renderMazeAndEntities(miniMapImgGraphics, 
-				miniMapImg.getWidth(), miniMapImg.getHeight(), MIMIMAP_ZOOM);
+				miniMapImg.getWidth(), miniMapImg.getHeight(), MIMIMAP_ZOOM, true);
 		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g.drawImage(miniMapImg, SCREEN_WIDTH - (MINI_MAP_WIDTH + MINI_MAP_MARGIN), 

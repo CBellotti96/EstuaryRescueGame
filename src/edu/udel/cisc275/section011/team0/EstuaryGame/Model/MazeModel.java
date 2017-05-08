@@ -72,6 +72,10 @@ public class MazeModel {
 	public double getMaxSalinity() {
 		return maxSalinity;
 	}
+	
+	public double getSalinityPercent() {
+		return (getSalinity() - getMinSalinity()) / (getMaxSalinity() - getMinSalinity());
+	}
 
 	public MazeWeather getWeather() {
 		return weather;

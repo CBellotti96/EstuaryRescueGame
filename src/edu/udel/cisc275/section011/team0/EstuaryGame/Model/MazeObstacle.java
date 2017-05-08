@@ -29,4 +29,8 @@ public class MazeObstacle extends MazeEntity {
 		}
 	}
 	
+	public MazeObstacleType getType() {
+		return type;
+	}
+	
 }

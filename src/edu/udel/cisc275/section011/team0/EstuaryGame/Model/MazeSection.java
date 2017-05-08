@@ -20,9 +20,9 @@ public class MazeSection {
 	
 	private final int startTileX;
 	private final int startTileY;
-	
-	private static List<MazeObstacle> obstacles = new ArrayList();
-	private static List<MazePredator> predators = new ArrayList();
+
+	private List<MazeObstacle> obstacles = new ArrayList<>();
+	private List<MazePredator> predators = new ArrayList<>();
 	
 	static MazeSection generateMazeSection(int height, int width, 
 			Direction entranceSide, Direction exitSide, MazeDifficulty mazeDifficulty) {
@@ -124,8 +124,11 @@ public class MazeSection {
 			}
 		}
 		
+		ArrayList<MazeObstacle> obstacles = genObstacles(MazeDifficulty.NORMAL, maze[0].length, maze.length);
+		ArrayList<MazePredator> predators = genPredators(MazeDifficulty.NORMAL, maze[0].length, maze.length);
+		
 		MazeSection section = new MazeSection(maze, entranceSide, exitSide, 
-				startX, startY);
+				startX, startY, obstacles, predators);
 		//section.printMaze();
 		//System.out.println("-----");
 		return section;
@@ -188,12 +191,15 @@ public class MazeSection {
 	}
 	
 	private MazeSection(int grid[][], Direction entranceSide, 
-			Direction exitSide, int startTileX, int startTileY) {
+			Direction exitSide, int startTileX, int startTileY,
+			ArrayList<MazeObstacle> obstacles, ArrayList<MazePredator> predators) {
 		this.grid = grid;
 		this.entranceSide = entranceSide;
 		this.exitSide = exitSide;
 		this.startTileX = startTileX;
 		this.startTileY = startTileY;
+		this.obstacles = obstacles;
+		this.predators = predators;
 	}
 	
 	public int getCell(int y, int x) {
@@ -254,20 +260,32 @@ public class MazeSection {
 		}
 	}
 	
-	public void genObstacles(MazeDifficulty mazeDifficulty){
+	private static ArrayList<MazeObstacle> genObstacles(MazeDifficulty mazeDifficulty, int mazeWidth, int mazeHeight){
+		ArrayList<MazeObstacle> obstacles = new ArrayList<>();
 		for(int i=0; i < mazeDifficulty.getObstacleNum(); i++){
-			double xPos = Math.round(Math.random()*(double)this.getWidth());
-			double yPos = Math.round(Math.random()*(double)this.getHeight());
+			double xPos = Math.round(Math.random() * mazeWidth) + 0.25;
+			double yPos = Math.round(Math.random() * mazeHeight) + 0.25;
 			MazeObstacleType type = MazeObstacleType.randomMazeObstacleType();
 			obstacles.add(new MazeObstacle(xPos, yPos, type.getDefaultSpeed(), type));
 		}
+		return obstacles;
 	}
 	
-	public void genPredators(MazeDifficulty mazeDifficulty){
+	private static ArrayList<MazePredator> genPredators(MazeDifficulty mazeDifficulty, int mazeWidth, int mazeHeight){
+		ArrayList<MazePredator> predators = new ArrayList<>();
 		for(int i = 0; i < mazeDifficulty.getPredatorNum(); i++){
-			double xPos = Math.round(Math.random()*(double)this.getWidth());
-			double yPos = Math.round(Math.random()*(double)this.getHeight());
+			double xPos = Math.round(Math.random() * mazeWidth) + 0.25;
+			double yPos = Math.round(Math.random() * mazeHeight) + 0.25;
 			predators.add(new MazePredator(xPos, yPos));
 		}
+		return predators;
+	}
+	
+	public List<MazeObstacle> getObstacles() {
+		return obstacles;
+	}
+
+	public List<MazePredator> getPredators() {
+		return predators;
 	}
 }
