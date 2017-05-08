@@ -107,6 +107,10 @@ public class MazeModel {
 	public void tick () {
 		getCurrentSection().handleCollision(player);
 		
+		for (MazePredator predator : getCurrentSection().getPredators()) {
+			predator.move();
+		}
+		
 		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
 		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
 		if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {

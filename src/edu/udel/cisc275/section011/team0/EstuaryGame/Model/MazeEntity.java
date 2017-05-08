@@ -11,8 +11,6 @@ public abstract class MazeEntity {
 		this.yPos = yPos;
 		this.speed = speed;
 	}
-
-	public abstract void move(Direction direction);
 	
 	public double getXPos() {
 		return xPos;

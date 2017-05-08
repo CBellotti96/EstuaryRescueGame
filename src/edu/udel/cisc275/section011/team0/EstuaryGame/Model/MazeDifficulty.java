@@ -4,9 +4,9 @@ public enum MazeDifficulty {
 
 	//figuring a new round of predators/powerups will be generated per section
 	
-	EASY(10, 10, 3, 10.0, 3.0),
-	NORMAL(15, 15, 4, 7.5, 4.5),
-	HARD(20, 20, 5, 6.0, 5.0);
+	EASY(5, 10, 3, 10.0, 3.0),
+	NORMAL(10, 15, 4, 7.5, 4.5),
+	HARD(15, 20, 5, 6.0, 5.0);
 	
 	private final int predatorNum;
 	private final int obstacleNum;

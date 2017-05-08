@@ -276,7 +276,9 @@ public class MazeSection {
 		for(int i = 0; i < mazeDifficulty.getPredatorNum(); i++){
 			double xPos = Math.round(Math.random() * mazeWidth) + 0.25;
 			double yPos = Math.round(Math.random() * mazeHeight) + 0.25;
-			predators.add(new MazePredator(xPos, yPos));
+			int xDirection = (int) (Math.random() * 3) - 1;
+			int yDirection = (int) (Math.random() * 3) - 1;
+			predators.add(new MazePredator(xPos, yPos, xDirection, yDirection));
 		}
 		return predators;
 	}
