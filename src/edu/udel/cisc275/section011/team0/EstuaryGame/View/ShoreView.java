@@ -56,7 +56,9 @@ public class ShoreView extends JComponent {
 	
 	private BufferedImage beachTileImg;
 	private BufferedImage damagedTileImg;
-	private BufferedImage oceanTileImg;
+	private BufferedImage oceanTileImg[];
+	private double oceanTileImageIndex = 0;
+	private final int OCEAN_TILE_IMAGE_FRAME_COUNT = 15;
 	
 	private BufferedImage toolbarImg;
 	
@@ -70,7 +72,13 @@ public class ShoreView extends JComponent {
 		try {
 			beachTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_sand_center.png"));
 			damagedTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_dirt_north.png"));
-			oceanTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_water_C.png"));
+			oceanTileImg = new BufferedImage[OCEAN_TILE_IMAGE_FRAME_COUNT];
+			BufferedImage oceanTileImgFull = ImageIO.read(new File("Final Images/Backgrounds/water_tile.png"));
+			for (int i = 0; i < OCEAN_TILE_IMAGE_FRAME_COUNT; i++) {
+				oceanTileImg[i] = oceanTileImgFull.getSubimage(i * model.getTileWidth(), 0, 
+						model.getTileWidth(), model.getTileHeight());
+			}
+			//oceanTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_water_C.png"));
 			rockItemImg = ImageIO.read(new File("Final Images/Animals/food_pellet.png"));
 			oysterItemImg = ImageIO.read(new File("Final Images/Animals/clam_back_0.png"));
 			seedItemImg = ImageIO.read(new File("Final Images/Plants/seed.png"));
@@ -104,19 +112,19 @@ public class ShoreView extends JComponent {
 			for (int j = 0, y = 0; j < model.getTilesInColumn(); j++, y+= TILE_HEIGHT){
 				ShoreTileType type = modelTiles.get(i).get(j).getTileType();
 				if(type == ShoreTileType.BEACH ){
-					img = beachTileImg;
+					g.drawImage(beachTileImg, x, y, x+TILE_WIDTH, y+TILE_HEIGHT
+							, 0, 0, 256, 256, null);
 				}
 				else if(type == ShoreTileType.OCEAN){
-					img = oceanTileImg;
+					g.drawImage(oceanTileImg[(int) oceanTileImageIndex], x, y,
+							TILE_WIDTH, TILE_HEIGHT, null);
 				}
-				else if(type == ShoreTileType.DAMAGED){
-					img = damagedTileImg;
-				}
-			
-				g.drawImage(img, x, y, x+TILE_WIDTH, y+TILE_HEIGHT
-				, 0, 0, 256, 256, null);
+				//else if(type == ShoreTileType.DAMAGED){
+					//img = damagedTileImg;
+				//}
 			}
-		}	
+		}
+		oceanTileImageIndex = (oceanTileImageIndex + 0.05) % OCEAN_TILE_IMAGE_FRAME_COUNT;
 	}	
 	
 	public void paint(Graphics g){
