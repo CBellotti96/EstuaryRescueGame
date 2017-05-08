@@ -37,8 +37,11 @@ public class MazeView extends JComponent {
 	private BufferedImage predatorImg[];
 	private BufferedImage obstacleImage[];
 	
-	private BufferedImage sandTileImg;
-	private BufferedImage waterTileImg;
+	private BufferedImage sandBarImg;
+	private BufferedImage waterTileImg[];
+	private double waterTileImgIndex = 0;
+	private final int WATER_TILE_IMG_FRAME_COUNT = 15;
+	private final int WATER_TILE_IMG_FRAME_SIZE = 64;
 	
 	public MazeView(MazeModel model){
 		this.model = model;
@@ -48,7 +51,15 @@ public class MazeView extends JComponent {
 			sunWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/sunnyWeather.png"));
 			rainWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/rainyWeather.png"));
 			defaultWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/variableWeather.png"));
-		}catch(IOException e){			
+		
+			waterTileImg = new BufferedImage[WATER_TILE_IMG_FRAME_COUNT];
+			BufferedImage waterTileImgFull = ImageIO.read(new File("Final Images/Backgrounds/water_tile.png"));
+			for (int i = 0; i < WATER_TILE_IMG_FRAME_COUNT; i++) {
+				waterTileImg[i] = waterTileImgFull.getSubimage(i * WATER_TILE_IMG_FRAME_SIZE, 0, 
+						WATER_TILE_IMG_FRAME_SIZE, WATER_TILE_IMG_FRAME_SIZE);
+			}
+			
+		} catch(IOException e) {			
 			e.printStackTrace();
 		}
 	}
@@ -75,31 +86,19 @@ public class MazeView extends JComponent {
 		final int PLAYER_SIZE = TILE_SIZE / 2;
 		final int centerOffsetX = screenWidth / 2 - PLAYER_SIZE / 2;
 		final int centerOffsetY = screenHeight / 2 - PLAYER_SIZE / 2;
-		/*for (int x = 0, i = 0; x < screenWidth; x += unit, i++) {
-			for (int y = 0, j = 0; y < screenHeight; y += unit, j++) {
-				if (i % 2 == 0 && j % 2 == 0) {
-					g.setColor(Color.ORANGE);
-				} else if (i % 2 == 0 && j % 2 == 1) {
-					g.setColor(Color.BLUE);
-				} else if (i % 2 == 1 && j % 2 == 0) {
-					g.setColor(Color.BLUE);
-				} else if (i % 2 == 1 && j % 2 == 1) {
-					g.setColor(Color.ORANGE);
-				}
+		for (int x = 0, i = 0; x < screenWidth + WATER_TILE_IMG_FRAME_SIZE; x += WATER_TILE_IMG_FRAME_SIZE, i++) {
+			for (int y = 0, j = 0; y < screenHeight + WATER_TILE_IMG_FRAME_SIZE; y += WATER_TILE_IMG_FRAME_SIZE, j++) {
 				
 				//g.drawRect(x, y, unit, unit);
 				//g.fillRect(x, y, unit, unit);
-				g.drawRect(x - (int) (player.getXPos() * unit) + centerOffsetX, 
-						y - (int) (player.getYPos() * unit) + centerOffsetY, 
-						unit, unit);
-				g.fillRect(x - (int) (player.getXPos() * unit) + centerOffsetX, 
-						y - (int) (player.getYPos() * unit) + centerOffsetY, 
-						unit, unit);
+				g.drawImage(waterTileImg[(int) waterTileImgIndex], x, y,
+						WATER_TILE_IMG_FRAME_SIZE, WATER_TILE_IMG_FRAME_SIZE, null);
 			}
-		}*/
-		g.setColor(Color.BLUE);
-		g.drawRect(0, 0, screenWidth, screenHeight);
-		g.fillRect(0, 0, screenWidth, screenHeight);
+		}
+		waterTileImgIndex = (waterTileImgIndex + 0.05) % WATER_TILE_IMG_FRAME_COUNT;
+		//g.setColor(Color.BLUE);
+		//g.drawRect(0, 0, screenWidth, screenHeight);
+		//g.fillRect(0, 0, screenWidth, screenHeight);
 		MazeSection section = model.getCurrentSection();
 		g.setColor(Color.ORANGE);
 		for (int y = 0; y < section.getHeight(); y++) {
