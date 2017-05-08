@@ -4,7 +4,7 @@ public class MazePredator extends MazeEntity {
 
 	private static double defaultSpeed = 0.3;
 	
-	public MazePredator(double xPos, double yPos, double speed) {
+	public MazePredator(double xPos, double yPos) {
 		super(xPos, yPos, defaultSpeed);
 	}
 

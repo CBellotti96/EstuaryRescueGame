@@ -17,8 +17,6 @@ public class MazeModel {
 	private final double minSalinity = 4;  // specific estuary, these are tesing
 	private MazeWeather weather = MazeWeather.SUN;
 	private final MazeCrab player;
-	private static List obstacles = new ArrayList();
-	private static List predators = new ArrayList();
 	
 	private long timeRemaining;
 	private static final int NUM_SECTIONS = 3;
@@ -27,6 +25,7 @@ public class MazeModel {
 	private MazeSection sections[] = new MazeSection[NUM_SECTIONS];
 	private int currentSection = 0;
 	private MenuReturnItem exitButton;
+	private MazeDifficulty mazeDifficulty;
 	
 	public MazeModel() {
 		// create maze sections
@@ -40,14 +39,24 @@ public class MazeModel {
 			MazeSection section = MazeSection.generateMazeSection(
 					SECTION_HEIGHT, SECTION_WIDTH, 
 					i > 0 ? sections[i - 1].getExitSide() : null, 
-					directions.remove(rand.nextInt(directions.size())));
+					directions.remove(rand.nextInt(directions.size())), 
+					this.mazeDifficulty);
 			sections[i] = section;
 		}
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
-				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefualtHeight()) / 2);
+				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
 		
 		exitButton = new MenuReturnItem();
+		
+		if (this.mazeDifficulty == null){
+			this.mazeDifficulty = MazeDifficulty.NORMAL;
+		}
+	}
+	
+	public MazeModel(MazeDifficulty mazeDifficulty){
+		this();
+		this.mazeDifficulty = mazeDifficulty;
 	}
 	
 	public double getSalinity() {
@@ -87,6 +96,10 @@ public class MazeModel {
 		return sections[currentSection];
 	}
 	
+	public MazeDifficulty getDifficulty(){
+		return this.mazeDifficulty;
+	}
+	
 	public void tick () {
 		getCurrentSection().handleCollision(player);
 		
@@ -96,7 +109,7 @@ public class MazeModel {
 			if (currentSection < sections.length - 1) {
 				currentSection++;
 				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
-				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefualtHeight()) / 2);
+				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
 				System.out.println(currentSection);
 			} else {
 				// TODO victory screen

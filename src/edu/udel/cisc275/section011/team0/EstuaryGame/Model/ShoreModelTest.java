@@ -141,4 +141,38 @@ public void testSetTileWidth(){
     int value = 2;
 	assertEquals(value,result);
 }
+@Test
+public void testBuildDefense(){
+	ShoreModel test = new ShoreModel();
+	test.buildDefense(4, 4);
+	ShoreTileType result = test.getTiles().get(4).get(4).getTileType();
+    assertNotNull(result);
+}
+@Test
+public void testHandleOnTick(){
+	ShoreModel test = new ShoreModel();
+	int value = test.getBoats().size();
+	test.onTick();
+	int result = test.getBoats().size();
+	assertNotSame(value,result);
+}
+@Test
+public void testHandleOnTick2(){
+	ShoreModel test = new ShoreModel();
+	test.setShoreHealth(60);
+	test.onTick();
+	ShoreBoatType result = test.getBoats().get(0).getType();
+	ShoreBoatType value = test.getBoatJetSki();
+	assertEquals(value,result);
+}
+@Test
+public void testHandleOnTick3(){
+	ShoreModel test = new ShoreModel();
+	test.setShoreHealth(80);
+	test.onTick();
+	ShoreBoatType result = test.getBoats().get(0).getType();
+	ShoreBoatType value = test.getBoatCommercial();
+	assertEquals(value,result);
+}
+
 }
