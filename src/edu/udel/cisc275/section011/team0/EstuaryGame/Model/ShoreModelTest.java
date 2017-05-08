@@ -35,9 +35,12 @@ public void testSetWaves(){
 	assertEquals(value,result);
 }
 @Test
-public void testSetItems(){ //fails
+public void testSetItems(){ 
 	ShoreModel test = new ShoreModel();
-	ShoreItem subsample = new ShoreItem(null, null);
+	ShoreItem subsample = new ShoreItem
+			(new ShoreTile
+					(50, 50, 
+							new ShorePosition(350, 350)), test.getItemOyster());;
 	ArrayList<ShoreItem> sample =new ArrayList<ShoreItem>();
 	sample.add(subsample);
 	test.setItems(sample);
@@ -144,8 +147,8 @@ public void testSetTileWidth(){
 @Test
 public void testBuildDefense(){
 	ShoreModel test = new ShoreModel();
-	test.buildDefense(4, 4);
-	ShoreTileType result = test.getTiles().get(4).get(4).getTileType();
+	test.buildDefense(7, 7);
+	ShoreTileType result = test.getTiles().get(7).get(7).getTileType();
     assertNotNull(result);
 }
 @Test
@@ -174,5 +177,14 @@ public void testHandleOnTick3(){
 	ShoreBoatType value = test.getBoatCommercial();
 	assertEquals(value,result);
 }
-
+@Test
+public void testHandleOnClick(){
+	ShoreModel test = new ShoreModel();
+	ShoreItem instance = new ShoreItem
+			(new ShoreTile
+					(50, 50, 
+							new ShorePosition(350, 350)), test.getItemOyster());
+	test.onClick(instance);
+	assertNull(instance.getContainedWithin().getTileContents());
+}
 }
