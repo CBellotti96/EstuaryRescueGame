@@ -7,6 +7,7 @@ public class ShoreDefenseType {
 	private double placementZoneEndY;
 	private double shoreHealthEffect;
 	private int numItemsRequired;
+	private double durability;
 	
 	public void setPlacementZoneStartY(double placementZoneStartY) {
 		this.placementZoneStartY = placementZoneStartY;
@@ -15,8 +16,6 @@ public class ShoreDefenseType {
 	public void setPlacementZoneEndY(double placementZoneEndY) {
 		this.placementZoneEndY = placementZoneEndY;
 	}
-
-	private int durability;
 	
 	public String getName () {
 		return this.name;
@@ -38,11 +37,11 @@ public class ShoreDefenseType {
 		return this.numItemsRequired;
 	}
 	
-	public int getDurability(){
+	public double getDurability(){
 		return this.durability;
 	}
 	
-	public void setDurability(int durability){
+	public void setDurability(double durability){
 		this.durability = durability;
 	}
 	
@@ -53,7 +52,7 @@ public class ShoreDefenseType {
 			this.placementZoneStartY = 0;
 			this.shoreHealthEffect = -.1;
 			this.numItemsRequired = 3;
-			this.durability = 3;
+			this.durability = .7;
 		}
 		else if (name == "Gabion"){
 			this.placementZoneEndY = 0;
