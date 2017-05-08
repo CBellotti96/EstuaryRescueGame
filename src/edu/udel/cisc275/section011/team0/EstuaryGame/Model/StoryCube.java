@@ -1,5 +1,13 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+/**
+ * The StoryCube is the main interactive object in the game. The cube knows where it is
+ * in the StoryModel, where its target StoryCubePosition is, whether or not it is selected,
+ * and whether it is currently rolling.
+ * @see StoryCubePosition
+ * @author Ben Wiswell
+ */
+
 import java.awt.Rectangle;
 import java.util.Random;
 
@@ -39,6 +47,12 @@ public class StoryCube {
 		this.rolling = true;
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * StoryCube constructor that sets the center StoryCubePosition as the StoryCube's initial
+	 * position and assigns a random face to the cube.
+	 * @param id	The id assigned to the cube, running between 0 and the number of cubes, non-inclusive
+	 */
 	public StoryCube (int id) {
 		this.id = id;
 		setCubePos(StoryCubePosition.center);

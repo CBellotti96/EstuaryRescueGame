@@ -1,9 +1,18 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.View;
 
+/**
+ * A StoryView extends JPanel and displays the contents of the Story Cubes minigame
+ * @see StoryController
+ * @see StoryModel
+ * @author Ben Wiswell
+ */
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +28,9 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryCubePosition;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryModel;
 
 public class StoryView extends JPanel {
-	
+
+	private static final long serialVersionUID = -4744510256712300607L;
+
 	private StoryModel model;
 	
 	public final static int numImages = 15;
@@ -44,10 +55,18 @@ public class StoryView extends JPanel {
 	
 	private JTextPane title;
 	private JTextPane story;
+	private final String titleText = "Your title here!";
+	private final String storyText = "Your story here!";
 	
 	public double getScale () {return this.scale;}	
 	public int getXMargin () {return this.xMargin;}
 	
+	
+	/**
+	 * @author Ben Wiswell
+	 * StoryView constructor, loads in images of various story cube faces and the background
+	 * @param model		The StoryModel to be displayed
+	 */
 	public StoryView (StoryModel model) {
 		this.model = model;
 		try {
@@ -69,24 +88,52 @@ public class StoryView extends JPanel {
 		return "(" + height + ", " + width + "); (" + scale + " | " + xMargin + ")";
 	}
 	
-	public void initializeTextBoxes () {		
-		this.title = new JTextPane();
+	/**
+	 * @author Ben Wiswell
+	 * Initializes the text panes for the title and story. Sets the text to align to the center of the pane
+	 * and sets the text to reset when initially clicked.
+	 */
+	public void initializeTextBoxes () {	
 		SimpleAttributeSet attribs = new SimpleAttributeSet();
 		StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+		MouseAdapter titleAdapter = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String text = title.getText();
+				if (text.equalsIgnoreCase(titleText))
+					title.setText("");
+			}
+		};
+		MouseAdapter storyAdapter = new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String text = story.getText();
+				if (text.equalsIgnoreCase(storyText))
+					story.setText("");
+			}
+		};
+
+		this.title = new JTextPane();
+		title.addMouseListener(titleAdapter);
 		StyleConstants.setFontSize(attribs, 24);
 		title.setParagraphAttributes(attribs, true);
 		title.setBackground(backgroundColor);
-		title.setText("Your title here!");
+		title.setText(titleText);
 		this.add(title);
 		
 		this.story = new JTextPane();
+		story.addMouseListener(storyAdapter);
 		StyleConstants.setFontSize(attribs, 16);
 		story.setParagraphAttributes(attribs, true);
 		story.setBackground(backgroundColor);
-		story.setText("Your story here!");
+		story.setText(storyText);
 		this.add(story);
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Updates the height, width, scale, and margin of the StoryView according to the size of the JPanel
+	 */
 	public void updateParameters () {
 		this.height = getHeight();
 		this.width = getWidth();
@@ -98,16 +145,27 @@ public class StoryView extends JPanel {
 			this.story.setBounds(0, height - height / 8, width, height / 8);
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to update the height, width, scale, and margin of the StoryView as well as paint the background, 
+	 * text panes, final position outlines, and story cubes.
+	 * @param g		The relevant graphics object
+	 */
 	@Override
 	public void paint(Graphics g){
+		updateParameters();
 		super.paint(g);
 		g.drawImage(background, 0, 0, width, height, null);
 		super.paintComponents(g);
-		updateParameters();
 		renderFinalPositions(g);
 		renderCubes(g);
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to paint the outlines of the final story cube positions.
+	 * @param g		The relevant graphics object
+	 */
 	private void renderFinalPositions (Graphics g) {
 		g.setColor(Color.BLACK);
 		for (StoryCubePosition scp : StoryCubePosition.getEndPositions()) {
@@ -116,6 +174,11 @@ public class StoryView extends JPanel {
 		}
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to paint the outlines of the story cubes.
+	 * @param g		The relevant graphics object
+	 */
 	private void renderCubes (Graphics g) {
 		if (scale != 0) {
 			StoryCube selected = null;

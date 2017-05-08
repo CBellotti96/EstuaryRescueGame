@@ -1,5 +1,13 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Controller;
 
+/**
+ * A StoryController is the Controller of the Story Cubes minigame's MVC setup.
+ * @see Controller
+ * @see StoryModel
+ * @see StoryView
+ * @author Ben Wiswell
+ */
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,12 +24,20 @@ public class StoryController extends MouseAdapter implements Controller {
 	private StoryView view;
 	private StoryCube selectedCube;
 	
+	/**
+	 * @author Ben Wiswell
+	 * StoryController constructer that initializes the StoryModel and StoryView
+	 */
 	public StoryController () {
 		model = new StoryModel();
 		view = new StoryView(model);
 		view.addMouseListener(this);
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Tick method to repaint the StoryView and update the StoryModel
+	 */
 	@Override
 	public void tick() {
 		view.repaint();
@@ -37,6 +53,13 @@ public class StoryController extends MouseAdapter implements Controller {
 		return this.model;
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Reacts to a MouseEvent. Rolls the StoryModel if not already rolled,
+	 * checks to see if an object is being selected or if an object is being placed,
+	 * and executes the appropriate action.
+	 * @param arg0	The MouseEvent that triggered the mouseClicked method
+	 */
 	@Override
 	public void mouseClicked (MouseEvent arg0) {
 		if (!model.isRolled()) {
