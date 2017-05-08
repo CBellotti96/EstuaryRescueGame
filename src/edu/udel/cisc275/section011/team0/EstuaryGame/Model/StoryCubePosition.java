@@ -1,5 +1,13 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+/**
+ * The StoryCubePosition class encapsulates positions that the story cubes reside in.
+ * These positions are not initialized until the number of cubes is determined and
+ * passed in.
+ * @see StoryCube
+ * @author Ben Wiswell
+ */
+
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
@@ -27,11 +35,23 @@ public class StoryCubePosition {
 		return this.y;
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * StoryCubePosition constructor to initialize (x, y)-coordinates.
+	 * @param x		The x-coordinate of the StoryCubePosition
+	 * @param y		The y-coordinate of the StoryCubePosition
+	 */
 	private StoryCubePosition (int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to determine and initialize the StoryCubePositions based upon the number of desired
+	 * story cubes.
+	 * @param n		The number of story cubes in the model
+	 */
 	public static void initializePositions (int n) {
 		int startInterval = StoryModel.xCoordMax / (n / 2 + 1);
 		int startX = 0;
@@ -50,6 +70,16 @@ public class StoryCubePosition {
 		}
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to return the Rectangle occupied by the StoryCubePosition based upon the
+	 * StoryCubePosition's (x, y)-coordinates. The method is passed in the current
+	 * StoryView scale and margin, and the returned Rectangle is transformed into StoryView
+	 * coordinates.
+	 * @param scale			The StoryView scale-up between the StoryModel coordinate system and the StoryView coordinate system
+	 * @param xMargin		The margin along the x-axis in the StoryView
+	 * @return rectangle	The rectangle defining the StoryCubePosition, translated into StoryView coordinates
+	 */
 	public Rectangle getRect (double scale, int xMargin) {
 		int scaledX = (int) (x * scale);
 		int scaledY = (int) (y * scale);

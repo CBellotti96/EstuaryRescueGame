@@ -124,8 +124,8 @@ public class MazeSection {
 			}
 		}
 		
-		ArrayList<MazeObstacle> obstacles = genObstacles(MazeDifficulty.NORMAL, maze[0].length, maze.length);
-		ArrayList<MazePredator> predators = genPredators(MazeDifficulty.NORMAL, maze[0].length, maze.length);
+		ArrayList<MazeObstacle> obstacles = genObstacles(mazeDifficulty, maze[0].length, maze.length);
+		ArrayList<MazePredator> predators = genPredators(mazeDifficulty, maze[0].length, maze.length);
 		
 		MazeSection section = new MazeSection(maze, entranceSide, exitSide, 
 				startX, startY, obstacles, predators);

@@ -1,5 +1,12 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+/**
+ * A StoryModel simulates the game, which is then displayed by the StoryView.
+ * @see StoryController
+ * @see StoryView
+ * @author Ben Wiswell
+ */
+
 import java.util.ArrayList;
 
 public class StoryModel {
@@ -18,6 +25,10 @@ public class StoryModel {
 		return this.rolled;
 	}
 
+	/**
+	 * @author Ben Wiswell
+	 * StoryModel constructor, initializes the story cubes.
+	 */
 	public StoryModel () {
 		int n = 8;
 		StoryCubePosition.initializePositions(n);
@@ -27,6 +38,11 @@ public class StoryModel {
 		}
 	}
 
+	/**
+	 * @author Ben Wiswell
+	 * Method to update the StoryModel. Rolls story cubes if necessary, and moves
+	 * story cubes if they have been rolled.
+	 */
 	public void tick () {
 		for (StoryCube sc : cubes) {
 			if (sc.isRolling()) {
@@ -39,6 +55,10 @@ public class StoryModel {
 		}
 	}
 
+	/**
+	 * @author Ben Wiswell
+	 * Method to set the story cubes rolling and move them to their initial positions.
+	 */
 	public void roll () {
 		this.rolled = true;
 		for (StoryCube sc : cubes)
