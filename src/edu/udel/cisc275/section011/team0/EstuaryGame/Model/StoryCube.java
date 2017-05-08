@@ -62,6 +62,11 @@ public class StoryCube {
 		this.rollState = 0;
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to control the rolling of the cube to cycle once every ten ticks.
+	 * On the tenth tick, this method assigns a random cube face to the story cube.
+	 */
 	public void incrementRoll () {
 		this.rollState = rollState + 1;
 		if (rollState % 10 == 0) {
@@ -70,6 +75,15 @@ public class StoryCube {
 		}
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to return the Rectangle occupied by the StoryCube based upon the StoryCube's 
+	 * (x, y)-coordinates. The method is passed in the current StoryView scale and margin, 
+	 * and the returned Rectangle is transformed into StoryView coordinates.
+	 * @param scale			The StoryView scale-up between the StoryModel coordinate system and the StoryView coordinate system
+	 * @param xMargin		The margin along the x-axis in the StoryView
+	 * @return Rectangle	The rectangle defining the StoryCube, translated into StoryView coordinates
+	 */
 	public Rectangle getRect (double scale, int xMargin) {
 		int scaledSize = (int) (size * scale);
 		int scaledX = (int) (x * scale);
@@ -77,6 +91,12 @@ public class StoryCube {
 		return new Rectangle(scaledX - scaledSize / 2 + xMargin, scaledY - scaledSize / 2, scaledSize, scaledSize);
 	}
 	
+	/**
+	 * @author Ben Wiswell
+	 * Method to move the story cube if it is not currently selected. This method moves
+	 * towards the StoryCube's StoryCubePosition at a rate of speed/tick. When the StoryCube
+	 * is within close proximity to the StoryCubePosition, it snaps into place.
+	 */
 	public void move () {
 		if (!selected) {
 			int targetX = cubePos.getX();
