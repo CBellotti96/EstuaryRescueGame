@@ -101,6 +101,30 @@ public class ShoreModel {
 		items.add(startItem2);
 	}
 	
+	public ShoreBoatType getBoatSailboat() {
+		return boatSailboat;
+	}
+
+	public void setBoatSailboat(ShoreBoatType boatSailboat) {
+		this.boatSailboat = boatSailboat;
+	}
+
+	public ShoreBoatType getBoatJetSki() {
+		return boatJetSki;
+	}
+
+	public void setBoatJetSki(ShoreBoatType boatJetSki) {
+		this.boatJetSki = boatJetSki;
+	}
+
+	public ShoreBoatType getBoatCommercial() {
+		return boatCommercial;
+	}
+
+	public void setBoatCommercial(ShoreBoatType boatCommercial) {
+		this.boatCommercial = boatCommercial;
+	}
+
 	public boolean isBuildDefense() {
 		return buildDefense;
 	}
