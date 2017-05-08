@@ -23,7 +23,7 @@ public class MazeView extends JComponent {
 	
 	private MazeModel model;
 	
-	private BufferedImage salineGaugeBgImg;
+	private BufferedImage salinityGaugeBgImg;
 	
 	private BufferedImage sunWeatherIconImg;
 	private BufferedImage rainWeatherIconImg;
@@ -33,6 +33,7 @@ public class MazeView extends JComponent {
 	private Rectangle timerRect;
 	
 	private BufferedImage miniMapImg;
+	private final double MIMIMAP_ZOOM = 0.8;
 	
 	private BufferedImage crabImg;
 	private BufferedImage predatorImg[];
@@ -55,6 +56,8 @@ public class MazeView extends JComponent {
 		// TODO load images
 		miniMapImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
 		try {
+			salinityGaugeBgImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/salinity_gauge.png"));
+			
 			sunWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/sunnyWeather.png"));
 			rainWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/rainyWeather.png"));
 			defaultWeatherIconImg = ImageIO.read(new File("Final Images/Environment Misc/variableWeather.png"));
@@ -203,7 +206,7 @@ public class MazeView extends JComponent {
 		
 		// saline gauge dimensions and colors
 		final int SALINE_GAUGE_HEIGHT = SCREEN_HEIGHT / 4;
-		final int SALINE_GAUGE_WIDTH = SALINE_GAUGE_HEIGHT / 3;
+		final int SALINE_GAUGE_WIDTH = SALINE_GAUGE_HEIGHT / 2;
 		final int SALINE_GAUGE_MARGIN = SALINE_GAUGE_WIDTH / 4;
 		final Color SALINE_GAUGE_COLOR = Color.GRAY;
 		
@@ -212,7 +215,7 @@ public class MazeView extends JComponent {
 				/ (model.getMaxSalinity() - model.getMinSalinity());
 		final int SALINE_LEVEL_MARGIN = SALINE_GAUGE_WIDTH / 4;
 		final int SALINE_LEVEL_WIDTH = SALINE_GAUGE_WIDTH / 2;
-		final int SALINE_LEVEL_HEIGHT = (int) (salinePercent /*(1 - salinePercent) // FOR BLUE CRAB MODE*/ 
+		final int SALINE_LEVEL_HEIGHT = (int) ((1 - salinePercent) /*saline // FOR BLUE CRAB MODE*/ 
 				* (SALINE_GAUGE_HEIGHT - SALINE_LEVEL_MARGIN * 2));
 		final Color SALINE_LEVEL_COLOR = redYellowGreenGradient(salinePercent);
 		
@@ -234,7 +237,7 @@ public class MazeView extends JComponent {
 		// draw mini-map
 		Graphics2D miniMapImgGraphics = miniMapImg.createGraphics();
 		renderMazeAndEntities(miniMapImgGraphics, 
-				miniMapImg.getWidth(), miniMapImg.getHeight(), 0.5);
+				miniMapImg.getWidth(), miniMapImg.getHeight(), MIMIMAP_ZOOM);
 		((Graphics2D) g).setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                 RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		g.drawImage(miniMapImg, SCREEN_WIDTH - (MINI_MAP_WIDTH + MINI_MAP_MARGIN), 
@@ -247,14 +250,7 @@ public class MazeView extends JComponent {
 				MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
 		
 		
-		// draw saline gauge
-		g.setColor(SALINE_GAUGE_COLOR);
-		g.drawRect(SCREEN_WIDTH - (SALINE_GAUGE_WIDTH + SALINE_GAUGE_MARGIN), 
-				SALINE_GAUGE_MARGIN, SALINE_GAUGE_WIDTH, SALINE_GAUGE_HEIGHT);
-		g.fillRect(SCREEN_WIDTH - (SALINE_GAUGE_WIDTH + SALINE_GAUGE_MARGIN), 
-				SALINE_GAUGE_MARGIN, SALINE_GAUGE_WIDTH, SALINE_GAUGE_HEIGHT);
-		
-		// draw saline level on gauge
+		// draw saline level beneath gauge
 		g.setColor(SALINE_LEVEL_COLOR);
 		g.drawRect(SCREEN_WIDTH - (SALINE_GAUGE_WIDTH + SALINE_GAUGE_MARGIN) + SALINE_LEVEL_MARGIN, 
 				(SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN) - SALINE_LEVEL_MARGIN - SALINE_LEVEL_HEIGHT, 
@@ -262,6 +258,10 @@ public class MazeView extends JComponent {
 		g.fillRect(SCREEN_WIDTH - (SALINE_GAUGE_WIDTH + SALINE_GAUGE_MARGIN) + SALINE_LEVEL_MARGIN, 
 				(SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN) - SALINE_LEVEL_MARGIN - SALINE_LEVEL_HEIGHT, 
 				SALINE_LEVEL_WIDTH, SALINE_LEVEL_HEIGHT);
+		
+		// draw saline gauge
+		g.drawImage(salinityGaugeBgImg, SCREEN_WIDTH - (SALINE_GAUGE_WIDTH + SALINE_GAUGE_MARGIN), 
+				SALINE_GAUGE_MARGIN, SALINE_GAUGE_WIDTH, SALINE_GAUGE_HEIGHT, null);
 		
 		// draw weather icon
 		g.drawImage(WEATHER_ICON, SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
