@@ -26,21 +26,19 @@ public class MazeModel {
 	private int currentSection = 0;
 	private MenuReturnItem exitButton;
 	private MazeDifficulty mazeDifficulty;
+	private List<Direction> directions = new ArrayList<>();
 	
 	public MazeModel() {
+		this.mazeDifficulty = MazeDifficulty.NORMAL;
+		
 		// create maze sections
-		List<Direction> directions = new ArrayList<>();
 		directions.add(Direction.NORTH);
 		directions.add(Direction.EAST);
 		directions.add(Direction.SOUTH);
 		directions.add(Direction.WEST);
 		Random rand = new Random();
 		for (int i = 0;  i < sections.length; i++) {
-			MazeSection section = MazeSection.generateMazeSection(
-					SECTION_HEIGHT, SECTION_WIDTH, 
-					i > 0 ? sections[i - 1].getExitSide() : null, 
-					directions.remove(rand.nextInt(directions.size())), 
-					this.mazeDifficulty);
+			MazeSection section = this.generateSection(i);
 			sections[i] = section;
 		}
 		
@@ -49,9 +47,6 @@ public class MazeModel {
 		
 		exitButton = new MenuReturnItem();
 		
-		if (this.mazeDifficulty == null){
-			this.mazeDifficulty = MazeDifficulty.NORMAL;
-		}
 	}
 	
 	public MazeModel(MazeDifficulty mazeDifficulty){
@@ -94,6 +89,16 @@ public class MazeModel {
 	}
 	public void setTimeRemaining(long timeRemaining) {
 		this.timeRemaining = timeRemaining;
+	}
+	
+	private MazeSection generateSection(int i){
+		Random rand = new Random();
+		MazeSection section = MazeSection.generateMazeSection(
+				SECTION_HEIGHT, SECTION_WIDTH, 
+				i > 0 ? sections[i - 1].getExitSide() : null, 
+				directions.remove(rand.nextInt(directions.size())), 
+				this.mazeDifficulty);
+		return section;
 	}
 	
 	public MazeSection getCurrentSection () {
