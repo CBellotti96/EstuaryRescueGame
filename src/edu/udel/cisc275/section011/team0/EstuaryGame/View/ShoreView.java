@@ -105,7 +105,6 @@ public class ShoreView extends JComponent {
 	public void renderShore(Graphics g, int screen_width, int screen_height){
 		int TILE_WIDTH = (int) (screen_width/model.getTilesInRow());
 		int TILE_HEIGHT = (int) (screen_height/model.getTilesInColumn());
-		BufferedImage img = null;
 		model.setTileHeight(TILE_HEIGHT);
 		model.setTileWidth(TILE_WIDTH);
 		for (int i = 0, x = 0; i < model.getTilesInRow(); i++, x+= TILE_WIDTH){
@@ -184,7 +183,8 @@ public class ShoreView extends JComponent {
 		final BufferedImage COMMERCIAL_IMAGE = commercialBoatImg;
 		final int BOAT_HEIGHT = TILE_HEIGHT;
 		final int BOAT_WIDTH = TILE_WIDTH*2;
-		final Color BOAT_COLOR = Color.BLACK;
+		//exit
+		final String EXIT_STRING = "EXIT";
 		
 		//draw tiles
 		renderShore(g,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -266,6 +266,9 @@ public class ShoreView extends JComponent {
 		g.drawString(s1, (int)(model.getTileWidth() - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
 		g.drawString(s2, (int)(model.getTileWidth()*3 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
 		g.drawString(s3, (int)(model.getTileWidth()*5 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
+	
+		//draw exit
+		g.drawString(EXIT_STRING, (int) (model.getTiles().get(model.getTilesInRow()-1).get(0).getTileOrigin().getShoreX() - (TILE_WIDTH/4)) , (int)((TILE_WIDTH * 6) /10));
 	}
 	@Override
 	public void paintComponent(Graphics g){

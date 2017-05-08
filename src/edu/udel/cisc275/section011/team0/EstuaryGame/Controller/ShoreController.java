@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreItem;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreModel;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTile;
@@ -35,6 +36,12 @@ public class ShoreController extends MouseAdapter implements Controller {
 	
 	@Override
 	public void mouseClicked(MouseEvent e){
+		int EXIT_X = (int) (model.getTiles().get(model.getTilesInRow()-2).get(0).getTileOrigin().getShoreX());
+		if(e.getX() > EXIT_X && e.getX() < EXIT_X + model.getTileWidth()*2
+		&& e.getY() > 0 && e.getY() < model.getTileHeight()){
+			Main.getInstance().setController(new MenuController());
+			return;
+		}
 		for(ShoreItem item: model.getItems()){
 				int BOX_X = (int) item.getContainedWithin().getTileOrigin().getShoreX();
 				int BOX_Y = (int) item.getContainedWithin().getTileOrigin().getShoreY();
@@ -46,9 +53,9 @@ public class ShoreController extends MouseAdapter implements Controller {
 					//Object o = model.getTiles().get(i).get(j).getTileContents();
 					//model.onClick((ShoreItem)o);
 			}
-		
-		model.onClick(clicked);
-		
+		if(clicked != null){
+			model.onClick(clicked);
+		}
 		if(model.isBuildDefense()){
 			for(int i = 0; i < model.getTilesInRow(); i++){
 				for(int j = model.getTilesInColumn()/2 ; j < model.getTilesInColumn(); j++){
@@ -62,6 +69,7 @@ public class ShoreController extends MouseAdapter implements Controller {
 				}
 			}
 		}
+		clicked = null;
 		}
 
 	@Override
