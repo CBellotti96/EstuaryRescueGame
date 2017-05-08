@@ -3,7 +3,7 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 public class ShoreDefense extends ShoreDefenseType{
 	
 	private ShoreTile containedWithin;
-	private int defenseDurability;
+	private double defenseDurability;
 	private final ShoreDefenseType type;
 	
 	public ShoreTile getContainedWithin () {
@@ -14,12 +14,12 @@ public class ShoreDefense extends ShoreDefenseType{
 		return this.type;
 	}
 	
-	public int getDefenseDurability() {
+	public double getDefenseDurability() {
 		return this.defenseDurability;
 	}
 	
-	public void setDefenseDurability(int defenseDurability) {
-		this.defenseDurability = defenseDurability;
+	public void setDefenseDurability(double d) {
+		this.defenseDurability = d;
 	}
 	
 	public void setContainedWithin (ShoreTile containedWithin) {

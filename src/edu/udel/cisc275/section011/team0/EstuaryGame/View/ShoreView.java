@@ -204,44 +204,60 @@ public class ShoreView extends JComponent {
 		//g.fillRect(200, 200, ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT);
 		//paintComponent(g);
 		//draw items
-		
 		for (ShoreItem it: model.getItems()){
-			if (it.getType() == model.getItemRock()){
+			if (it.getType() == model.itemRock){
 				g.drawImage(ROCK_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
 						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT,null);
 			}
-			else if (it.getType() == model.getItemOyster()){
+			else if (it.getType() == model.itemOyster){
 				g.drawImage(OYSTER_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
 						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  OYSTER_ITEM_WIDTH,  OYSTER_ITEM_HEIGHT,null);
 			}
-			else if (it.getType() == model.getItemSeed()){
+			else if (it.getType() == model.itemSeed){
 				g.drawImage(SEED_ITEM_IMAGE,(int) (it.getContainedWithin().getTileOrigin().getShoreX()+(model.getTileWidth()/4)),(int) 
 						(it.getContainedWithin().getTileOrigin().getShoreY()+(model.getTileHeight()/4)),  SEED_ITEM_WIDTH,  SEED_ITEM_HEIGHT,null);
 			}
 		}//draw defenses
 		for (ShoreDefense def: model.getDefenses()){
-			if (def.getType() == model.getDefenseWall()){
+			if (def.getType() == model.defenseWall){
 				g.drawImage(WALL_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
 						, WALL_DEF_WIDTH, WALL_DEF_HEIGHT,null);
 			}
-			else if (def.getType() == model.getDefenseGabion()){
+			else if (def.getType() == model.defenseGabion){
 				g.drawImage(GABION_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
 						, GABION_DEF_WIDTH, GABION_DEF_HEIGHT,null);
 			}
-			else if (def.getType() == model.getDefensePlant()){
+			else if (def.getType() == model.defensePlant){
 				g.drawImage(PLANT_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
 						, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT,null);
 			}
 		}//draw boats
 		for (ShoreBoat b: model.getBoats()){
-			g.drawImage(SAILBOAT_IMAGE,(int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
+			if (b.getType() == model.boatSailboat){
+				g.drawImage(SAILBOAT_IMAGE,(int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
 					, BOAT_WIDTH, BOAT_HEIGHT,null);
+			}
+			else if (b.getType() == model.boatJetSki){
+				g.drawImage(JETSKI_IMAGE,(int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
+					, BOAT_WIDTH, BOAT_HEIGHT,null);
+			}
+			else if (b.getType() == model.boatCommercial){
+				g.drawImage(COMMERCIAL_IMAGE,(int)(b.getContainedWithin().getTileOrigin().getShoreX() + b.getXDisplacement()),(int)(b.getContainedWithin().getTileOrigin().getShoreY())
+					, BOAT_WIDTH, BOAT_HEIGHT,null);
+			}
 		}
 		//draw waves
 		for (ShoreWave w: model.getWaves()){
 			g.drawImage(WAVE_IMAGE,(int) (w.getContainedWithin().getTileOrigin().getShoreX()),(int) (w.getContainedWithin().getTileOrigin().getShoreY() + w.getYDisplacement())
 					, WAVE_WIDTH, WAVE_HEIGHT,null);
 		}
+		//draw inventory ints
+		String s1 = ROCK_ITEM_AMOUNT.toString();
+		String s2 = OYSTER_ITEM_AMOUNT.toString();
+		String s3 = SEED_ITEM_AMOUNT.toString();
+		g.drawString(s1, (int)(model.getTileWidth() - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
+		g.drawString(s2, (int)(model.getTileWidth()*3 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
+		g.drawString(s3, (int)(model.getTileWidth()*5 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
 	}
 	@Override
 	public void paintComponent(Graphics g){

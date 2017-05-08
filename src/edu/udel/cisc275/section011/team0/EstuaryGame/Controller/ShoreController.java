@@ -41,14 +41,13 @@ public class ShoreController extends MouseAdapter implements Controller {
 				if(e.getX() > BOX_X && e.getX() < BOX_X + model.getTileWidth()
 				&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileHeight()){
 					clicked = item;
-					model.onClick(clicked);
 				}
 				//&& model.getTiles().get(i).get(j).getTileContents() instanceof ShoreItem);
 					//Object o = model.getTiles().get(i).get(j).getTileContents();
 					//model.onClick((ShoreItem)o);
 			}
 		
-		//model.onClick(clicked);
+		model.onClick(clicked);
 		
 		if(model.isBuildDefense()){
 			for(int i = 0; i < model.getTilesInRow(); i++){

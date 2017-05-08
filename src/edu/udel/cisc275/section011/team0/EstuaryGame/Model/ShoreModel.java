@@ -14,9 +14,11 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 public class ShoreModel {
 	
 	private ShorePosition cursorPos;
-	private ShoreDefenseType defenseWall,defenseGabion,defensePlant;
-	private ShoreItemType itemRock,itemOyster,itemSeed;
-	private ShoreBoatType boatSailboat,boatJetSki,boatCommercial;
+	public ShoreDefenseType defenseWall;
+	public ShoreDefenseType defenseGabion;
+	public ShoreDefenseType defensePlant;
+	public ShoreItemType itemRock,itemOyster,itemSeed;
+	public ShoreBoatType boatSailboat,boatJetSki,boatCommercial;
 	private ShoreDefenseType savedDefenseType;
 	private double itemSpawnStartY;
 	private double itemSpawnEndY;
@@ -53,9 +55,9 @@ public class ShoreModel {
 		defensePlacementArea(defenseGabion);
 		defensePlant = new ShoreDefenseType("Plant");
 		defensePlacementArea(defensePlant);
-		boatSailboat = new ShoreBoatType("Sailboat", 1, 2, 1);
-		boatJetSki = new ShoreBoatType("Jet Ski", 3, 1, 2);
-		boatCommercial = new ShoreBoatType("Commercial", 1, 3, 3);
+		boatSailboat = new ShoreBoatType("Sailboat", 1, .2);
+		boatJetSki = new ShoreBoatType("Jet Ski", 3, .1);
+		boatCommercial = new ShoreBoatType("Commercial", 1, .3);
 		itemRock = new ShoreItemType("Rock");
 		itemRock.setBuildsDefense(defenseWall);
 		itemOyster = new ShoreItemType("Oyster");
@@ -238,11 +240,20 @@ public class ShoreModel {
 			}
 		//for (int j = 0; j < tilesInColumn; j++){
 			//if(!tiles.get(i).get(j).isVacant() && tiles.get(i).get(j).getTileContents() != null){
-		if(items.size() == 5){
-			Random randItem = new Random();
+		Random randItem = new Random();	
+		ShoreItemType newItemType = null;
+		if(tickCount % 100 == 0 && items.size() <= 8){
 			int randItemX = randItem.nextInt(tilesInRow-1);
 			int randItemY = randItem.nextInt((int)(tilesInColumn/6));
-			ShoreItem newItem = new ShoreItem(tiles.get(randItemX).get((tilesInColumn-1) - randItemY), itemSeed);
+			switch(randItem.nextInt(3)){
+				case 0:  newItemType = itemRock;
+					break;
+				case 1:  newItemType = itemOyster;
+					break;
+				case 2:	 newItemType = itemSeed;
+					break;
+			}
+			ShoreItem newItem = new ShoreItem(tiles.get(randItemX).get((tilesInColumn-1) - randItemY), newItemType);
 			items.add(newItem);
 		}
 		if(boats.size() == 0){
@@ -301,8 +312,9 @@ public class ShoreModel {
 			.get((int) (click.getContainedWithin().getTileOrigin().getShoreY()/tileHeight)).setTileContents(null);
 			tiles.get((int) (click.getContainedWithin().getTileOrigin().getShoreX()/tileWidth))
 			.get((int) (click.getContainedWithin().getTileOrigin().getShoreY()/tileHeight)).setVacant(true);
-			items.remove(click);
-			click = null;	
+			items.remove(click);	
+			inventory.put(click.getType(), inventory.get(click.getType())+1);
+			click = null;
 		}
 		else if(click.getContainedWithin().getTileOrigin().getShoreY() == 0){ //toolbar click
 			if(click.getType() == itemRock){
@@ -320,13 +332,26 @@ public class ShoreModel {
 	}
 	
 	public void buildDefense(int tileRow, int tileCol){
-		Object o = tiles.get(tileRow).get(tileCol).getTileContents();
-		o = null;
-		ShoreDefense d = new ShoreDefense(tiles.get(tileRow).get(tileCol), savedDefenseType);
-		tiles.get(tileRow).get(tileCol).setTileContents(d);
-		defenses.add(d);
-		setBuildDefense(false);
-		savedDefenseType = null;
+		ShoreItemType itemType;
+		if (savedDefenseType == defenseWall){
+			itemType = itemRock;
+		}
+		else if (savedDefenseType == defenseGabion){
+			itemType = itemOyster;
+		}
+		else {
+			itemType = itemSeed;
+		}
+		if (inventory.get(itemType) >= savedDefenseType.getNumItemsRequired()){
+			Object o = tiles.get(tileRow).get(tileCol).getTileContents();
+			o = null;
+			ShoreDefense d = new ShoreDefense(tiles.get(tileRow).get(tileCol), savedDefenseType);
+			tiles.get(tileRow).get(tileCol).setTileContents(d);
+			defenses.add(d);
+			setBuildDefense(false);
+			inventory.put(itemType, inventory.get(itemType)-savedDefenseType.getNumItemsRequired());
+			savedDefenseType = null;
+		}
 	}
 	public void defensePlacementArea(ShoreDefenseType d){
 		if(d.getName() == "Gabion") { //gabions go in two tiles nearest to ocean
@@ -376,13 +401,10 @@ public class ShoreModel {
 		}*/
 	}
 	public void handleSailboat(ShoreBoat b, Iterator boatIter){
-		int waveStrength = 2;
-		if(b.getWaveTile() == -1){
-			genWaveTile(b);
-		}
+		double wakeStrength = .1;
 		b.setXDisplacement((int)(b.getXDisplacement()+(b.getType().getSpeed()*(tileWidth/30))));
 		if(b.getXDisplacement() >= tileWidth){
-		int i = (int)((b.getContainedWithin().getTileOrigin().getShoreX()+tileWidth)/tileWidth);
+			int i = (int)((b.getContainedWithin().getTileOrigin().getShoreX()+tileWidth)/tileWidth);
 			b.setXDisplacement(0);
 			b.setContainedWithin(tiles.get(i).get(1));
 			tiles.get(i).get(1).setTileContents(b);
@@ -390,12 +412,10 @@ public class ShoreModel {
 			if(i>0){
 				tiles.get(i-1).get(1).setTileContents(null);
 				tiles.get(i-1).get(1).setVacant(true);
-			}
-			if(i == b.getWaveTile()){
-				ShoreWave wave = new ShoreWave(tiles.get(i).get(2),0,waveStrength);
+				ShoreWave wave = new ShoreWave(tiles.get(i-1).get(2),0,wakeStrength);
 				waves.add(wave);
 				tiles.get(i).get(2).setTileContents(wave);
-				tiles.get(i).get(2).setVacant(false);	
+				tiles.get(i).get(2).setVacant(false);
 			}
 			if(i >= tilesInRow-1){
 				boatIter.remove();
@@ -452,11 +472,6 @@ public class ShoreModel {
 	 * @see ShoreBoat
 	 * @see ShoreTile
 	 */
-	public void genWaveTile(ShoreBoat b){
-		Random rand = new Random();
-		int randTile = rand.nextInt(tilesInRow - 1);
-		b.setWaveTile(randTile);
-	}
 	public void handleWaveMovement(ShoreWave w, Iterator waveIter){
 		w.setYDisplacement((int) (w.getYDisplacement()+(tileWidth/30)));
 		int i = (int)(w.getContainedWithin().getTileOrigin().getShoreX()/tileWidth);
@@ -481,11 +496,12 @@ public class ShoreModel {
 		int j = (int)((w.getContainedWithin().getTileOrigin().getShoreY())/tileHeight);
 		if(tiles.get(i).get(j+1).getTileContents() instanceof ShoreDefense){
 			Object o = tiles.get(i).get(j+1).getTileContents();
-			int d = ((ShoreDefense)o).getDefenseDurability();
+			double d = ((ShoreDefense)o).getDefenseDurability();
 			if(d - w.getWaveStrength() > 0){
 				((ShoreDefense)o).setDefenseDurability(d - w.getWaveStrength());
 			}
 			else{
+				o = null;
 				tiles.get(i).get(j+1).setTileContents(null);
 				tiles.get(i).get(j+1).setVacant(true);
 			}
@@ -495,11 +511,11 @@ public class ShoreModel {
 			tiles.get(i).get(j+1).setVacant(true);
 			if(tiles.get(i).get(j+1).getTileType() == ShoreTileType.BEACH){
 				shoreHealth -= w.getWaveStrength();
-				tiles.get(i).get(j+1).setTileType(ShoreTileType.DAMAGED);
+				//tiles.get(i).get(j+1).setTileType(ShoreTileType.DAMAGED);
 			}
-			else if(tiles.get(i).get(j+1).getTileType() == ShoreTileType.DAMAGED){
-				shoreHealth -= (w.getWaveStrength() + 5);
-			}
+			//else if(tiles.get(i).get(j+1).getTileType() == ShoreTileType.DAMAGED){
+				//shoreHealth -= (w.getWaveStrength() + 5);
+			//}
 		}
 		waveIter.remove();
 		w = null;

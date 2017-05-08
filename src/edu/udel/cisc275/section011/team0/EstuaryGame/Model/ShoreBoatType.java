@@ -5,7 +5,6 @@ public class ShoreBoatType{
 	private final String name;
 	private final double speed;
 	private final double shoreHealthEffect;
-	private final int numWaves;
 	
 	
 	public double getSpeed () {
@@ -16,19 +15,14 @@ public class ShoreBoatType{
 		return this.shoreHealthEffect;
 	}
 	
-	public double getNumWaves(){
-		return this.numWaves;
-	}
-	
 	public String getName(){
 		return this.name;
 	}
 	
-	public ShoreBoatType (String name, double speed, double shoreHealthEffect, int numWaves) {
+	public ShoreBoatType (String name, double speed, double shoreHealthEffect) {
 		this.name = name;
 		this.speed = speed;
 		this.shoreHealthEffect = shoreHealthEffect;
-		this.numWaves = numWaves;
 	}
 	
 }

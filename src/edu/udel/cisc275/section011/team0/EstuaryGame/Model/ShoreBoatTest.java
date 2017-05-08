@@ -86,7 +86,7 @@ public void testSetContainedWithin2(){//fails
 }
 @Test
 public void testgetType(){
-	ShoreBoatType testsample = new ShoreBoatType("Sail Boat", 0, 0, 0);
+	ShoreBoatType testsample = new ShoreBoatType("Sail Boat", 0, 0);
 	ShoreBoat test = new ShoreBoat 
 			(null,0,testsample);
 	ShoreBoatType result =test.getType();
@@ -95,7 +95,7 @@ public void testgetType(){
 }
 @Test
 public void testgetType2(){//fails
-	ShoreBoatType testsample = new ShoreBoatType("Sail Boat", 0, 0, 0);
+	ShoreBoatType testsample = new ShoreBoatType("Sail Boat", 0, 0);
 	ShoreBoat test = new ShoreBoat 
 			(null,0,testsample);
 	ShoreBoatType result =test.getType();

@@ -10,7 +10,7 @@ public class ShoreWave {
 	
 	private ShoreTile containedWithin;
 	private int yDisplacement;
-	private final int waveStrength;
+	private final double waveStrength;
 
 	/**
 	 * @author Chris Bellotti and Alvin Tang
@@ -19,7 +19,7 @@ public class ShoreWave {
 	 * @param yDisplacement		distance from shore
 	 * @param waveStrength		damage the wave will do if it makes contact with the shore
 	 */
-	public ShoreWave(ShoreTile containedWithin,int yDisplacement, int waveStrength){
+	public ShoreWave(ShoreTile containedWithin,int yDisplacement, double waveStrength){
 		this.containedWithin = containedWithin;
 		this.yDisplacement = yDisplacement;
 		this.waveStrength = waveStrength;
@@ -41,7 +41,7 @@ public class ShoreWave {
 		this.yDisplacement = yDisplacement;
 	}
 
-	public int getWaveStrength() {
+	public double getWaveStrength() {
 		return waveStrength;
 	}
 	
