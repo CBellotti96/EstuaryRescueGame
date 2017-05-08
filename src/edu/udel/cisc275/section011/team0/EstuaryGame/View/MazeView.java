@@ -33,6 +33,9 @@ public class MazeView extends JComponent {
 	private Rectangle timerRect;
 	
 	private BufferedImage miniMapImg;
+	private BufferedImage miniMapBorder;
+	private final int MINIMAP_BORDER_CENTER_WIDTH = 227;
+	private final int MINIMAP_BORDER_FULL_WIDTH = 256;
 	private final double MIMIMAP_ZOOM = 0.8;
 	
 	private BufferedImage crabImg;
@@ -119,6 +122,7 @@ public class MazeView extends JComponent {
 	        		   = ImageIO.read(new File("Final Images/Objects/sandbar_west.png"));
 			sandbarImg[0] = ImageIO.read(new File("Final Images/Objects/sandbar_none.png"));
 			
+			miniMapBorder = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/minimap_border.png"));
 		} catch(IOException e) {			
 			e.printStackTrace();
 		}
@@ -231,10 +235,19 @@ public class MazeView extends JComponent {
 		final int MINI_MAP_HEIGHT = MINI_MAP_WIDTH;
 		final Color MINI_MAP_BORDER_COLOR = Color.GRAY;
 		
+		final int MINIMAP_X = SCREEN_WIDTH - (MINI_MAP_WIDTH + MINI_MAP_MARGIN);
+		final int MINIMAP_Y = SCREEN_HEIGHT - (MINI_MAP_HEIGHT + MINI_MAP_MARGIN);
+		int MINIMAP_BORDER_WIDTH = MINI_MAP_WIDTH * MINIMAP_BORDER_FULL_WIDTH 
+				/ MINIMAP_BORDER_CENTER_WIDTH;
+		int MINIMAP_BORDER_HEIGHT = MINIMAP_BORDER_WIDTH;
+		int MINIMAP_BORDER_X = MINIMAP_X - (MINIMAP_BORDER_WIDTH - MINI_MAP_WIDTH) /2;
+		int MINIMAP_BORDER_Y = MINIMAP_Y - (MINIMAP_BORDER_HEIGHT - MINI_MAP_HEIGHT) /2;
+		
 		// draw game
 		renderMazeAndEntities(g, SCREEN_WIDTH, SCREEN_HEIGHT, 2.0);
 		
 		// draw mini-map
+		
 		Graphics2D miniMapImgGraphics = miniMapImg.createGraphics();
 		renderMazeAndEntities(miniMapImgGraphics, 
 				miniMapImg.getWidth(), miniMapImg.getHeight(), MIMIMAP_ZOOM);
@@ -245,9 +258,10 @@ public class MazeView extends JComponent {
 				MINI_MAP_WIDTH, MINI_MAP_HEIGHT, null);
 		miniMapImgGraphics.dispose();
 		g.setColor(MINI_MAP_BORDER_COLOR);
-		g.drawRect(SCREEN_WIDTH - (MINI_MAP_WIDTH + MINI_MAP_MARGIN), 
-				SCREEN_HEIGHT - (MINI_MAP_HEIGHT + MINI_MAP_MARGIN), 
-				MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+		g.drawRect(MINIMAP_X ,MINIMAP_Y, MINI_MAP_WIDTH, MINI_MAP_HEIGHT);
+		
+		g.drawImage(miniMapBorder, MINIMAP_BORDER_X, MINIMAP_BORDER_Y,
+				MINIMAP_BORDER_WIDTH, MINIMAP_BORDER_HEIGHT, null);
 		
 		
 		// draw saline level beneath gauge
