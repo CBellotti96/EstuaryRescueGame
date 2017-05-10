@@ -23,10 +23,10 @@ public class MazeObstacle extends MazeEntity {
 	@Override
 	public void interfereCrab(MazeCrab crab){
 		if (this.type == MazeObstacleType.TRASH){
-			crab.changeSpeed(MazeObstacleType.TRASH.getInterferenceFactor());
+			crab.setSpeed(MazeObstacleType.TRASH.getInterferenceFactor());
 		}
-		else if (this.type == MazeObstacleType.SEAWEED){
-			crab.changeSpeed(MazeObstacleType.SEAWEED.getInterferenceFactor());
+		if (this.type == MazeObstacleType.SEAWEED){
+			crab.setSpeed(MazeObstacleType.SEAWEED.getInterferenceFactor());
 		}
 	}
 	

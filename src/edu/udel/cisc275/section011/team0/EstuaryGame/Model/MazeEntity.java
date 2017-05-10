@@ -1,5 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.awt.Rectangle;
+
 public abstract class MazeEntity {
 
 	private double xPos;
@@ -33,6 +35,7 @@ public abstract class MazeEntity {
 	
 	public void setSpeed(double speed){
 		this.speed = speed;
+		System.out.println("Setting speed - entity: "+speed);
 	}
 	
 	public void interfereCrab(MazeCrab crab){

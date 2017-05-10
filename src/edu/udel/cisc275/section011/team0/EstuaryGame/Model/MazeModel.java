@@ -29,7 +29,7 @@ public class MazeModel {
 	private List<Direction> directions = new ArrayList<>();
 	
 	public MazeModel() {
-		this.mazeDifficulty = MazeDifficulty.HARD;
+		this.mazeDifficulty = MazeDifficulty.NORMAL;
 		
 		// create maze sections
 		directions.add(Direction.NORTH);
@@ -115,12 +115,22 @@ public class MazeModel {
 		
 		for (MazePredator predator : getCurrentSection().getPredators()) {
 			predator.move();
-			player.handleCollision(predator);
+			if (true == player.detectCollision(predator)){
+				player.handleCollision(predator);
+			}
 		}
 		
 		for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
-			player.handleCollision(obstacle);
+			if (true == player.detectCollision(obstacle)){
+				player.handleCollision(obstacle);
+			}
 		}
+		
+		if (false == player.getIsColliding()){
+			player.resetSpeed();
+		}
+	
+		player.setIsColliding(false);
 		
 		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
 		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);

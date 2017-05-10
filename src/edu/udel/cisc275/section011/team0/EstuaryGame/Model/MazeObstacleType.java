@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public enum MazeObstacleType {
-	TRASH(0.07, 0.6, "trash"),
-	SEAWEED(0.0, 0.3, "seaweed");
+	TRASH(0.07, 0.009, "trash"),
+	SEAWEED(0.0, 0.013, "seaweed");
 
 	private final double defaultSpeed;
 	private final double interferenceFactor;

@@ -1,5 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+import java.awt.Rectangle;
+
 public class MazeCrab extends MazeEntity {
 	
 	private final static double defaultSpeed = 0.04;
@@ -7,7 +9,7 @@ public class MazeCrab extends MazeEntity {
 	private double yCheckpointPos;
 	private final static double defaultWidth = 0.5; // relative to maze tile size
 	private final static double defaultHeight = defaultWidth;
-	
+	private boolean isColliding = false;
 	
 	public MazeCrab (double xPos, double yPos){
 		super(xPos, yPos, defaultSpeed);
@@ -18,12 +20,6 @@ public class MazeCrab extends MazeEntity {
 	public void move(Direction direction){
 		this.setXPos(this.getXPos() + direction.getXDir() * this.getSpeed());
 		this.setYPos(this.getYPos() + direction.getYDir() * this.getSpeed());
-	}
-	
-	public void changeSpeed(double proportion){
-		//for walking through seaweed, powerup
-		//proportion > 1 increases; <1 decreases 
-		this.setSpeed(this.getSpeed()*proportion); 
 	}
 	
 	public void resetSpeed(){
@@ -41,14 +37,17 @@ public class MazeCrab extends MazeEntity {
 		this.setYPos(this.yCheckpointPos);
 	}
 	
+	
+	public boolean detectCollision(MazeEntity entity){
+		if ((Math.abs((this.getXPos() - entity.getXPos())) < 0.5) && 
+				(Math.abs((this.getYPos() - entity.getYPos())) < 0.5)){
+			this.setIsColliding(true);
+		}		
+		return this.getIsColliding();
+	}
+	
 	public void handleCollision(MazeEntity entity){
-		//error must be something with the xvalues
-		/*if(((this.getXPos() - entity.getXPos()) < 0.5) && 
-			((this.getYPos() - entity.getYPos()) < 0.5)){
-			entity.interfereCrab(this);
-			System.out.println("handled");
-		}
-		*/
+		entity.interfereCrab(this);
 	}
 	
 	public static double getDefaultWidth() {
@@ -65,4 +64,10 @@ public class MazeCrab extends MazeEntity {
 		return defaultHeight;
 	}
 	
+	public boolean getIsColliding(){
+		return this.isColliding;
+	}
+	protected void setIsColliding(boolean collision){
+		this.isColliding = collision;
+	}
 }
