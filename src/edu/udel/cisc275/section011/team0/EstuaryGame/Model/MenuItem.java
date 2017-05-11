@@ -1,9 +1,9 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 /**
- * @author Chris Bellotti
- * 
  * MenuItem interface is used to streamline creation of button models for the menu.
+ * 
+ * @author Chris Bellotti
  */
 public interface MenuItem {
 	/**

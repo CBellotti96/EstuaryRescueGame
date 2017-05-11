@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * MenuModel class is used to instantiate the main menu, which displays buttons for all three games.
+ * 
  * @author Chris Bellotti
  * @author Alexandra Hurst
  * @author Emily McNeil
- * 
- * MenuModel class is used to instantiate the main menu, which displays buttons for all three games.
  */
 public class MenuModel {
 	/**

@@ -1,12 +1,10 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-import java.awt.Rectangle;
-
 /**
- * @author Emily McNeil
- * @author Alexandra Hurst
- * 
  * The MazeCrab class contains all members and functions relevant to the player-character.
+ *
+ * @author Emily McNeil
+ * @author Alexandra Hurst 
  */
 
 public class MazeCrab extends MazeEntity {

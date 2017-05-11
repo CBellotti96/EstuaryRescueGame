@@ -2,10 +2,11 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 
 /**
- * @author Emily
  * The MazeDifficulty enum provides values for the number of predators, 
  * obstacles, powerups, and effect durations for each level of difficulty.
  * A fresh round of each will be generated per section.
+ * 
+ * @author Emily
  */
 public enum MazeDifficulty {
 	

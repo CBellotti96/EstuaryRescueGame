@@ -1,12 +1,12 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 /**
- * @author Emily McNeil
- * @author Alexandra Hurst
- * 
  * MazeEntity class is an abstract class representing all 
  * moving pieces that exist within the maze and interact
  * with each other.
+ *
+ * @author Emily McNeil
+ * @author Alexandra Hurst 
  */
 public abstract class MazeEntity {
 
