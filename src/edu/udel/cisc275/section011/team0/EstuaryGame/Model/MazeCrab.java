@@ -1,58 +1,159 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
+/**
+ * The MazeCrab class contains all members and functions relevant to the player-character.
+ *
+ * @author Emily McNeil
+ * @author Alexandra Hurst 
+ */
+
 public class MazeCrab extends MazeEntity {
 	
+	/**
+	 * Default movement speed for the crab.
+	 */
 	private final static double defaultSpeed = 0.04;
+	/** 
+	 * Horizontal location of saved checkpoint. Overwritten by new checkpoints.
+	 */
 	private double xCheckpointPos;
+	/** 
+	 * Vertical location of saved checkpoint. Overwritten by new checkpoints.
+	 */
 	private double yCheckpointPos;
-	private final static double defaultWidth = 0.5; // relative to maze tile size
+	/**
+	 * Standard width of the crab, relative to the maze tile size.
+	 */
+	private final static double defaultWidth = 0.5;
+	/** 
+	 * Standard height of the crab, relative to maze tile size.
+	 */
 	private final static double defaultHeight = defaultWidth;
+	/**
+	 * Boolean stating whether the crab is currently in collision with another MazeEntity.
+	 */
+	private boolean isColliding = false;
 	
-	
+	/**
+	 * Default constructor for MazeCrab. 
+	 * <p>
+	 * Invokes superconstructor, {@link <MazeEntity> [MazeEntity]}, using horizontal and vertical coordinates along with defaultSpeed.
+	 * @param xPos	double specifying horizontal position of MazeCrab instance
+	 * @param yPos	double specifying vertical position of MazeCrab instance
+	 */
 	public MazeCrab (double xPos, double yPos){
 		super(xPos, yPos, defaultSpeed);
 	}
 	
-	// getters/setters for xPos, yPos, and speed are already present in superclass
-	
+	/**
+	 * Handles movement of MazeCrab.
+	 * <p>
+	 * Continually sets new x and y positions based off of current speed and position.
+	 * @param direction		enum signifying movement relative to current position
+	 * @see					{@link <Direction> [Direction (enum)]}
+	 */
 	public void move(Direction direction){
 		this.setXPos(this.getXPos() + direction.getXDir() * this.getSpeed());
 		this.setYPos(this.getYPos() + direction.getYDir() * this.getSpeed());
 	}
 	
-	public void changeSpeed(double proportion){
-		//for walking through seaweed, powerup
-		//proportion > 1 increases; <1 decreases 
-		this.setSpeed(this.getSpeed()*proportion); 
-	}
-	
+	/**
+	 * Resets speed to initial default value. To be used after collision is finished.
+	 */
 	public void resetSpeed(){
-		//call after obstacle/powerup to reset 
 		this.setSpeed(defaultSpeed);
 	}
 	
+	/**
+	 * Sets values for xCheckpointPos and yCheckpointPos.
+	 * <p>
+	 * Invoked when entering a new section of the maze.
+	 */
 	public void markCheckpoint(){
 		this.xCheckpointPos = this.getXPos();
 		this.yCheckpointPos = this.getYPos();
 	}
 	
+	/**
+	 * Moves crab back to checkpointed positions.
+	 * <p>
+	 * Invoked when MazeCrab collides with {@link <MazePredator> [MazePredator]}.  
+	 */
 	public void resetToCheckpoint(){
 		this.setXPos(this.xCheckpointPos);
 		this.setYPos(this.yCheckpointPos);
 	}
 	
+	/**
+	 * Returns a boolean telling whether MazeCrab instance is in collision with a MazeEntity instance.
+	 * 
+	 * @param entity	{@link <MazeEntity> [MazeEntity]} currently being testing for collision
+	 */
+	public boolean detectCollision(MazeEntity entity){
+		if ((Math.abs((this.getXPos() - entity.getXPos())) < 0.5) && 
+				(Math.abs((this.getYPos() - entity.getYPos())) < 0.5)){
+			this.setIsColliding(true);
+		}		
+		return this.getIsColliding();
+	}
+	
+	/**
+	 * Invokes an entity's interference method.
+	 * <p>
+	 * This is called when {@link #detectCollision(MazeEntity) [detectCollision]} returns true.
+	 * @param entity	{@link <MazeEntity> [MazeEntity]} with which the crab is colliding
+	 */
+	public void handleCollision(MazeEntity entity){
+		entity.interfereCrab(this);
+	}
+	
+	/**
+	 * Getter for {@link #defaultWidth}
+	 * @return defaultWidth	of MazeCrab
+	 */
 	public static double getDefaultWidth() {
 		return defaultWidth;
 	}
+	
+	/**
+	 * Getter for {@link #defaultHeight}
+	 * @return defaultHeight of MazeCrab
+	 */
 	public static double getDefaultHeight() {
 		return defaultHeight;
 	}
 	
+	/**
+	 * Used to grow/shrink crab's width.
+	 * @return defaultWidth of MazeCrab
+	 */
 	public static double getWidth() {
 		return defaultWidth; // TODO make crab grow and shrink in size
 	}
+	
+	/**
+	 * Used to grow/shrink crab's height.
+	 * @return defaultHeight of MazeCrab
+	 */
 	public static double getHeight() {
 		return defaultHeight;
 	}
 	
+	/**
+	 * Getter for {@link #isColliding}
+	 * @return isColliding 	boolean value which is true if collision is happening
+	 */
+	public boolean getIsColliding(){
+		return this.isColliding;
+	}
+	
+	/**
+	 * Setter for {@link #isColliding}
+	 * <p>
+	 * Set to protected. Called in {@link <MazeModel> [MazeModel]}'s {@link MazeModel#tick} method.
+	 * @param collision		boolean value which isColliding is to be set to
+	 */
+	protected void setIsColliding(boolean collision){
+		this.isColliding = collision;
+	}
 }

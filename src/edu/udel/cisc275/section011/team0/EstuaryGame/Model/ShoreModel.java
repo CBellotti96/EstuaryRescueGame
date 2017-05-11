@@ -60,9 +60,9 @@ public class ShoreModel {
 		defensePlacementArea(defenseGabion);
 		defensePlant = new ShoreDefenseType("Plant");
 		defensePlacementArea(defensePlant);
-		boatSailboat = new ShoreBoatType("Sailboat", 1, .2);
-		boatJetSki = new ShoreBoatType("Jet Ski", 3, .1);
-		boatCommercial = new ShoreBoatType("Commercial", 1, .3);
+		boatSailboat = new ShoreBoatType("Sailboat", 1, .3);
+		boatJetSki = new ShoreBoatType("Jet Ski", 3, .2);
+		boatCommercial = new ShoreBoatType("Commercial", 1, .5);
 		itemRock = new ShoreItemType("Rock");
 		itemRock.setBuildsDefense(defenseWall);
 		itemOyster = new ShoreItemType("Oyster");
@@ -305,7 +305,7 @@ public class ShoreModel {
 				case 2: newBoatType = boatCommercial;
 					break;
 			}
-			System.out.println(newBoatType.getName());
+			//System.out.println(newBoatType.getName());
 			ShoreBoat newBoat = new ShoreBoat(tiles.get(0).get(1),0, newBoatType);
 			boats.add(newBoat);
 		}
@@ -331,13 +331,13 @@ public class ShoreModel {
 		if(tickCount % 25 == 0){
 			for(ShoreDefense d: defenses){
 				if(d.getType() == defenseWall){
-					shoreHealth -= .2;
+					shoreHealth -= .1;
 				}
 				else if(d.getType() == defenseGabion){
-					shoreHealth += .3;
+					shoreHealth += .2;
 				}
 				else if(d.getType() == defensePlant){
-					shoreHealth += .1;
+					shoreHealth += .05;
 				}
 			}
 		}
@@ -400,8 +400,8 @@ public class ShoreModel {
 	}
 	public void defensePlacementArea(ShoreDefenseType d){
 		if(d.getName() == "Gabion") { //gabions go in two tiles nearest to ocean
-			d.setPlacementZoneStartY((tilesInColumn*tileHeight)/2);
-			d.setPlacementZoneEndY(((tilesInColumn*tileHeight)/2)+tileHeight);
+			d.setPlacementZoneStartY(((tilesInColumn*tileHeight)/2)+1);
+			d.setPlacementZoneEndY(((tilesInColumn*tileHeight)/2)+1);
 		}
 		else if (d.getName() == "Plant"){ //plants go in lowest 2 tiles
 			d.setPlacementZoneStartY((tilesInColumn*tileHeight)- (2*tileHeight)); 

@@ -36,7 +36,7 @@ public class MazeModel {
 		directions.add(Direction.EAST);
 		directions.add(Direction.SOUTH);
 		directions.add(Direction.WEST);
-		Random rand = new Random();
+
 		for (int i = 0;  i < sections.length; i++) {
 			MazeSection section = this.generateSection(i);
 			sections[i] = section;
@@ -51,6 +51,7 @@ public class MazeModel {
 	
 	public MazeModel(MazeDifficulty mazeDifficulty){
 		this();
+		
 		this.mazeDifficulty = mazeDifficulty;
 	}
 	
@@ -114,7 +115,22 @@ public class MazeModel {
 		
 		for (MazePredator predator : getCurrentSection().getPredators()) {
 			predator.move();
+			if (true == player.detectCollision(predator)){
+				player.handleCollision(predator);
+			}
 		}
+		
+		for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
+			if (true == player.detectCollision(obstacle)){
+				player.handleCollision(obstacle);
+			}
+		}
+		
+		if (false == player.getIsColliding()){
+			player.resetSpeed();
+		}
+	
+		player.setIsColliding(false);
 		
 		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
 		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
