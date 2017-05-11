@@ -4,7 +4,7 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MazeController;
 
 /**
- * @author Emily McNeil
+ * @author Chris Bellotti
  * @author Alexandra Hurst
  * 
  * MazeMenuItem creates the model for a menu button leading to a new Maze game instance.
