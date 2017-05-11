@@ -40,8 +40,8 @@ public class MazeCrab extends MazeEntity {
 	 * Default constructor for MazeCrab. 
 	 * <p>
 	 * Invokes superconstructor, {@link <MazeEntity> [MazeEntity]}, using horizontal and vertical coordinates along with defaultSpeed.
-	 * @param xPos	horizontal position of MazeCrab instance
-	 * @param yPos	vertical position of MazeCrab instance
+	 * @param xPos	double specifying horizontal position of MazeCrab instance
+	 * @param yPos	double specifying vertical position of MazeCrab instance
 	 */
 	public MazeCrab (double xPos, double yPos){
 		super(xPos, yPos, defaultSpeed);
@@ -51,8 +51,8 @@ public class MazeCrab extends MazeEntity {
 	 * Handles movement of MazeCrab.
 	 * <p>
 	 * Continually sets new x and y positions based off of current speed and position.
-	 * @param direction		Enum signifying movement relative to current position.
-	 * @see		{@link <Direction> [Direction (enum)]}
+	 * @param direction		enum signifying movement relative to current position
+	 * @see					{@link <Direction> [Direction (enum)]}
 	 */
 	public void move(Direction direction){
 		this.setXPos(this.getXPos() + direction.getXDir() * this.getSpeed());
@@ -102,8 +102,8 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Invokes an entity's interference method.
 	 * <p>
-	 * This is called when {@link #detectCollision(MazeEntity)} returns true.
-	 * @param entity	entity with which the crab is colliding.
+	 * This is called when {@link #detectCollision(MazeEntity) [detectCollision]} returns true.
+	 * @param entity	{@link <MazeEntity> [MazeEntity]} with which the crab is colliding
 	 */
 	public void handleCollision(MazeEntity entity){
 		entity.interfereCrab(this);
@@ -127,7 +127,7 @@ public class MazeCrab extends MazeEntity {
 	
 	/**
 	 * Used to grow/shrink crab's width.
-	 * @return defaultWidth
+	 * @return defaultWidth of MazeCrab
 	 */
 	public static double getWidth() {
 		return defaultWidth; // TODO make crab grow and shrink in size
@@ -135,7 +135,7 @@ public class MazeCrab extends MazeEntity {
 	
 	/**
 	 * Used to grow/shrink crab's height.
-	 * @return defaultHeight
+	 * @return defaultHeight of MazeCrab
 	 */
 	public static double getHeight() {
 		return defaultHeight;
@@ -153,7 +153,7 @@ public class MazeCrab extends MazeEntity {
 	 * Setter for {@link #isColliding}
 	 * <p>
 	 * Set to protected. Called in {@link <MazeModel> [MazeModel]}'s {@link MazeModel#tick} method.
-	 * @param collision		boolean value
+	 * @param collision		boolean value which isColliding is to be set to
 	 */
 	protected void setIsColliding(boolean collision){
 		this.isColliding = collision;
