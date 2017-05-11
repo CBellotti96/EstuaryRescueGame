@@ -2,7 +2,8 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 /**
  * 
  *  ShoreItem defines tiles that contain objects that can be picked up 
- * @author Chris Bellotti and Alvin Tang
+ * @author Chris Bellotti 
+ * @author Alvin Tang
  * 
  */
 public class ShoreItem extends ShoreItemType{
@@ -27,7 +28,8 @@ public class ShoreItem extends ShoreItemType{
 	 * @param containedWithin	defines which tile the ShoreItem is in
 	 * @param type				defines what kind of ShoreItem it is
 	 * @see ShoreTile
-	 * @see ShoreItemType            
+	 * @see ShoreItemType      
+	 *       
 	 */
 	public ShoreItem (ShoreTile containedWithin, ShoreItemType type) {
 		super(type.getName());

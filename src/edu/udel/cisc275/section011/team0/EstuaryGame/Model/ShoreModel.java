@@ -13,7 +13,8 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 /**
  * 
  * Constructs the Model for the ShoreDefense Game
- * @author Chris Bellotti and Alvin Tang
+ * @author Chris Bellotti 
+ * @author Alvin Tang
  *
  */
 public class ShoreModel {
@@ -44,7 +45,11 @@ public class ShoreModel {
 	private int tileWidth = 50;
 	private boolean buildDefense;
 	
-	
+	/**
+	 *
+	 * This methods initializes the Shore Model
+	 * 
+	 */
 	public ShoreModel(){
 		this.gameMode = ShoreGameMode.TUTORIAL;
 		this.items = new ArrayList<ShoreItem>();
@@ -259,7 +264,11 @@ public class ShoreModel {
 	public void setTileWidth(int tileWidth) {
 		this.tileWidth = tileWidth;
 	}
-
+	/**
+	 *
+	 * updates position of moving objects
+	 * 
+	 */
 	public void onTick(){ //updates position of moving objects
 		for (int i = 0; i < tilesInRow; i++){
 			for (int j = 0; j < tilesInColumn; j++){
@@ -369,7 +378,13 @@ public class ShoreModel {
 		}
 		click = null;
 	}
-	
+	/**
+	 *
+	 * This methods initializes the Shore Model
+	 * @param tileRow	The row tile where the defense is built
+	 * @param tileCol	The column tile where the defense is built
+	 *  
+	 */
 	public void buildDefense(int tileRow, int tileCol){
 		ShoreItemType itemType;
 		if (savedDefenseType == defenseWall){
@@ -398,6 +413,13 @@ public class ShoreModel {
 			//savedDefenseType = null;
 		}
 	}
+	/**
+	 *
+	 * This methods defines where defenses can be built
+	 * @param d	The type of the Defense
+	 * @see ShoreDefenseType
+	 *  
+	 */
 	public void defensePlacementArea(ShoreDefenseType d){
 		if(d.getName() == "Gabion") { //gabions go in two tiles nearest to ocean
 			d.setPlacementZoneStartY(((tilesInColumn*tileHeight)/2)+1);
@@ -408,6 +430,13 @@ public class ShoreModel {
 			d.setPlacementZoneEndY(tilesInColumn*tileHeight);
 		}
 	}
+	/**
+	 *
+	 * This methods defines the movement of JetSkis
+	 * @param b			The ShoreBoat the method is handling
+	 * @param boatIter	Iterator to handle boats
+	 *  
+	 */
 	public void handleJetSki(ShoreBoat b, Iterator boatIter){ 
 		/*
 		int waveStrength = 1;
@@ -444,6 +473,13 @@ public class ShoreModel {
 			boatIter.remove();
 			b = null;
 		}*/
+		/**
+		 *
+		 * This methods defines the movement of SailBoats
+		 * @param b			The ShoreBoat the method is handling
+		 * @param boatIter	Iterator to handle boats
+		 *  
+		 */
 	}
 	public void handleSailboat(ShoreBoat b, Iterator boatIter){
 		double wakeStrength = .1;
@@ -468,6 +504,14 @@ public class ShoreModel {
 			}
 		}
 	}
+	/**
+	 *
+	 * This methods defines the movement of Commercial Boats
+	 * @param b			The ShoreBoat the method is handling
+	 * @param boatIter	Iterator to handle boats
+	 * 
+	 *  
+	 */
 	public void handleCommercial(ShoreBoat b, Iterator boatIter){
 		/*
 		int waveStrength = 3;
@@ -511,11 +555,12 @@ public class ShoreModel {
 	}
 	/**
 	 * @author Chris Bellotti and Alvin Tang
-	 * This method will create the wave tile when the boat reaches a random position
-	 * @param b   the ShoreBoat that the method is using
+	 * This method defines the movement of waves
+	 * @param w   		the ShoreWave that the method is using
+	 * @param waveIter	Iterator to handle Waves
 	 * @see ShoreWave
-	 * @see ShoreBoat
 	 * @see ShoreTile
+	 * 
 	 */
 	public void handleWaveMovement(ShoreWave w, Iterator waveIter){
 		w.setYDisplacement((int) (w.getYDisplacement()+(tileWidth/30)));
@@ -536,6 +581,15 @@ public class ShoreModel {
 			}
 		}
 	}
+	/**
+	 * @author Chris Bellotti and Alvin Tang
+	 * This method defines collision of waves against the Shore
+	 * @param w   		the ShoreWave that the method is using
+	 * @param waveIter	Iterator to handle Waves
+	 * @see ShoreWave
+	 * @see ShoreTile
+	 * 
+	 */
 	public void handleWaveCollision(ShoreWave w, Iterator waveIter){
 		int i = (int)((w.getContainedWithin().getTileOrigin().getShoreX())/tileWidth);
 		int j = (int)((w.getContainedWithin().getTileOrigin().getShoreY())/tileHeight);

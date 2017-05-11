@@ -2,7 +2,8 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 /**
  * 
  *  ShoreBoatType defines the characteristics of a ShoreItem
- * @author Chris Bellotti and Alvin Tang
+ * @author Chris Bellotti 
+ * @author Alvin Tang
  * @see ShoreItem
  *
  */

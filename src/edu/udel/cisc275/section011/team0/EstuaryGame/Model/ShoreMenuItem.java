@@ -6,7 +6,8 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.ShoreController;
  * 
  *  ShoreMenuItem is the the button on the main menu that 
  *  leads to the Shore Defense Game
- * @author Chris Bellotti and Alvin Tang
+ * @author Chris Bellotti 
+ * @author Alvin Tang
  *
  */
 public class ShoreMenuItem implements MenuItem {
@@ -15,7 +16,11 @@ public class ShoreMenuItem implements MenuItem {
 	public String getName() {
 		return "Shore Defense";
 	}
-
+	/**
+	 * Creates a new instance of ShoreController when ShoreMenuItem is clicked.
+	 * @see ShoreController
+	 * 
+	 */
 	@Override
 	public void onClick() {
 		Main.getInstance().setController(new ShoreController());
