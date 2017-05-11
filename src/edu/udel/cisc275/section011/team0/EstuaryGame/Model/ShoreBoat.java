@@ -3,7 +3,7 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
  * 
  * A ShoreBoat travels across the model and generates a wake
  * @author Chris Bellotti and Alvin Tang
- 
+ *
  */
 public class ShoreBoat{
 
@@ -49,8 +49,7 @@ public class ShoreBoat{
 	}
 	/**
 	 * 
-	 * @author Chris Bellotti and Alvin Tang
-	 * Defines a Shore Boat Constructor and 
+	 * Defines a Shore Boat Constructor  
 	 * @param containedWithin the tile the boat is in
 	 * @param xDisplacement   the distance across the screen
 	 * @param type    		  defines what kind of boat it is (i.e. sail boat,commercial boat,etc)

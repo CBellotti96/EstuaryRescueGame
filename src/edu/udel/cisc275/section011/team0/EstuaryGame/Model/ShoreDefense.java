@@ -1,5 +1,10 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
-
+/**
+ * 
+ *  ShoreDefense defines tiles that blocks waves
+ * @author Chris Bellotti and Alvin Tang
+ * 
+ */
 public class ShoreDefense extends ShoreDefenseType{
 	
 	private ShoreTile containedWithin;
@@ -25,7 +30,14 @@ public class ShoreDefense extends ShoreDefenseType{
 	public void setContainedWithin (ShoreTile containedWithin) {
 		this.containedWithin = containedWithin;
 	}
-	
+	/**
+	 * 
+	 * Defines a ShoreBoatType Constructor 
+	 * @param containedWithin	defines which tile the defense is in
+	 * @param type				defines what kind of defense it is
+	 * @see ShoreTile
+	 * @see ShoreDefenseType            
+	 */
 	public ShoreDefense (ShoreTile containedWithin, ShoreDefenseType type) {
 		super(type.getName());
 		this.containedWithin = containedWithin;

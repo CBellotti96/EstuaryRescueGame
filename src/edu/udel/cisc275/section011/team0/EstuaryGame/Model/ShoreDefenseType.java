@@ -1,5 +1,11 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
-
+/**
+ * 
+ *  ShoreBoatType defines the characteristics of a ShoreDefense
+ * @author Chris Bellotti and Alvin Tang
+ * @see ShoreDefense
+ *
+ */
 public class ShoreDefenseType {
 	
 	private String name;
@@ -44,7 +50,12 @@ public class ShoreDefenseType {
 	public void setDurability(double durability){
 		this.durability = durability;
 	}
-	
+	/**
+	 * 
+	 * Defines the three possible types of Shore Defense("Sea Wall", "Gabion", and "Plant")
+	 * @param name	what type of defense it is
+	 * 
+	 */
 	public ShoreDefenseType (String name) {
 		this.name = name;
 		if (name == "Sea Wall"){

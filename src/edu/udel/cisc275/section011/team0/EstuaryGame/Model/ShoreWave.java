@@ -1,7 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 /**
  * 
- * A ShoreWave is generated from the ShoreBoat and travels down until it collides with the shore
+ * A ShoreWave is generated from the ShoreBoat every time it moves and travels down until it collides with the shore
  * @see ShoreBoat
  * @author Chris Bellotti and Alvin Tang
  

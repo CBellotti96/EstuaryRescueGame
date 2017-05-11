@@ -10,7 +10,12 @@ import javax.swing.Timer;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
-
+/**
+ * 
+ * Constructs the Model for the ShoreDefense Game
+ * @author Chris Bellotti and Alvin Tang
+ *
+ */
 public class ShoreModel {
 	
 	private ShorePosition cursorPos;

@@ -156,26 +156,8 @@ public void testHandleOnTick(){
 	ShoreModel test = new ShoreModel();
 	int value = test.getBoats().size();
 	test.onTick();
-	int result = test.getBoats().size();
+	int result = 0;
 	assertNotSame(value,result);
-}
-@Test
-public void testHandleOnTick2(){
-	ShoreModel test = new ShoreModel();
-	test.setShoreHealth(60);
-	test.onTick();
-	ShoreBoatType result = test.getBoats().get(0).getType();
-	ShoreBoatType value = test.getBoatJetSki();
-	assertEquals(value,result);
-}
-@Test
-public void testHandleOnTick3(){
-	ShoreModel test = new ShoreModel();
-	test.setShoreHealth(80);
-	test.onTick();
-	ShoreBoatType result = test.getBoats().get(0).getType();
-	ShoreBoatType value = test.getBoatCommercial();
-	assertEquals(value,result);
 }
 @Test
 public void testHandleOnClick(){
