@@ -64,7 +64,6 @@ public class ShoreController extends MouseAdapter implements Controller {
 					if(e.getX() > TILE_X && e.getX() < TILE_X + model.getTileWidth()
 					&& e.getY() > TILE_Y && e.getY() < TILE_Y + model.getTileHeight()){
 						model.buildDefense(i,j);
-						model.setBuildDefense(false);
 					}
 				}
 			}

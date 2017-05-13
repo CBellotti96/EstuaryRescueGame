@@ -10,6 +10,7 @@ public class ShoreDefense extends ShoreDefenseType{
 	
 	private ShoreTile containedWithin;
 	private double defenseDurability;
+	private boolean isGoodPlacement;
 	private final ShoreDefenseType type;
 	
 	public ShoreTile getContainedWithin () {
@@ -22,6 +23,14 @@ public class ShoreDefense extends ShoreDefenseType{
 	
 	public double getDefenseDurability() {
 		return this.defenseDurability;
+	}
+	
+	public boolean getIsGoodPlacement() {
+		return this.isGoodPlacement;
+	}
+	
+	public void setIsGoodPlacement(boolean isGoodPlacement){
+		this.isGoodPlacement = isGoodPlacement;
 	}
 	
 	public void setDefenseDurability(double d) {

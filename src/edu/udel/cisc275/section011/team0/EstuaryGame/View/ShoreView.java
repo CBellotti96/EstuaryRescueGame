@@ -46,7 +46,8 @@ public class ShoreView extends JComponent {
 	private BufferedImage seedItemImg;
 	private BufferedImage wallDefenseImg;
 	private BufferedImage gabionDefenseImg;
-	private BufferedImage plantDefenseImg;
+	private BufferedImage plantDefenseGoodImg;
+	private BufferedImage plantDefenseBadImg;
 	private BufferedImage waveImg;
 	private BufferedImage jetSkiImg;
 	private BufferedImage sailboatImg;
@@ -84,7 +85,8 @@ public class ShoreView extends JComponent {
 			seedItemImg = ImageIO.read(new File("Final Images/Plants/seed.png"));
 			wallDefenseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/Dialogue2.png"));
 			gabionDefenseImg = ImageIO.read(new File("Final Images/Objects/net(1).png"));
-			plantDefenseImg = ImageIO.read(new File("Final Images/Plants/milkweed_good.png"));
+			plantDefenseGoodImg = ImageIO.read(new File("Final Images/Plants/milkweed_good.png"));
+			plantDefenseBadImg = ImageIO.read(new File("Final Images/Plants/sadmilkweed.png"));
 			waveImg = ImageIO.read(new File("Final Images/Objects/wave.png"));
 			jetSkiImg = ImageIO.read(new File("Final Images/Objects/hotrod_vessel.png"));
 			sailboatImg = ImageIO.read(new File("Final Images/Objects/cleanvessel.png"));
@@ -170,7 +172,8 @@ public class ShoreView extends JComponent {
 		final int GABION_DEF_HEIGHT = TILE_HEIGHT;
 		final int GABION_DEF_WIDTH = TILE_WIDTH;
 		//plant defense
-		final BufferedImage PLANT_DEF_IMAGE = plantDefenseImg;
+		final BufferedImage PLANT_DEF_GOOD_IMAGE = plantDefenseGoodImg;
+		final BufferedImage PLANT_DEF_BAD_IMAGE = plantDefenseBadImg;
 		final int PLANT_DEF_HEIGHT = TILE_HEIGHT;
 		final int PLANT_DEF_WIDTH = TILE_WIDTH;
 		//wave
@@ -236,8 +239,14 @@ public class ShoreView extends JComponent {
 						, GABION_DEF_WIDTH, GABION_DEF_HEIGHT,null);
 			}
 			else if (def.getType() == model.defensePlant){
-				g.drawImage(PLANT_DEF_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
+				if(def.getIsGoodPlacement()){
+					g.drawImage(PLANT_DEF_GOOD_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
 						, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT,null);
+				}
+				else{
+					g.drawImage(PLANT_DEF_BAD_IMAGE,(int) (def.getContainedWithin().getTileOrigin().getShoreX()),(int) (def.getContainedWithin().getTileOrigin().getShoreY())
+							, PLANT_DEF_WIDTH, PLANT_DEF_HEIGHT,null);
+				}
 			}
 		}//draw boats
 		for (ShoreBoat b: model.getBoats()){

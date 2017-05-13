@@ -24,6 +24,9 @@ public class ShoreDefenseType {
 		this.placementZoneEndY = placementZoneEndY;
 	}
 	
+	public void setShoreHealthEffect(double shoreHealthEffect){
+		this.shoreHealthEffect = shoreHealthEffect;
+	}
 	public String getName () {
 		return this.name;
 	}
@@ -69,14 +72,14 @@ public class ShoreDefenseType {
 		else if (name == "Gabion"){
 			this.placementZoneEndY = 0;
 			this.placementZoneStartY = 0;
-			this.shoreHealthEffect = +.2;
+			this.shoreHealthEffect = .2;
 			this.numItemsRequired = 3;
 			this.durability = 9999;
 		}
 		else{
 			this.placementZoneEndY = 0;
 			this.placementZoneStartY = 0;
-			this.shoreHealthEffect = +.1;
+			this.shoreHealthEffect = .1;
 			this.numItemsRequired = 1;
 			this.durability = 0;
 		}
