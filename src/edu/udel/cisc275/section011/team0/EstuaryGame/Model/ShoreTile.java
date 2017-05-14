@@ -13,6 +13,7 @@ public class ShoreTile {
 	private boolean vacant;
 	private Object tileContents;
 	private ShoreTileType tileType;
+	private int tileErosion;
 	/**
 	 * 
 	 * This methods constructs a ShoreTile
@@ -26,6 +27,7 @@ public class ShoreTile {
 		this.tileHeight = height;
 		this.tileOrigin = origin;
 		this.tileContents = null;
+		this.tileErosion = 0;
 	}
 
 	public int getTileWidth() {
@@ -43,7 +45,15 @@ public class ShoreTile {
 	public void setTileHeight(int tileHeight) {
 		this.tileHeight = tileHeight;
 	}
+	
+	public int getTileErosion() {
+		return tileErosion;
+	}
 
+	public void setTileErosion(int tileErosion) {
+		this.tileErosion = tileErosion;
+	}
+	
 	public ShorePosition getTileOrigin() {
 		return tileOrigin;
 	}

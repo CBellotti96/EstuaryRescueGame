@@ -159,6 +159,7 @@ public class ShoreModel {
 			if(tiles.get(randItemX).get((tilesInColumn-1)-randItemY).getTileContents() == null){
 				ShoreItem newItem = new ShoreItem(tiles.get(randItemX).get((tilesInColumn-1) - randItemY), newItemType);
 				items.add(newItem);
+				tiles.get(randItemX).get((tilesInColumn-1)-randItemY).setTileContents(newItem);
 			}
 		}
 		ShoreBoatType newBoatType = null;
@@ -210,6 +211,17 @@ public class ShoreModel {
 				}
 			}
 		}
+		if(tickCount %500 == 0){
+			for(ShoreDefense d: defenses){
+				if(d.getType() == defensePlant && d.getIsGoodPlacement()){
+					int i = (int)(d.getContainedWithin().getTileOrigin().getShoreX()/tileWidth);
+					int j = (int)((tilesInColumn/2)+1);
+					if(tiles.get(i).get(j).getTileErosion() > 0){
+						tiles.get(i).get(j).setTileErosion(tiles.get(i).get(j).getTileErosion() -1);
+					}
+				}
+			}
+		}
 		if(shoreHealth >= 100 || shoreHealth <= 0){
 			Main.getInstance().setController(new MenuController());
 		}
@@ -223,6 +235,7 @@ public class ShoreModel {
 			items.remove(click);	
 			inventory.put(click.getType(), inventory.get(click.getType())+1);
 			click = null;
+			setBuildDefense(false);
 		}
 		else if(click.getContainedWithin().getTileOrigin().getShoreY() == 0){ //toolbar click
 			if(click.getType() == itemRock){
@@ -260,9 +273,6 @@ public class ShoreModel {
 			Object o = tiles.get(tileRow).get(tileCol).getTileContents();
 			if(o instanceof ShoreDefense){
 				defenses.remove(o);
-			}
-			else if(o instanceof ShoreItem){
-				items.remove(o);
 			}
 			o = null;
 			ShoreDefense d = new ShoreDefense(tiles.get(tileRow).get(tileCol), savedDefenseType);
@@ -318,6 +328,12 @@ public class ShoreModel {
 			tiles.get(i).get(1).setTileContents(b);
 			tiles.get(i).get(1).setVacant(false);
 			if(i>0 && i<tilesInRow-1){
+				if(i == 1){
+					ShoreWave boatWake1 = new ShoreWave(tiles.get(0).get(4), 0, b.getType().getShoreHealthEffect());
+					ShoreWave boatWake2 = new ShoreWave(tiles.get(1).get(3), 0, b.getType().getShoreHealthEffect());
+					waves.add(boatWake1);
+					waves.add(boatWake2);
+				}
 				tiles.get(i-1).get(1).setTileContents(null);
 				tiles.get(i-1).get(1).setVacant(true);
 				ShoreWave wave = new ShoreWave(tiles.get(i+1).get(2),0,b.getType().getShoreHealthEffect());
@@ -388,6 +404,7 @@ public class ShoreModel {
 			tiles.get(i).get(j+1).setTileContents(null);
 			tiles.get(i).get(j+1).setVacant(true);
 			if(tiles.get(i).get(j+1).getTileType() == ShoreTileType.BEACH){
+				tiles.get(i).get(j+1).setTileErosion(tiles.get(i).get(j+1).getTileErosion()+1);
 				shoreHealth -= w.getWaveStrength();
 				//tiles.get(i).get(j+1).setTileType(ShoreTileType.DAMAGED);
 			}

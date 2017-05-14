@@ -115,6 +115,10 @@ public class ShoreView extends JComponent {
 				if(type == ShoreTileType.BEACH ){
 					g.drawImage(beachTileImg, x, y, x+TILE_WIDTH, y+TILE_HEIGHT
 							, 0, 0, 256, 256, null);
+					if(modelTiles.get(i).get(j).getTileErosion() != 0){
+						g.drawImage(oceanTileImg[(int) oceanTileImageIndex], x, y, TILE_WIDTH,
+								(int) (TILE_HEIGHT/10 * modelTiles.get(i).get(j).getTileErosion()), null);
+					}
 				}
 				else if(type == ShoreTileType.OCEAN){
 					g.drawImage(oceanTileImg[(int) oceanTileImageIndex], x, y,
@@ -272,22 +276,12 @@ public class ShoreView extends JComponent {
 		String s1 = ROCK_ITEM_AMOUNT.toString();
 		String s2 = OYSTER_ITEM_AMOUNT.toString();
 		String s3 = SEED_ITEM_AMOUNT.toString();
-		g.drawString(s1, (int)(model.getTileWidth() - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
-		g.drawString(s2, (int)(model.getTileWidth()*3 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
-		g.drawString(s3, (int)(model.getTileWidth()*5 - model.getTileWidth()/4), (int) (model.getTileHeight()/(3/2)));
+		g.drawString(s1, (int)(model.getTileWidth()), (int) (model.getTileHeight()/1.5));
+		g.drawString(s2, (int)(model.getTileWidth()*3), (int) (model.getTileHeight()/1.5));
+		g.drawString(s3, (int)(model.getTileWidth()*5), (int) (model.getTileHeight()/1.5));
 	
 		//draw exit
-		g.drawString(EXIT_STRING, (int) (model.getTiles().get(model.getTilesInRow()-1).get(0).getTileOrigin().getShoreX() - (TILE_WIDTH/4)) , (int)((TILE_WIDTH * 6) /10));
+		g.drawString(EXIT_STRING, (int) (model.getTiles().get(model.getTilesInRow()-1).get(0).getTileOrigin().getShoreX() - (model.getTileWidth()/4)) , (int)((model.getTileWidth() * 6) /10));
 	}
-	@Override
-	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-//		int SCREEN_HEIGHT = getHeight();
-//		int SCREEN_WIDTH = getWidth();
-//		final int ROCK_ITEM_HEIGHT = (SCREEN_HEIGHT/12) * (4/5);
-//		final int ROCK_ITEM_WIDTH = ROCK_ITEM_HEIGHT;
-//		final Integer ROCK_ITEM_AMOUNT = model.getInventory().get(model.getItemRock());
-//		//g.drawImage(rockItemImg, 200, 200, 200 + ROCK_ITEM_WIDTH, 200 + ROCK_ITEM_HEIGHT , 0, 0, 129, 129, this);
-//		g.drawImage(rockItemImg, 200, 200, null);
-	}
+
 }
