@@ -9,10 +9,19 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 public class StoryModel {
 
 	public final static int xCoordMax = 160;
 	public final static int yCoordMax = 120;
+	
+	private boolean initialized = false;
 
 	private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>();
 	private boolean rolled;
@@ -30,11 +39,40 @@ public class StoryModel {
 	 * StoryModel constructor, initializes the story cubes.
 	 */
 	public StoryModel () {
-		int n = 8;
-		StoryCubePosition.initializePositions(n);
-		for (int i = 0; i < n; i++) {
+		JFrame jf = new JFrame();
+		JOptionPane optionPane = new JOptionPane();
+		JSlider slider = getSlider(optionPane);
+		optionPane.setMessage(new Object[] { "Select a number of die: ", slider });
+		optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
+		optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
+		JDialog dialog = optionPane.createDialog(jf, "Number of Story Cubes");
+		dialog.setVisible(true);
+		while (!initialized) {}
+		initializeModel((int) optionPane.getInputValue());
+	}
+	
+	private JSlider getSlider(JOptionPane optionPane) {
+	    JSlider slider = new JSlider(JSlider.HORIZONTAL, 4, 10, 8);
+	    slider.setMajorTickSpacing(2);
+	    slider.setPaintTicks(true);
+	    slider.setPaintLabels(true);
+	    ChangeListener changeListener = new ChangeListener() {
+	      public void stateChanged(ChangeEvent changeEvent) {
+	    	  JSlider slider = (JSlider) changeEvent.getSource();
+	    	  optionPane.setInputValue(slider.getValue());
+	    	  initialized = true;
+	      }
+	    };
+	    slider.addChangeListener(changeListener);
+	    return slider;
+	  }
+	
+	public void initializeModel (int numCubes) {
+		StoryCubePosition.initializePositions(numCubes);
+		for (int i = 0; i < numCubes; i++) {
 			StoryCube sc = new StoryCube(i);
 			cubes.add(sc);
+			System.out.println(sc);
 		}
 	}
 
