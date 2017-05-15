@@ -36,7 +36,8 @@ public class ShoreModel {
 	private double shoreHealth = 50;			
 	private HashMap<ShoreItemType, Integer> inventory;
 	private ShoreGameMode gameMode;
-	private int countdown = 5;
+	private int countdown = 3;
+	private int tutorialStage = 1;
 	private int tickCount = 0;
 	protected int tilesInRow = 16;
 	private ArrayList<ArrayList<ShoreTile>> tiles;
@@ -126,10 +127,14 @@ public class ShoreModel {
 	 * 
 	 */
 	public void playTutorial(){
-		
+		switch(tutorialStage){
+		case 4: 
+			
+		}
 	}
 	
 	public void onTick(){ //updates position of moving objects
+		tickCount+= 1;
 		defensePlacementArea(defensePlant);
 		defensePlacementArea(defenseGabion);
 		for (int i = 0; i < tilesInRow; i++){
@@ -143,7 +148,6 @@ public class ShoreModel {
 			playTutorial();
 		}
 		if(gameMode == ShoreGameMode.NORMAL){
-			tickCount+=1;
 			for(ShoreItem it: items){
 				tiles.get((int) (it.getContainedWithin().getTileOrigin().getShoreX()/tileWidth)).
 				get((int) (it.getContainedWithin().getTileOrigin().getShoreY()/tileHeight)).setTileContents(it);
@@ -611,4 +615,12 @@ public class ShoreModel {
 	public void setTickCount(int tickCount) {
 		this.tickCount = tickCount;
 	}
+	public int getTutorialStage() {
+		return tutorialStage;
+	}
+
+	public void setTutorialStage(int tutorialStage) {
+		this.tutorialStage = tutorialStage;
+	}
+
 }

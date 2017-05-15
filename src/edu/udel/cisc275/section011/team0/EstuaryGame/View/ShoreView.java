@@ -2,6 +2,7 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.View;
 
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -24,9 +25,15 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreBoat;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreDefense;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreGameMode;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreItem;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreModel;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShorePosition;
@@ -53,8 +60,14 @@ public class ShoreView extends JComponent {
 	private BufferedImage sailboatImg;
 	private BufferedImage commercialBoatImg;
 	private BufferedImage healthImg;
-	
-	
+	private BufferedImage continueImg;
+	private BufferedImage oneImg;
+	private BufferedImage twoImg;
+	private BufferedImage threeImg;
+	private BufferedImage arrowImg;
+	private BufferedImage mouseImg;
+	private BufferedImage winImg;
+	private BufferedImage loseImg;
 	
 	private BufferedImage beachTileImg;
 	private BufferedImage damagedTileImg;
@@ -91,6 +104,14 @@ public class ShoreView extends JComponent {
 			sailboatImg = ImageIO.read(new File("Final Images/Objects/cleanvessel.png"));
 			commercialBoatImg = ImageIO.read(new File("Final Images/Objects/vessel.png"));
 			healthImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/redtogreen.png"));
+			continueImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/continue1.png"));
+			oneImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/1.jpg"));
+			twoImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/2.png"));
+			threeImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/3.png"));
+			arrowImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/arrow.png"));
+			mouseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/computermouse.png"));
+			winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/win.png"));
+			loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -99,10 +120,6 @@ public class ShoreView extends JComponent {
 		//toolbarImg = new BufferedImage(model.getGameWidth(),model.getGameHeight()/20,BufferedImage.TYPE_INT_RGB);
 	}
 	
-	private Color redYellowGreenGradient(double percent) {
-		float hue = (float) (percent * (1.0 / 3.0));
-	    return Color.getHSBColor(hue, 1.0f, 1.0f);
-	}
 	
 	public void renderShore(Graphics g, int screen_width, int screen_height){
 		int TILE_WIDTH = (int) (screen_width/model.getTilesInRow());
@@ -191,6 +208,12 @@ public class ShoreView extends JComponent {
 		final int BOAT_WIDTH = TILE_WIDTH*2;
 		//exit
 		final String EXIT_STRING = "EXIT";
+		//tutorial continue
+		final BufferedImage CONTINUE_IMAGE = continueImg;
+		final int CONTINUE_WIDTH = TILE_WIDTH*4;
+		final int CONTINUE_HEIGHT = TILE_HEIGHT*2;
+		final int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT))).getTileOrigin().getShoreX());
+		final int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT))).getTileOrigin().getShoreY());
 		
 		//draw tiles
 		renderShore(g,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -200,7 +223,7 @@ public class ShoreView extends JComponent {
 		g.drawRect(0, 0, TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 		g.fillRect(0, 0, TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 		//draw shore health bar
-		g.drawImage(healthImg,(SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2) , 0
+		g.drawImage(SHORE_HEALTH_BAR_IMAGE,(SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2) , 0
 				, SHORE_HEALTH_BAR_WIDTH, SHORE_HEALTH_BAR_HEIGHT,null);
 		//draw shore health level
 		g.setColor(Color.BLACK);
@@ -288,6 +311,36 @@ public class ShoreView extends JComponent {
 		}
 		//draw exit
 		g.drawString(EXIT_STRING, (int) (model.getTiles().get(model.getTilesInRow()-1).get(0).getTileOrigin().getShoreX() - (model.getTileWidth()/4)) , (int)((model.getTileWidth() * 6) /10));
+		
+		//draw tutorial
+		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
+			
+			g.drawImage(CONTINUE_IMAGE, CONTINUE_X, CONTINUE_Y, CONTINUE_WIDTH,
+					CONTINUE_HEIGHT, null);
+			String tutorialText = "";
+			switch(model.getTutorialStage()){
+			case 1:
+				g.drawImage(mouseImg, 100, 100, 100, 100, null);
+				tutorialText = "Step 1";
+				//g.drawImage(oneImg, 200, 200, 100, 100, null);
+				//g.drawImage(twoImg, 300, 300, 100, 100, null);
+				//g.drawImage(threeImg, 400, 400, 100, 100, null);
+				//g.drawImage(arrowImg, 100, 200, 100, 100, null);
+				//g.drawImage(winImg, 400, 100, 200, 100, null);
+				//g.drawImage(loseImg, 400, 200, 200, 100, null);
+			}
+			JTextArea tutorialPane = new JTextArea(tutorialText);
+			tutorialPane.setEditable(false);
+			tutorialPane.setFont(new Font("Arial", Font.BOLD, 12));
+			tutorialPane.setLineWrap(true);
+			tutorialPane.setBounds(0, model.getTilesInColumn()-3*model.getTileHeight(),
+			model.getTileWidth()*model.getTilesInRow(), model.getTileHeight()*2);
+			this.add(tutorialPane);
+			g.setColor(Color.WHITE);
+			g.drawString(tutorialText, 100, 100);
+		}
+	
 	}
+	
 
 }

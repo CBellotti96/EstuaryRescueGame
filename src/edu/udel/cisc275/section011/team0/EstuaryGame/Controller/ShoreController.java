@@ -37,41 +37,52 @@ public class ShoreController extends MouseAdapter implements Controller {
 	
 	@Override
 	public void mouseClicked(MouseEvent e){
+		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
+			int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreX());
+			int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreY());
+			if(e.getX() > CONTINUE_X && e.getX() < CONTINUE_X + model.getTileWidth()*4
+			&& e.getY() > CONTINUE_Y && e.getY() < CONTINUE_Y +model.getTileHeight()*2){
+				model.setTutorialStage(model.getTutorialStage()+1);
+				System.out.println(model.getTutorialStage());
+			}
+		}
+		if(model.getGameMode() == ShoreGameMode.NORMAL){	
+			for(ShoreItem item: model.getItems()){
+					int BOX_X = (int) item.getContainedWithin().getTileOrigin().getShoreX();
+					int BOX_Y = (int) item.getContainedWithin().getTileOrigin().getShoreY();
+					if(e.getX() > BOX_X && e.getX() < BOX_X + model.getTileWidth()
+					&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileHeight()){
+						clicked = item;
+					}
+					//&& model.getTiles().get(i).get(j).getTileContents() instanceof ShoreItem);
+						//Object o = model.getTiles().get(i).get(j).getTileContents();
+						//model.onClick((ShoreItem)o);
+				}
+			if(clicked != null){
+				model.onClick(clicked);
+			}
+			if(model.isBuildDefense()){
+				for(int i = 0; i < model.getTilesInRow(); i++){
+					for(int j = model.getTilesInColumn()/2 ; j < model.getTilesInColumn(); j++){
+						int TILE_X = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreX();
+						int TILE_Y = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreY();
+						if(e.getX() > TILE_X && e.getX() < TILE_X + model.getTileWidth()
+						&& e.getY() > TILE_Y && e.getY() < TILE_Y + model.getTileHeight()){
+							model.buildDefense(i,j);
+						}
+					}
+				}
+			}
+			clicked = null;
+			}
+		
 		int EXIT_X = (int) (model.getTiles().get(model.getTilesInRow()-2).get(0).getTileOrigin().getShoreX());
 		if(e.getX() > EXIT_X && e.getX() < EXIT_X + model.getTileWidth()*2
 		&& e.getY() > 0 && e.getY() < model.getTileHeight()){
 			Main.getInstance().setController(new MenuController());
 			return;
 		}
-		for(ShoreItem item: model.getItems()){
-				int BOX_X = (int) item.getContainedWithin().getTileOrigin().getShoreX();
-				int BOX_Y = (int) item.getContainedWithin().getTileOrigin().getShoreY();
-				if(e.getX() > BOX_X && e.getX() < BOX_X + model.getTileWidth()
-				&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileHeight()){
-					clicked = item;
-				}
-				//&& model.getTiles().get(i).get(j).getTileContents() instanceof ShoreItem);
-					//Object o = model.getTiles().get(i).get(j).getTileContents();
-					//model.onClick((ShoreItem)o);
-			}
-		if(clicked != null){
-			model.onClick(clicked);
-		}
-		if(model.isBuildDefense()){
-			for(int i = 0; i < model.getTilesInRow(); i++){
-				for(int j = model.getTilesInColumn()/2 ; j < model.getTilesInColumn(); j++){
-					int TILE_X = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreX();
-					int TILE_Y = (int) model.getTiles().get(i).get(j).getTileOrigin().getShoreY();
-					if(e.getX() > TILE_X && e.getX() < TILE_X + model.getTileWidth()
-					&& e.getY() > TILE_Y && e.getY() < TILE_Y + model.getTileHeight()){
-						model.buildDefense(i,j);
-					}
-				}
-			}
-		}
-		clicked = null;
-		}
-
+	}
 	@Override
 	public JComponent getView() {
 		return view;
