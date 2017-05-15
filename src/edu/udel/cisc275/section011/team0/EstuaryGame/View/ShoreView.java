@@ -52,6 +52,7 @@ public class ShoreView extends JComponent {
 	private BufferedImage jetSkiImg;
 	private BufferedImage sailboatImg;
 	private BufferedImage commercialBoatImg;
+	private BufferedImage healthImg;
 	
 	
 	
@@ -60,8 +61,6 @@ public class ShoreView extends JComponent {
 	private BufferedImage oceanTileImg[];
 	private double oceanTileImageIndex = 0;
 	private final int OCEAN_TILE_IMAGE_FRAME_COUNT = 15;
-	
-	private BufferedImage toolbarImg;
 	
 	private Rectangle timerRect;
 		
@@ -91,6 +90,7 @@ public class ShoreView extends JComponent {
 			jetSkiImg = ImageIO.read(new File("Final Images/Objects/hotrod_vessel.png"));
 			sailboatImg = ImageIO.read(new File("Final Images/Objects/cleanvessel.png"));
 			commercialBoatImg = ImageIO.read(new File("Final Images/Objects/vessel.png"));
+			healthImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/redtogreen.png"));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -144,14 +144,13 @@ public class ShoreView extends JComponent {
 		final int TOOLBAR_WIDTH = SCREEN_WIDTH;
 		final Color TOOLBAR_COLOR = Color.GRAY;
 		//shore health bar
+		final BufferedImage SHORE_HEALTH_BAR_IMAGE = healthImg;
 		final int SHORE_HEALTH_BAR_HEIGHT = TOOLBAR_HEIGHT;
 		final int SHORE_HEALTH_BAR_WIDTH = SCREEN_WIDTH/4;
-		final Color SHORE_HEALTH_BAR_COLOR = Color.WHITE;
 		//shore health level
 		final double SHORE_HEALTH_LEVEL_PERCENT = model.getShoreHealth();
 		final int SHORE_HEALTH_LEVEL_HEIGHT = SHORE_HEALTH_BAR_HEIGHT;
-		final int SHORE_HEALTH_LEVEL_WIDTH = SHORE_HEALTH_BAR_WIDTH;
-		final Color SHORE_HEALTH_LEVEL_COLOR = Color.RED;
+		final int SHORE_HEALTH_LEVEL_WIDTH = SHORE_HEALTH_BAR_WIDTH/100;
 		//rock item
 		final BufferedImage ROCK_ITEM_IMAGE = rockItemImg;
 		final int ROCK_ITEM_HEIGHT = (TOOLBAR_HEIGHT/2);
@@ -201,19 +200,14 @@ public class ShoreView extends JComponent {
 		g.drawRect(0, 0, TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 		g.fillRect(0, 0, TOOLBAR_WIDTH, TOOLBAR_HEIGHT);
 		//draw shore health bar
-		g.setColor(SHORE_HEALTH_BAR_COLOR);
-		g.drawRect((SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2) , 0
-				, SHORE_HEALTH_BAR_WIDTH, SHORE_HEALTH_BAR_HEIGHT);
-		g.fillRect((SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2) , 0
-				, SHORE_HEALTH_BAR_WIDTH, SHORE_HEALTH_BAR_HEIGHT);
+		g.drawImage(healthImg,(SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2) , 0
+				, SHORE_HEALTH_BAR_WIDTH, SHORE_HEALTH_BAR_HEIGHT,null);
 		//draw shore health level
-		g.setColor(SHORE_HEALTH_LEVEL_COLOR);
-		g.drawRect((SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2), 0 
-				,(int) (SHORE_HEALTH_BAR_WIDTH * (SHORE_HEALTH_LEVEL_PERCENT/100))
-				, SHORE_HEALTH_LEVEL_HEIGHT);
-		g.fillRect((SCREEN_WIDTH/2)+(SHORE_HEALTH_BAR_WIDTH/2), 0 
-				,(int) (SHORE_HEALTH_BAR_WIDTH * (SHORE_HEALTH_LEVEL_PERCENT/100))
-				, SHORE_HEALTH_LEVEL_HEIGHT);
+		g.setColor(Color.BLACK);
+		g.drawRect((int) (SCREEN_WIDTH/2 + (SHORE_HEALTH_BAR_WIDTH/2) + (SHORE_HEALTH_BAR_WIDTH * (SHORE_HEALTH_LEVEL_PERCENT/100))),
+				0,(SHORE_HEALTH_LEVEL_WIDTH), SHORE_HEALTH_LEVEL_HEIGHT);
+		g.fillRect((int) (SCREEN_WIDTH/2 + (SHORE_HEALTH_BAR_WIDTH/2) + (SHORE_HEALTH_BAR_WIDTH * (SHORE_HEALTH_LEVEL_PERCENT/100))),
+				0,(SHORE_HEALTH_LEVEL_WIDTH), SHORE_HEALTH_LEVEL_HEIGHT);
 		//g.setColor(ROCK_ITEM_COLOR);
 		//g.drawRect(200, 200, ROCK_ITEM_WIDTH, ROCK_ITEM_HEIGHT);
 		//g.fillRect(200, 200, ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT);
@@ -279,7 +273,19 @@ public class ShoreView extends JComponent {
 		g.drawString(s1, (int)(model.getTileWidth()), (int) (model.getTileHeight()/1.5));
 		g.drawString(s2, (int)(model.getTileWidth()*3), (int) (model.getTileHeight()/1.5));
 		g.drawString(s3, (int)(model.getTileWidth()*5), (int) (model.getTileHeight()/1.5));
-	
+		
+		//draw selected defense
+		if(model.isBuildDefense()){
+			if(model.getSavedDefenseType() == model.getDefenseWall()){
+				g.drawRect(0, 0, (int)(model.getTileWidth()*1.5), model.getTileHeight());
+			}
+			else if(model.getSavedDefenseType() == model.getDefenseGabion()){
+				g.drawRect((int)(model.getTileWidth()*2), 0, (int)(model.getTileWidth()*1.5), model.getTileHeight());
+			}
+			else{
+				g.drawRect((int)(model.getTileWidth()*4), 0, (int)(model.getTileWidth()*1.5), model.getTileHeight());
+			}
+		}
 		//draw exit
 		g.drawString(EXIT_STRING, (int) (model.getTiles().get(model.getTilesInRow()-1).get(0).getTileOrigin().getShoreX() - (model.getTileWidth()/4)) , (int)((model.getTileWidth() * 6) /10));
 	}

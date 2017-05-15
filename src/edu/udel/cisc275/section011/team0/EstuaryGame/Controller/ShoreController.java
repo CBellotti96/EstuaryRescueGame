@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.Timer;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreGameMode;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreItem;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreModel;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTile;
