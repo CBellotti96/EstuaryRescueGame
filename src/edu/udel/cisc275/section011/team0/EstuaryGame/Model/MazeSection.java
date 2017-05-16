@@ -147,7 +147,7 @@ public class MazeSection {
 				startX = rand.nextInt(maze[0].length / 2) + maze[0].length / 2;
 			}
 			startY = 0;
-			maze[startY][startX] = (maze[startY][startX]) | N | ENTRANCE;
+			maze[startY][startX] = (maze[startY][startX]) /*| N*/ | ENTRANCE;
 		} else if (entranceSide == Direction.EAST) {
 			if (exitSide == Direction.NORTH) {
 				startY = rand.nextInt(maze.length / 2) + maze.length / 2;
@@ -157,7 +157,7 @@ public class MazeSection {
 				startY = rand.nextInt(maze.length);
 			}
 			startX = maze[0].length - 1;
-			maze[startY][startX] = (maze[startY][startX]) | E | ENTRANCE;
+			maze[startY][startX] = (maze[startY][startX]) /*| E*/ | ENTRANCE;
 		} else if (entranceSide == Direction.SOUTH) {
 			if (exitSide == Direction.NORTH) {
 				startX = rand.nextInt(maze[0].length);
@@ -167,7 +167,7 @@ public class MazeSection {
 				startX = rand.nextInt(maze[0].length / 2) + maze[0].length / 2;
 			}
 			startY = maze.length - 1;
-			maze[startY][startX] = (maze[startY][startX]) | S | ENTRANCE;
+			maze[startY][startX] = (maze[startY][startX]) /*| S*/ | ENTRANCE;
 		} else if (entranceSide == Direction.WEST) {
 			if (exitSide == Direction.NORTH) {
 				startY = rand.nextInt(maze.length / 2) + maze.length / 2;
@@ -177,7 +177,7 @@ public class MazeSection {
 				startY = rand.nextInt(maze.length / 2);
 			}
 			startX = 0;
-			maze[startY][startX] = (maze[startY][startX]) | W | ENTRANCE;
+			maze[startY][startX] = (maze[startY][startX]) /*| W*/ | ENTRANCE;
 		} else if (entranceSide == null) {
 			if (exitSide == Direction.NORTH) {
 				startX = rand.nextInt(maze[0].length);
