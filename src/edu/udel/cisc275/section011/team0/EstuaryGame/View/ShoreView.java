@@ -41,7 +41,7 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTile;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTileType;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreWave;
 
-public class ShoreView extends JComponent {
+public class ShoreView extends JPanel {
 
 	private ShoreModel model;
 	private ArrayList<ArrayList<ShoreTile>> modelTiles;
@@ -75,10 +75,13 @@ public class ShoreView extends JComponent {
 	private double oceanTileImageIndex = 0;
 	private final int OCEAN_TILE_IMAGE_FRAME_COUNT = 15;
 	
-	private Rectangle timerRect;
+	private String tutorialText;
+	private JTextArea tutorialPane;
+	private int tutorialCountdown = 3;
 		
-	
+
 	public ShoreView(ShoreModel model){
+		setLayout(null);
 		this.model = model;
 		this.modelTiles = model.getTiles();
 		//ShoreItem r1 = new ShoreItem(new ShorePosition(10,10), model.getItemRock());
@@ -105,14 +108,14 @@ public class ShoreView extends JComponent {
 			commercialBoatImg = ImageIO.read(new File("Final Images/Objects/vessel.png"));
 			healthImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/redtogreen.png"));
 			continueImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/continue1.png"));
-			oneImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/1.jpg"));
+			oneImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/1.png"));
 			twoImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/2.png"));
 			threeImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/3.png"));
 			arrowImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/arrow.png"));
 			mouseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/computermouse.png"));
 			winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/win.png"));
 			loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
-			
+			tutorialPane = new JTextArea("");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,8 +151,9 @@ public class ShoreView extends JComponent {
 		}
 		oceanTileImageIndex = (oceanTileImageIndex + 0.05) % OCEAN_TILE_IMAGE_FRAME_COUNT;
 	}	
-	
-	public void paint(Graphics g){
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		//screen size
 		final int SCREEN_WIDTH = getWidth();
 		final int SCREEN_HEIGHT = getHeight();
@@ -212,8 +216,8 @@ public class ShoreView extends JComponent {
 		final BufferedImage CONTINUE_IMAGE = continueImg;
 		final int CONTINUE_WIDTH = TILE_WIDTH*4;
 		final int CONTINUE_HEIGHT = TILE_HEIGHT*2;
-		final int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT))).getTileOrigin().getShoreX());
-		final int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT))).getTileOrigin().getShoreY());
+		final int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT)-1)).getTileOrigin().getShoreX());
+		final int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow() - (CONTINUE_WIDTH/TILE_WIDTH)).get((int)(model.getTilesInColumn()-(CONTINUE_HEIGHT/TILE_HEIGHT)-1)).getTileOrigin().getShoreY());
 		
 		//draw tiles
 		renderShore(g,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -293,6 +297,7 @@ public class ShoreView extends JComponent {
 		String s1 = ROCK_ITEM_AMOUNT.toString();
 		String s2 = OYSTER_ITEM_AMOUNT.toString();
 		String s3 = SEED_ITEM_AMOUNT.toString();
+		g.setFont(new Font("Arial", Font.BOLD, (int)(model.getTileHeight()/3)));
 		g.drawString(s1, (int)(model.getTileWidth()), (int) (model.getTileHeight()/1.5));
 		g.drawString(s2, (int)(model.getTileWidth()*3), (int) (model.getTileHeight()/1.5));
 		g.drawString(s3, (int)(model.getTileWidth()*5), (int) (model.getTileHeight()/1.5));
@@ -314,33 +319,121 @@ public class ShoreView extends JComponent {
 		
 		//draw tutorial
 		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
-			
-			g.drawImage(CONTINUE_IMAGE, CONTINUE_X, CONTINUE_Y, CONTINUE_WIDTH,
+			if(model.getTutorialStage() > 0 && model.getTutorialStage() < 8){
+				g.drawImage(CONTINUE_IMAGE, CONTINUE_X, CONTINUE_Y, CONTINUE_WIDTH,
 					CONTINUE_HEIGHT, null);
-			String tutorialText = "";
+			}
 			switch(model.getTutorialStage()){
 			case 1:
-				g.drawImage(mouseImg, 100, 100, 100, 100, null);
-				tutorialText = "Step 1";
-				//g.drawImage(oneImg, 200, 200, 100, 100, null);
-				//g.drawImage(twoImg, 300, 300, 100, 100, null);
-				//g.drawImage(threeImg, 400, 400, 100, 100, null);
-				//g.drawImage(arrowImg, 100, 200, 100, 100, null);
-				//g.drawImage(winImg, 400, 100, 200, 100, null);
-				//g.drawImage(loseImg, 400, 200, 200, 100, null);
+				g.drawImage(mouseImg, model.getTileWidth()*6, model.getTileHeight()*2, model.getTileWidth()*4, model.getTileHeight()*6, null);
+				break;
+			case 2:
+				g.drawImage(arrowImg, model.getTileWidth()*5, model.getTileHeight()*8, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, model.getTileWidth()*10, model.getTileHeight()*9, model.getTileWidth(), model.getTileHeight(), null);
+				break;
+			case 3:
+				g.drawImage(arrowImg, (int)(model.getTileWidth()*5.5), 0, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(WALL_DEF_IMAGE, (int)(model.getTileWidth()/2), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, (int)(model.getTileWidth()*1.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
+				g.drawImage(ROCK_ITEM_IMAGE, (int) (model.getTileWidth()*2.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawString(new String("x3"), (int)(model.getTileWidth()*3.5), (int)(model.getTileHeight()*4.5));
+				
+				g.drawImage(GABION_DEF_IMAGE, (int)(model.getTileWidth()*5.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, (int)(model.getTileWidth()*6.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
+				g.drawImage(OYSTER_ITEM_IMAGE, (int) (model.getTileWidth()*7.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawString(new String("x3"), (int)(model.getTileWidth()*8.5), (int)(model.getTileHeight()*4.5));
+			
+				g.drawImage(PLANT_DEF_GOOD_IMAGE, (int)(model.getTileWidth()*10.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, (int)(model.getTileWidth()*11.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
+				g.drawImage(SEED_ITEM_IMAGE, (int) (model.getTileWidth()*12.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
+				g.drawString(new String("x1"), (int)(model.getTileWidth()*13.5), (int)(model.getTileHeight()*4.5));
+				break;
+			case 4:
+				g.drawImage(WAVE_IMAGE, model.getTileWidth()*9, model.getTileHeight()*5, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(PLANT_DEF_GOOD_IMAGE, model.getTileWidth()*9, model.getTileHeight()*8, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(WAVE_IMAGE, model.getTileWidth()*5, model.getTileHeight()*5, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(PLANT_DEF_GOOD_IMAGE, model.getTileWidth()*5, model.getTileHeight()*8, model.getTileWidth(), model.getTileHeight(), null);
+				break;
+			case 5:
+				g.drawImage(arrowImg, model.getTileWidth()*3, model.getTileHeight()*7, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, model.getTileWidth()*8, model.getTileHeight()*7, model.getTileWidth(), model.getTileHeight(), null);
+				g.drawImage(arrowImg, model.getTileWidth()*13, model.getTileHeight()*7, model.getTileWidth(), model.getTileHeight(), null);
+				break;
+			case 6:
+				g.drawImage(arrowImg, model.getTileWidth()*13, 0, model.getTileWidth(), model.getTileHeight(), null);
+				break;
+			case 8:
+				switch(tutorialCountdown){
+				case 3:
+					g.drawImage(threeImg, (int)(model.getTileWidth()*6.5), (int)(model.getTileHeight()*3.5), model.getTileWidth()*2, model.getTileHeight()*4, null);
+					break;
+				case 2:
+					g.drawImage(twoImg, (int)(model.getTileWidth()*6.5), (int)(model.getTileHeight()*3.5), model.getTileWidth()*2, model.getTileHeight()*4, null);
+					break;
+				case 1:
+					g.drawImage(oneImg, (int)(model.getTileWidth()*6.5), (int)(model.getTileHeight()*3.5), model.getTileWidth()*2, model.getTileHeight()*4, null);
+					if(tutorialPane != null){
+						this.remove(tutorialPane);
+						tutorialPane = null;
+					}
+					break;
+				}
+				break;
+			case -1:
+				g.drawImage(winImg, model.getTileWidth()*6, model.getTileHeight()*4, model.getTileWidth()*4, model.getTileHeight()*2, null);
+				break;
+			case -2:
+				g.drawImage(loseImg, model.getTileWidth()*6, model.getTileHeight()*4, model.getTileWidth()*4, model.getTileHeight()*2, null);
+				break;
 			}
-			JTextArea tutorialPane = new JTextArea(tutorialText);
-			tutorialPane.setEditable(false);
-			tutorialPane.setFont(new Font("Arial", Font.BOLD, 12));
-			tutorialPane.setLineWrap(true);
-			tutorialPane.setBounds(0, model.getTilesInColumn()-3*model.getTileHeight(),
-			model.getTileWidth()*model.getTilesInRow(), model.getTileHeight()*2);
-			this.add(tutorialPane);
-			g.setColor(Color.WHITE);
-			g.drawString(tutorialText, 100, 100);
+			//g.setColor(Color.WHITE);
+			//g.drawString(tutorialText, 100, 100);
 		}
-	
 	}
-	
+	public void displayTextbox(){
+		switch(model.getTutorialStage()){
+		case 1:
+			tutorialText = "You only need to use the mouse for this game. Press continue when you are ready to learn more!";
+			break;
+		case 2:
+			tutorialText = "Once the game starts, click on shore items to collect them. Keep collecting to build a defense.";
+			break;
+		case 3:
+			tutorialText = "Once you have enough of an item to build its defense, click on the item in the top left and then \nwhere you want to place the defense on the beach.";
+			break;
+		case 4:
+			tutorialText = "Boat wakes erode the shore, but plants placed behind that eroded section will heal it.";
+			break;
+		case 5:
+			tutorialText = "Walls & Gabions placed on the shore or in front of eroded beach will protect from wakes, \nbut be careful where you place them!";
+			break;
+		case 6:
+			tutorialText = "Fill the shore health meter and win the game by placing objects that are GOOD for the environment.";
+			break;
+		case 7:
+			tutorialText = "Press continue when you are ready to play!";
+			break;
+		case 8:
+			tutorialText = "Good Luck!!!";
+			break;
+		}		
+		if(tutorialPane != null){
+			tutorialPane.setText(tutorialText);
+			tutorialPane.setEditable(false);
+			tutorialPane.setFont(new Font("Arial", Font.BOLD, (int)(model.getTileHeight()/3)));
+			//tutorialPane.setLineWrap(true);
+			tutorialPane.setBounds(0, (int) (model.getTilesInColumn()*model.getTileHeight()-(model.getTileHeight())),
+					model.getTileWidth()*model.getTilesInRow(), model.getTileHeight());
+			this.add(tutorialPane);
+		}
+	}
+	public int getTutorialCountdown() {
+		return tutorialCountdown;
+	}
+
+
+	public void setTutorialCountdown() {
+		this.tutorialCountdown -= 1;
+	}
 
 }
