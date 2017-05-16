@@ -99,7 +99,7 @@ public class ShoreView extends JPanel {
 			oysterItemImg = ImageIO.read(new File("Final Images/Animals/clam_back_0.png"));
 			seedItemImg = ImageIO.read(new File("Final Images/Plants/seed.png"));
 			wallDefenseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/Dialogue2.png"));
-			gabionDefenseImg = ImageIO.read(new File("Final Images/Objects/net(1).png"));
+			gabionDefenseImg = ImageIO.read(new File("Final Images/Objects/gabion.jpg"));
 			plantDefenseGoodImg = ImageIO.read(new File("Final Images/Plants/milkweed_good.png"));
 			plantDefenseBadImg = ImageIO.read(new File("Final Images/Plants/sadmilkweed.png"));
 			waveImg = ImageIO.read(new File("Final Images/Objects/wave.png"));

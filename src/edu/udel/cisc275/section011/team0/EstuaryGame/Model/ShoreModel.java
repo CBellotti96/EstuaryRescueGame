@@ -126,13 +126,7 @@ public class ShoreModel {
 	 * updates position of moving objects
 	 * 
 	 */
-	public void playTutorial(){
-		switch(tutorialStage){
-		case 4: 
-			
-		}
-	}
-	
+
 	public void onTick(){ //updates position of moving objects
 		tickCount+= 1;
 		defensePlacementArea(defensePlant);
@@ -143,9 +137,6 @@ public class ShoreModel {
 				tiles.get(i).get(j).setTileOrigin(new ShorePosition(i*tileWidth,j*tileHeight));
 				p = null;
 			}
-		}
-		if(gameMode == ShoreGameMode.TUTORIAL){
-			playTutorial();
 		}
 		if(gameMode == ShoreGameMode.NORMAL){
 			for(ShoreItem it: items){
