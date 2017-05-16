@@ -5,35 +5,107 @@ import java.util.List;
 import java.util.Random;
 import java.lang.Long;
 
+/**
+ * MazeSection class contains methods which generate a random maze,
+ * as well as predators and obstacles contained within that maze.
+ * 
+ * @author Alexandra Hurst
+ * @author Emily McNeil
+ *
+ */
 public class MazeSection {
 
+	/**
+	 * For ease of use. Contains the flag value for NORTH.
+	 * @see		{@link Direction} 
+	 */
 	public static final int N = Direction.NORTH.getFlag();
+	/**
+	 * For ease of use. Contains the flag value for EAST.
+	 * @see		{@link Direction} 
+	 */
 	public static final int E = Direction.EAST.getFlag();
+	/**
+	 * For ease of use. Contains the flag value for SOUTH.
+	 * @see		{@link Direction} 
+	 */
 	public static final int S = Direction.SOUTH.getFlag();
+	/**
+	 * For ease of use. Contains the flag value for WEST.
+	 * @see		{@link Direction} 
+	 */
 	public static final int W = Direction.WEST.getFlag();
 	public static final int ENTRANCE = 16;
 	public static final int EXIT = 32;
 	
+	/**
+	 * The maze represented as a 2D array.
+	 */
 	private final int grid[][];
+	/**
+	 * Side of the Maze at which the salinity is highest.
+	 * Also where the {@link MazeCrab} enters the section.
+	 * @see {@link Direction}
+	 */
 	private final Direction entranceSide;
+	/**
+	 * Side of the Maze at which the salinity is lowest.
+	 * Also the correct location for the {@link MazeCrab} 
+	 * to leave the section.
+	 * @see {@link Direction}
+	 */
 	private final Direction exitSide;
 	
+	/**
+	 * Horizontal position within the grid.
+	 * @see	#grid
+	 */
 	private final int startTileX;
+	/**
+	 * Vertical position within the grid.
+	 * @see	#grid
+	 */
 	private final int startTileY;
 
+	/**
+	 * Array containing all {@link MazeObstacle} objects generated for the section.
+	 */
 	private List<MazeObstacle> obstacles = new ArrayList<>();
+	/**
+	 * Array containing all {@link MazePredator} objects generated for the section.
+	 */
 	private List<MazePredator> predators = new ArrayList<>();
 	
+	private MazeWeather weather;
+	
+	/**
+	 * Generates a single section of the maze, including its predators and obstacles.
+	 * <p>
+	 * The maze is generated using an adaptation of the Sidewinder algorithm from:
+	 * http://weblog.jamisbuck.org/2011/2/3/maze-generation-sidewinder-algorithm.html .
+	 * The Sidewinder algorithm was chosen for the relatively-trivial, 
+	 * direction-biased mazes it generates because the game is less about 
+ 	 * solving complex mazes and more about moving around minor obstacles 
+	 * towards a defined salinity goal.
+	 * <p>
+	 * First, the maze is built inside a 2D array. Then an exit point is chosen.
+	 * After the exit point is chosen, the maze is rotated to align the exit side
+	 * with its proper cardinal direction. The player's starting position is chosen
+	 * based off of the exit.
+	 * <p>
+	 * After the maze, entrance, and exit are defined, the predators and obstacles are 
+	 * generated. With all the components defined, the MazeSection constructor is called.
+	 * @param height			height of the maze
+	 * @param width				width of the maze
+	 * @param entranceSide		side of the maze with the highest salinity
+	 * @param exitSide			side of the maze with the lowest salinity
+	 * @param mazeDifficulty	difficulty level of the maze; determines numbers of predators, etc.
+	 * @return					a single maze section
+	 */
 	static MazeSection generateMazeSection(int height, int width, 
 			Direction entranceSide, Direction exitSide, MazeDifficulty mazeDifficulty) {
 		int[][] maze = new int[height][width];
-		
-		// Generate maze using Sidewinder algorithm adapted from 
-		// (http://weblog.jamisbuck.org/2011/2/3/maze-generation-sidewinder-algorithm.html).
-		// The Sidewinder algorithm was chosen for the relatively-trivial, 
-		// direction-biased mazes it generates because the game is less about 
-		// solving complex mazes and more about moving around minor obstacles 
-		// towards a defined salinity goal
+
 		Random rand = new Random();
 		final int weight = 2;
 		for (int y = 0; y < height; y++) {
@@ -56,8 +128,6 @@ public class MazeSection {
 		}
 		
 		// rotate maze so exit side is facing in correct direction
-		//TODO: Delete print statement
-		System.out.println(exitSide);
 		switch (exitSide) {
 		case EAST: maze = rotateMazeLeft(maze);
 		case SOUTH: maze = rotateMazeLeft(maze);
@@ -127,10 +197,11 @@ public class MazeSection {
 		ArrayList<MazeObstacle> obstacles = genObstacles(mazeDifficulty, maze[0].length, maze.length);
 		ArrayList<MazePredator> predators = genPredators(mazeDifficulty, maze[0].length, maze.length);
 		
+		MazeWeather sectionWeather = MazeWeather.randomMazeWeather();
+		
 		MazeSection section = new MazeSection(maze, entranceSide, exitSide, 
-				startX, startY, obstacles, predators);
-		//section.printMaze();
-		//System.out.println("-----");
+				startX, startY, obstacles, predators, sectionWeather);
+
 		return section;
 	}
 	
@@ -192,7 +263,8 @@ public class MazeSection {
 	
 	private MazeSection(int grid[][], Direction entranceSide, 
 			Direction exitSide, int startTileX, int startTileY,
-			ArrayList<MazeObstacle> obstacles, ArrayList<MazePredator> predators) {
+			ArrayList<MazeObstacle> obstacles, ArrayList<MazePredator> predators,
+			MazeWeather weather) {
 		this.grid = grid;
 		this.entranceSide = entranceSide;
 		this.exitSide = exitSide;
@@ -200,34 +272,69 @@ public class MazeSection {
 		this.startTileY = startTileY;
 		this.obstacles = obstacles;
 		this.predators = predators;
+		this.weather = weather;
 	}
 	
+	/**
+	 * Getter for the data in a given grid cell.
+	 * @param y		vertical position in the grid
+	 * @param x		horizontal position in the grid
+	 * @return		integer data held in the grid
+	 */
 	public int getCell(int y, int x) {
 		return grid[y][x];
 	}
+	
+	/**
+	 * Getter for width of the maze.
+	 * @return	width of a single row
+	 */
 	public int getWidth() {
 		if(grid.length == 0) {
 			return 0;
 		}
 		return grid[0].length;
 	}
+	
+	/**
+	 * Getter for height of the maze.
+	 * @return	height of a single row
+	 */
 	public int getHeight() {
 		return grid.length;
 	}
 	
+	/**
+	 * Getter for entrance side.
+	 * @return	{@link Direction} in which entrance exists
+	 */
 	public Direction getEntranceSide() {
 		return entranceSide;
 	}
+	
+	/**
+	 * Getter for exit side.
+	 * @return	{@link Direction} in which exit exists
+	 */
 	public Direction getExitSide() {
 		return exitSide;
 	}
 	
+	/**
+	 * Getter for horizontal starting position of player.
+	 * @return	integer marking player's initial horizontal position in the maze
+	 */
 	public int getStartTileX() {
 		return startTileX;
 	}
+	/**
+	 * Getter for vertical starting position of player.
+	 * @return	integer marking player's initial vertical position in the maze
+	 */
 	public int getStartTileY() {
 		return startTileY;
 	}
+	
 	
 	public void handleCollision(MazeCrab crab) {
 		int currentTileX = (int) (crab.getXPos() + crab.getWidth() / 2);
@@ -292,5 +399,9 @@ public class MazeSection {
 
 	public List<MazePredator> getPredators() {
 		return predators;
+	}
+	
+	public MazeWeather getWeather(){
+		return this.weather;
 	}
 }

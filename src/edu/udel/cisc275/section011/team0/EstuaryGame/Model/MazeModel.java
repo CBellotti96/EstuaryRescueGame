@@ -15,7 +15,7 @@ public class MazeModel {
 
 	private final double maxSalinity = 30; // TODO change value based on  
 	private final double minSalinity = 4;  // specific estuary, these are tesing
-	private MazeWeather weather = MazeWeather.SUN;
+	private MazeWeather weather;
 	private final MazeCrab player;
 	
 	private long timeRemaining;
@@ -41,6 +41,8 @@ public class MazeModel {
 			MazeSection section = this.generateSection(i);
 			sections[i] = section;
 		}
+
+		this.weather = sections[currentSection].getWeather();
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
 				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
@@ -57,7 +59,8 @@ public class MazeModel {
 	
 	public double getSalinity() {
 		double sectionSalinityDiff = (maxSalinity - minSalinity) / sections.length;
-		return (getCurrentSection().getProgression(player) + currentSection) * sectionSalinityDiff
+		return ((getCurrentSection().getProgression(player) + currentSection) * sectionSalinityDiff)
+				* weather.getSalinitySensitivity()
 				+ minSalinity;
 	}
 	
@@ -139,6 +142,7 @@ public class MazeModel {
 				currentSection++;
 				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
 				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
+				this.setWeather(sections[currentSection].getWeather());
 				System.out.println(currentSection);
 			} else {
 				// TODO victory screen
