@@ -152,7 +152,7 @@ public void testBuildDefense(){
     assertNotNull(result);
 }
 @Test
-public void testHandleOnTick(){
+public void testHandleOnTick(){//tests if onTick() adds a boat if there are none
 	ShoreModel test = new ShoreModel();
 	int value = test.getBoats().size();
 	test.onTick();
@@ -160,7 +160,7 @@ public void testHandleOnTick(){
 	assertNotSame(value,result);
 }
 @Test
-public void testHandleOnClick(){
+public void testHandleOnClick(){//test if clicking removes the item
 	ShoreModel test = new ShoreModel();
 	ShoreItem instance = new ShoreItem
 			(new ShoreTile
