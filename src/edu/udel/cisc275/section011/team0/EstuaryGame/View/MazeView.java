@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.Direction;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeCrab;
+import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeGameMode;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeModel;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeObstacle;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeObstacleType;
@@ -64,6 +65,10 @@ public class MazeView extends JComponent {
 	private double waterTileImgIndex = 0;
 	private final int WATER_TILE_IMG_FRAME_COUNT = 15;
 	private final int WATER_TILE_IMG_FRAME_SIZE = 64;
+	
+	private BufferedImage tutorialImg;
+	private BufferedImage winImg;
+	private BufferedImage loseImg;
 	
 	public MazeView(MazeModel model){
 		this.model = model;
@@ -148,6 +153,13 @@ public class MazeView extends JComponent {
 			sandbarImg[0] = ImageIO.read(new File("Final Images/Objects/sandbar_none.png"));
 			
 			miniMapBorder = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/minimap_border.png"));
+		
+			tutorialImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/mazekeysinfo1.png"));
+
+			winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/keysinfo.png"));
+					
+			loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
+			
 		} catch(IOException e) {			
 			e.printStackTrace();
 		}
@@ -259,7 +271,8 @@ public class MazeView extends JComponent {
 	}
 	
 	@Override
-	public void paint(Graphics g){
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		// screen dimensions
 		final int SCREEN_WIDTH = getWidth();
 		final int SCREEN_HEIGHT = getHeight();
@@ -334,6 +347,25 @@ public class MazeView extends JComponent {
 		g.drawImage(WEATHER_ICON, SCREEN_WIDTH - (WEATHER_ICON_WIDTH + WEATHER_ICON_MARGIN), 
 				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
 				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, null);
+	
+		//drawing tutorial
+		if (model.getMode() == MazeGameMode.TUTORIAL){
+			switch(model.getTutorialStage()){
+			case 0:
+				//g.drawImage(tutorialImg, (SCREEN_WIDTH-500)/2, (SCREEN_HEIGHT-500/2), 500, 500, null);
+				model.setTutorialStage();
+			case 1:
+				model.setMode(MazeGameMode.NORMAL);
+			}
+		}
+			
+		//win screen
+		if (model.getMode() == MazeGameMode.WON){
+			g.drawImage(winImg, SCREEN_WIDTH-(SCREEN_WIDTH/4), 
+					SCREEN_HEIGHT-(SCREEN_HEIGHT/4), 
+					SCREEN_WIDTH/2, SCREEN_HEIGHT/2, null);
+		}
+		
 	}
 	
 }
