@@ -11,13 +11,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
@@ -58,6 +63,10 @@ public class StoryView extends JPanel {
 	private final String titleText = "Your title here!";
 	private final String storyText = "Your story here!";
 	
+	private JButton submit;
+	private final String submitText = "Submit your story!";
+	private boolean submitted;
+	
 	public double getScale () {return this.scale;}	
 	public int getXMargin () {return this.xMargin;}
 	
@@ -80,6 +89,7 @@ public class StoryView extends JPanel {
 			} catch (IOException e) {
 				images[i] = null;
 			}
+		this.submitted = false;
 		this.setLayout(null);
 	}
 	
@@ -112,6 +122,20 @@ public class StoryView extends JPanel {
 					story.setText("");
 			}
 		};
+		ActionListener submitListener = new ActionListener() {
+			@Override
+			public void actionPerformed (ActionEvent e) {
+				boolean allEndPos = true;
+				for (StoryCube sc : model.getCubes()) {
+					if (!StoryCubePosition.getEndPositions().contains(sc.getCubePos())) {
+						allEndPos = false;
+					}
+				}
+				if (allEndPos) {
+					submitted = true;
+				}
+			}
+		};
 
 		this.title = new JTextPane();
 		title.addMouseListener(titleAdapter);
@@ -128,6 +152,13 @@ public class StoryView extends JPanel {
 		story.setBackground(backgroundColor);
 		story.setText(storyText);
 		this.add(story);
+		
+		this.submit = new JButton();
+		submit.addActionListener(submitListener);
+		StyleConstants.setFontSize(attribs, 24);
+		submit.setBackground(backgroundColor);
+		submit.setText(submitText);
+		this.add(submit);
 	}
 	
 	/**
@@ -140,9 +171,11 @@ public class StoryView extends JPanel {
 		this.scale = Math.min(width / StoryModel.xCoordMax, height / StoryModel.yCoordMax);
 		this.xMargin = (int) ((width - StoryModel.xCoordMax * scale) / 2);
 		if (title != null)
-			this.title.setBounds(width / 4, 0, width / 2, height / 16);
+			title.setBounds(width / 4, 0, width / 2, height / 16);
 		if (story != null)
-			this.story.setBounds(0, height - height / 8, width, height / 8);
+			story.setBounds(0, height - height / 8, width, height / 8);
+		if (submit != null)
+			submit.setBounds(width / 2 - width / 8, height - height / 4, width / 4, height / 16);
 	}
 	
 	/**
@@ -155,12 +188,17 @@ public class StoryView extends JPanel {
 	public void paint(Graphics g){
 		updateParameters();
 		super.paint(g);
-		g.drawImage(background, 0, 0, width, height, null);
-		super.paintComponents(g);
-		renderFinalPositions(g);
-		renderCubes(g);
+		if (submitted) {
+			this.removeAll();
+			renderStory(g);
+		} else {
+			g.drawImage(background, 0, 0, width, height, null);
+			super.paintComponents(g);
+			renderFinalPositions(g);
+			renderCubes(g);
+		}
 	}
-	
+
 	/**
 	 * @author Ben Wiswell
 	 * Method to paint the outlines of the final story cube positions.
@@ -207,5 +245,44 @@ public class StoryView extends JPanel {
 				g.drawRect(mousePos.x - size / 2, mousePos.y - size / 2, size, size);
 			}
 		}
+	}
+	
+	private void renderStory (Graphics g) {	
+		int numCubes = model.getCubes().size();
+		int scaledSize = (int) (scale * StoryCube.size);
+		int borderSize = (width - numCubes * scaledSize) / 2;
+		Rectangle leftBorder = new Rectangle(0, height - scaledSize, borderSize, scaledSize);
+		Rectangle rightBorder = new Rectangle(width - borderSize, height - scaledSize, borderSize, scaledSize);
+		g.setColor(Color.LIGHT_GRAY);
+		g.fillRect(leftBorder.x, leftBorder.y, leftBorder.width, leftBorder.height);
+		g.fillRect(rightBorder.x, rightBorder.y, rightBorder.width, rightBorder.height);
+		
+		StoryCube[] cubes = new StoryCube[numCubes];
+		for (StoryCube sc : model.getCubes()) {
+			cubes[StoryCubePosition.getEndPositions().indexOf(sc.getCubePos())] = sc;
+		}
+		for (int i = 0; i < numCubes; i++) {
+			g.drawImage(images[cubes[i].getCubeFace()], borderSize + scaledSize * i, height - scaledSize, scaledSize, scaledSize, null);
+		}
+		
+		SimpleAttributeSet attribs = new SimpleAttributeSet();
+		StyleConstants.setAlignment(attribs, StyleConstants.ALIGN_CENTER);
+		
+		JTextPane titlePane = new JTextPane();
+		JTextPane storyPane = new JTextPane();
+
+		StyleConstants.setFontSize(attribs, 24);
+		titlePane.setParagraphAttributes(attribs, true);
+		titlePane.setBackground(Color.LIGHT_GRAY);
+		titlePane.setText(title.getText());
+		titlePane.setBounds(0, 0, width, height / 8);
+		this.add(titlePane);
+
+		StyleConstants.setFontSize(attribs, 24);
+		storyPane.setParagraphAttributes(attribs, true);
+		storyPane.setBackground(Color.LIGHT_GRAY);
+		storyPane.setText(story.getText());
+		storyPane.setBounds(0, height / 8, width, height - scaledSize);
+		this.add(storyPane);
 	}
 }

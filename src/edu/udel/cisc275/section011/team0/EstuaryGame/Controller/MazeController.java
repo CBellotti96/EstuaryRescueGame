@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeCrab;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.MazeModel;
 import edu.udel.cisc275.section011.team0.EstuaryGame.View.MazeView;
@@ -26,6 +27,10 @@ public class MazeController extends KeyAdapter implements Controller {
 	
 	@Override
 	public void tick(){
+		if (pressedKeys.contains(KeyEvent.VK_ESCAPE)){
+			Main.getInstance().setController(new MenuController());
+		}
+		
 		if (pressedKeys.contains(KeyEvent.VK_UP)) {
 			MazeCrab player = model.getPlayer();
 			player.setYPos(player.getYPos() - player.getSpeed());

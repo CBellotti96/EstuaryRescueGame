@@ -28,8 +28,6 @@ public class StoryController extends MouseAdapter implements Controller {
 	private StoryView view;
 	private StoryCube selectedCube;
 	
-	private int numCubes;
-	
 	/**
 	 * @author Ben Wiswell
 	 * StoryController constructor that initializes the StoryModel and StoryView
@@ -38,13 +36,6 @@ public class StoryController extends MouseAdapter implements Controller {
 		model = new StoryModel();
 		view = new StoryView(model);
 		view.addMouseListener(this);
-	}
-	
-	public void stateChanged(ChangeEvent e) {
-		JSlider source = (JSlider)e.getSource();
-		if (!source.getValueIsAdjusting()) {
-			this.numCubes = source.getValue();
-		}
 	}
 	
 	/**

@@ -37,7 +37,7 @@ public class MazePredator extends MazeEntity {
 	/**
 	 * Constructor for MazePredator. 
 	 * <p>
-	 * Invokes {@linkplain <MazeEntity> [MazeEntity]} superconstructor.
+	 * Invokes {@linkplain MazeEntity} superconstructor.
 	 * @param xPos			initial horizontal position
 	 * @param yPos			initial vertical position
 	 * @param xDirection	default horizontal direction of travel
@@ -77,7 +77,8 @@ public class MazePredator extends MazeEntity {
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Resets the position of {@link MazeCrab} instance to 
+	 * @param crab	instance of MazeCrab with which this is colliding
 	 */
 	@Override
 	public void interfereCrab(MazeCrab crab){

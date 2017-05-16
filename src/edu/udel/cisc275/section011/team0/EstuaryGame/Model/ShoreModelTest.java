@@ -3,6 +3,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.junit.Test;
 public class ShoreModelTest {
@@ -147,7 +148,8 @@ public void testSetTileWidth(){
 @Test
 public void testBuildDefense(){
 	ShoreModel test = new ShoreModel();
-	test.buildDefense(7, 7);
+	test.setSavedDefenseType(test.getDefenseGabion());
+	test.buildDefense(350, 350);
 	ShoreTileType result = test.getTiles().get(7).get(7).getTileType();
     assertNotNull(result);
 }
@@ -168,5 +170,45 @@ public void testHandleOnClick(){//test if clicking removes the item
 							new ShorePosition(350, 350)), test.getItemOyster());
 	test.onClick(instance);
 	assertNull(instance.getContainedWithin().getTileContents());
+}
+@Test
+public void testHandleSailboat(){//asserts that handleSailboat() creates waves
+	ShoreModel test = new ShoreModel();
+	test.onTick();
+	test.getBoats().get(0).setXDisplacement(test.getTileWidth());
+	Iterator<ShoreBoat> boatIter =test.getBoats().iterator();
+	test.handleSailboat(test.getBoats().get(0),boatIter);
+	assertNotNull(test.getWaves());
+}
+@Test
+public void testhandleWaveMovement(){//asserts that handleWaves() moves waves
+	ShoreModel test = new ShoreModel();
+	test.onTick();
+	test.getBoats().get(0).setXDisplacement(test.getTileWidth());
+	Iterator<ShoreWave> waveIter =test.getWaves().iterator();
+	Iterator<ShoreBoat> boatIter =test.getBoats().iterator();
+	test.handleSailboat(test.getBoats().get(0),boatIter);
+	test.getWaves().get(0).setYDisplacement(test.getTileHeight());
+	int value = test.getWaves().get(0).getYDisplacement();
+	test.handleWaveMovement(test.getWaves().get(0),waveIter);
+	int result = test.getWaves().get(0).getYDisplacement();
+	assertNotSame(value,result);
+}
+@Test
+public void testHandleWaveCollison(){//asserts that handleWaveCollision() removes waves
+	ShoreModel test = new ShoreModel();
+	test.onTick();
+	test.getBoats().get(0).setXDisplacement(test.getTileWidth());
+	Iterator<ShoreWave> waveIter =test.getWaves().iterator();
+	Iterator<ShoreBoat> boatIter =test.getBoats().iterator();
+	test.handleSailboat(test.getBoats().get(0),boatIter);
+	test.getWaves().get(0).getContainedWithin().getTileOrigin()
+	.setShoreY((test.getTilesInColumn()*test.getTileHeight()/2));
+	int i = (int)((test.getWaves().get(0).getContainedWithin().getTileOrigin().getShoreX())/test.getTileWidth());
+	int j = (int)((test.getWaves().get(0).getContainedWithin().getTileOrigin().getShoreY())/test.getTileHeight());
+	test.getTiles().get(i).get(j+1).setTileContents(test.getDefenseGabion());
+	test.handleWaveCollision(test.getWaves().get(0),waveIter);
+	ShoreWave result = test.getWaves().get(0);
+	assertNull(result);
 }
 }
