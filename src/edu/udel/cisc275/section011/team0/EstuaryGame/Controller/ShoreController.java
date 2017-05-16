@@ -20,6 +20,7 @@ public class ShoreController extends MouseAdapter implements Controller {
 	private ShoreModel model;
 	private ShoreView view;
 	private ShoreItem clicked;
+	private int countWait;
 	
 	public ShoreController(){
 		
@@ -33,18 +34,34 @@ public class ShoreController extends MouseAdapter implements Controller {
 	public void tick(){
 		model.onTick();
 		view.repaint();
+		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
+			view.displayTextbox();
+			if(model.getTutorialStage() == 8 && view.getTutorialCountdown() > 0 ){
+				if((int) (model.getTickCount() % 70) == (int)(countWait % 70)){
+					view.setTutorialCountdown();
+					if(view.getTutorialCountdown() == 0){
+						model.setGameMode(ShoreGameMode.NORMAL);
+						model.setTutorialStage(-3);
+					}
+				}
+			}
+		}
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e){
 		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
-			int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreX());
-			int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreY());
-			if(e.getX() > CONTINUE_X && e.getX() < CONTINUE_X + model.getTileWidth()*4
-			&& e.getY() > CONTINUE_Y && e.getY() < CONTINUE_Y +model.getTileHeight()*2){
-				model.setTutorialStage(model.getTutorialStage()+1);
-				System.out.println(model.getTutorialStage());
-			}
+			if(model.getTutorialStage() > 0 && model.getTutorialStage() < 8){
+				int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-3)).getTileOrigin().getShoreX());
+				int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-3)).getTileOrigin().getShoreY());
+				if(e.getX() > CONTINUE_X && e.getX() < CONTINUE_X + model.getTileWidth()*4
+				&& e.getY() > CONTINUE_Y && e.getY() < CONTINUE_Y +model.getTileHeight()*2){
+					model.setTutorialStage(model.getTutorialStage()+1);
+					if(model.getTutorialStage() == 8){
+						countWait = model.getTickCount();
+					}
+				}
+			}	
 		}
 		if(model.getGameMode() == ShoreGameMode.NORMAL){	
 			for(ShoreItem item: model.getItems()){
