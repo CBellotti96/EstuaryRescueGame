@@ -9,6 +9,13 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import java.util.ArrayList;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 public class StoryModel {
 
 	public final static int xCoordMax = 160;
@@ -30,9 +37,39 @@ public class StoryModel {
 	 * StoryModel constructor, initializes the story cubes.
 	 */
 	public StoryModel () {
-		int n = 8;
-		StoryCubePosition.initializePositions(n);
-		for (int i = 0; i < n; i++) {
+		JFrame jf = new JFrame();
+		JOptionPane optionPane = new JOptionPane();
+		JSlider slider = getSlider(optionPane);
+		optionPane.setMessage(new Object[] { "Select a number of die: ", slider });
+		optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
+		optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
+		JDialog dialog = optionPane.createDialog(jf, "Number of Story Cubes");
+		dialog.setVisible(true);
+		try {
+			initializeModel((int) optionPane.getInputValue());
+		} catch (Exception e) {
+			initializeModel(8);
+		}
+	}
+	
+	private JSlider getSlider(JOptionPane optionPane) {
+	    JSlider slider = new JSlider(JSlider.HORIZONTAL, 4, 10, 8);
+	    slider.setMajorTickSpacing(2);
+	    slider.setPaintTicks(true);
+	    slider.setPaintLabels(true);
+	    ChangeListener changeListener = new ChangeListener() {
+	      public void stateChanged(ChangeEvent changeEvent) {
+	    	  JSlider slider = (JSlider) changeEvent.getSource();
+	    	  optionPane.setInputValue(slider.getValue());
+	      }
+	    };
+	    slider.addChangeListener(changeListener);
+	    return slider;
+	  }
+	
+	public void initializeModel (int numCubes) {
+		StoryCubePosition.initializePositions(numCubes);
+		for (int i = 0; i < numCubes; i++) {
 			StoryCube sc = new StoryCube(i);
 			cubes.add(sc);
 		}

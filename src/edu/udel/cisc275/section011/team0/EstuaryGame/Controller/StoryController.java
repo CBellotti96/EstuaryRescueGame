@@ -12,6 +12,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryCube;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.StoryCubePosition;
@@ -26,7 +30,7 @@ public class StoryController extends MouseAdapter implements Controller {
 	
 	/**
 	 * @author Ben Wiswell
-	 * StoryController constructer that initializes the StoryModel and StoryView
+	 * StoryController constructor that initializes the StoryModel and StoryView
 	 */
 	public StoryController () {
 		model = new StoryModel();

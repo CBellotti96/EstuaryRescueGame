@@ -15,7 +15,7 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.View.StoryView;
 
 public class StoryCube {
 	
-	private final static int speed = 1;
+	public final static int speed = 1;
 	public final static int size = 15;
 	
 	private int id;
@@ -68,7 +68,7 @@ public class StoryCube {
 	 * On the tenth tick, this method assigns a random cube face to the story cube.
 	 */
 	public void incrementRoll () {
-		this.rollState = rollState + 1;
+		this.rollState++;
 		if (rollState % 10 == 0) {
 			Random r = new Random();
 			this.cubeFace = r.nextInt(StoryView.numImages);

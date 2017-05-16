@@ -52,7 +52,7 @@ public class ShoreModel {
 	 * 
 	 */
 	public ShoreModel(){
-		this.gameMode = ShoreGameMode.NORMAL;
+		this.gameMode = ShoreGameMode.TUTORIAL;
 		this.items = new ArrayList<ShoreItem>();
 		this.defenses = new ArrayList<ShoreDefense>();
 		this.boats = new ArrayList<ShoreBoat>();
@@ -199,13 +199,15 @@ public class ShoreModel {
 				for(ShoreDefense d: defenses){
 					shoreHealth += d.getShoreHealthEffect();
 					if(d.getType() == defenseGabion || d.getType() == defenseWall){
-						if(tiles.get((int) (d.getContainedWithin().getTileOrigin().getShoreX()/tileWidth)+1)
-						.get((int)(d.getContainedWithin().getTileOrigin().getShoreY()/tileHeight)).getTileContents() instanceof ShoreDefense){
-							shoreHealth -= .5;
-						}
-						else if(tiles.get((int) (d.getContainedWithin().getTileOrigin().getShoreX()/tileWidth)-1)
-								.get((int)(d.getContainedWithin().getTileOrigin().getShoreY()/tileHeight)).getTileContents() instanceof ShoreDefense){
-							shoreHealth -=.5;
+						int i = (int) (d.getContainedWithin().getTileOrigin().getShoreX()/tileWidth);
+						int j = (int) (d.getContainedWithin().getTileOrigin().getShoreY()/tileHeight);
+						if(i <= tilesInRow - 1 && i > 0){
+							if(tiles.get(i+1).get(j).getTileContents() instanceof ShoreDefense){
+								shoreHealth -= .5;
+							}
+							else if(tiles.get(i-1).get(j).getTileContents() instanceof ShoreDefense){
+								shoreHealth -=.5;
+							}
 						}
 					}
 				}
@@ -221,8 +223,15 @@ public class ShoreModel {
 					}
 				}
 			}
-			if(shoreHealth >= 99 || shoreHealth <= 0){
-				Main.getInstance().setController(new MenuController());
+			//if(shoreHealth >= 99 || shoreHealth <= 0){
+			//	Main.getInstance().setController(new MenuController());
+			if(shoreHealth >= 99){
+				gameMode = ShoreGameMode.TUTORIAL;
+				tutorialStage = -1;
+			}
+			else if(shoreHealth <= 0){
+				gameMode = ShoreGameMode.TUTORIAL;
+				tutorialStage = -2;
 			}
 		}
 	}
