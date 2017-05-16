@@ -337,16 +337,20 @@ public class ShoreView extends JPanel {
 				g.drawImage(arrowImg, (int)(model.getTileWidth()*1.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
 				g.drawImage(ROCK_ITEM_IMAGE, (int) (model.getTileWidth()*2.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
 				g.drawString(new String("x3"), (int)(model.getTileWidth()*3.5), (int)(model.getTileHeight()*4.5));
-				
+				g.drawString(new String("Wall"), (int)(model.getTileWidth()*.75), (int)(model.getTileHeight()*4.75));
+								
 				g.drawImage(GABION_DEF_IMAGE, (int)(model.getTileWidth()*5.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
 				g.drawImage(arrowImg, (int)(model.getTileWidth()*6.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
 				g.drawImage(OYSTER_ITEM_IMAGE, (int) (model.getTileWidth()*7.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
 				g.drawString(new String("x3"), (int)(model.getTileWidth()*8.5), (int)(model.getTileHeight()*4.5));
-			
+				g.drawString(new String("Gabion"), (int)(model.getTileWidth()*5.5), (int)(model.getTileHeight()*4.75));
+				
+				
 				g.drawImage(PLANT_DEF_GOOD_IMAGE, (int)(model.getTileWidth()*10.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
 				g.drawImage(arrowImg, (int)(model.getTileWidth()*11.75), (int)(model.getTileHeight()*3.75), (int)(model.getTileWidth()/2), (int)(model.getTileHeight()/2), null);
 				g.drawImage(SEED_ITEM_IMAGE, (int) (model.getTileWidth()*12.5), (int)(model.getTileHeight()*3.5), model.getTileWidth(), model.getTileHeight(), null);
 				g.drawString(new String("x1"), (int)(model.getTileWidth()*13.5), (int)(model.getTileHeight()*4.5));
+				g.drawString(new String("Plant"), (int)(model.getTileWidth()*10.75), (int)(model.getTileHeight()*4.75));
 				break;
 			case 4:
 				g.drawImage(WAVE_IMAGE, model.getTileWidth()*9, model.getTileHeight()*5, model.getTileWidth(), model.getTileHeight(), null);
