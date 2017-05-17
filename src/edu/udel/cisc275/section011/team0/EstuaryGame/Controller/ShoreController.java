@@ -1,5 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Controller;
-
+/**
+*A ShoreController is the Controller of the Shore Defense minigame's MVC setup.
+**/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -20,7 +22,12 @@ public class ShoreController extends MouseAdapter implements Controller {
 	private ShoreModel model;
 	private ShoreView view;
 	private ShoreItem clicked;
-	
+	private int countWait;
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * ShoreController constructor that initializes the ShoreModel and ShoreView
+	 */
 	public ShoreController(){
 		
 		model = new ShoreModel();
@@ -28,23 +35,49 @@ public class ShoreController extends MouseAdapter implements Controller {
 		view.addMouseListener(this);
 		
 	}
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * Tick method to repaint the ShoreView and update the ShoreModel
+	 */
 	@Override
 	public void tick(){
 		model.onTick();
 		view.repaint();
+		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
+			view.displayTextbox();
+			if(model.getTutorialStage() == 8 && view.getTutorialCountdown() > 0 ){
+				if((int) (model.getTickCount() % 70) == (int)(countWait % 70)){
+					view.setTutorialCountdown();
+					if(view.getTutorialCountdown() == 0){
+						model.setGameMode(ShoreGameMode.NORMAL);
+						model.setTutorialStage(-3);
+					}
+				}
+			}
+		}
 	}
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * Reacts to mouse event. picks up Shore Items, Places Shore Defenses, interact with the continue button in
+	 * the tutorial
+	 * @param e		The mouse click that triggers this method
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
 		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
-			int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreX());
-			int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-2)).getTileOrigin().getShoreY());
-			if(e.getX() > CONTINUE_X && e.getX() < CONTINUE_X + model.getTileWidth()*4
-			&& e.getY() > CONTINUE_Y && e.getY() < CONTINUE_Y +model.getTileHeight()*2){
-				model.setTutorialStage(model.getTutorialStage()+1);
-				System.out.println(model.getTutorialStage());
-			}
+			if(model.getTutorialStage() > 0 && model.getTutorialStage() < 8){
+				int CONTINUE_X = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-3)).getTileOrigin().getShoreX());
+				int CONTINUE_Y = (int) (model.getTiles().get(model.getTilesInRow()-4).get((int)(model.getTilesInColumn()-3)).getTileOrigin().getShoreY());
+				if(e.getX() > CONTINUE_X && e.getX() < CONTINUE_X + model.getTileWidth()*4
+				&& e.getY() > CONTINUE_Y && e.getY() < CONTINUE_Y +model.getTileHeight()*2){
+					model.setTutorialStage(model.getTutorialStage()+1);
+					if(model.getTutorialStage() == 8){
+						countWait = model.getTickCount();
+					}
+				}
+			}	
 		}
 		if(model.getGameMode() == ShoreGameMode.NORMAL){	
 			for(ShoreItem item: model.getItems()){

@@ -20,8 +20,6 @@ public class StoryModel {
 
 	public final static int xCoordMax = 160;
 	public final static int yCoordMax = 120;
-	
-	private boolean initialized = false;
 
 	private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>();
 	private boolean rolled;
@@ -51,7 +49,6 @@ public class StoryModel {
 		optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = optionPane.createDialog(jf, "Number of Story Cubes");
 		dialog.setVisible(true);
-		while (!initialized)
 		initializeModel((int) optionPane.getInputValue());
 	}
 	
@@ -64,7 +61,6 @@ public class StoryModel {
 	      public void stateChanged(ChangeEvent changeEvent) {
 	    	  JSlider slider = (JSlider) changeEvent.getSource();
 	    	  optionPane.setInputValue(slider.getValue());
-	    	  initialized = true;
 	      }
 	    };
 	    slider.addChangeListener(changeListener);
@@ -76,7 +72,6 @@ public class StoryModel {
 		for (int i = 0; i < numCubes; i++) {
 			StoryCube sc = new StoryCube(i);
 			cubes.add(sc);
-			System.out.println(sc);
 		}
 	}
 

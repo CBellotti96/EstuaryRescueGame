@@ -15,7 +15,7 @@ public class MazeModel {
 
 	private final double maxSalinity = 30; // TODO change value based on  
 	private final double minSalinity = 4;  // specific estuary, these are tesing
-	private MazeWeather weather = MazeWeather.SUN;
+	private MazeWeather weather;
 	private final MazeCrab player;
 	
 	private long timeRemaining;
@@ -27,8 +27,12 @@ public class MazeModel {
 	private MenuReturnItem exitButton;
 	private MazeDifficulty mazeDifficulty;
 	private List<Direction> directions = new ArrayList<>();
+	private MazeGameMode mode;
+	private int tutorialStage;
 	
 	public MazeModel() {
+		this.mode = MazeGameMode.TUTORIAL;
+		this.tutorialStage = 0;
 		this.mazeDifficulty = MazeDifficulty.NORMAL;
 		
 		// create maze sections
@@ -41,6 +45,8 @@ public class MazeModel {
 			MazeSection section = this.generateSection(i);
 			sections[i] = section;
 		}
+
+		this.weather = sections[currentSection].getWeather();
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
 				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
@@ -57,7 +63,8 @@ public class MazeModel {
 	
 	public double getSalinity() {
 		double sectionSalinityDiff = (maxSalinity - minSalinity) / sections.length;
-		return (getCurrentSection().getProgression(player) + currentSection) * sectionSalinityDiff
+		return ((getCurrentSection().getProgression(player) + currentSection) * sectionSalinityDiff)
+				* weather.getSalinitySensitivity()
 				+ minSalinity;
 	}
 	
@@ -110,6 +117,22 @@ public class MazeModel {
 		return this.mazeDifficulty;
 	}
 	
+	public MazeGameMode getMode(){
+		return this.mode;
+	}
+	
+	public void setMode(MazeGameMode mode){
+		this.mode = mode;
+	}
+	
+	public int getTutorialStage(){
+		return this.tutorialStage;
+	}
+	
+	public void setTutorialStage(){
+		tutorialStage++;
+	}
+	
 	public void tick () {
 		getCurrentSection().handleCollision(player);
 		
@@ -139,9 +162,11 @@ public class MazeModel {
 				currentSection++;
 				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
 				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
+				this.setWeather(sections[currentSection].getWeather());
 				System.out.println(currentSection);
 			} else {
 				// TODO victory screen
+				this.setMode(MazeGameMode.WON);
 				Main.getInstance().setController(new MenuController());
 			}
 		}

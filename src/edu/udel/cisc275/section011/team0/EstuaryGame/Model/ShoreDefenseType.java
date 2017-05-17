@@ -67,7 +67,7 @@ public class ShoreDefenseType {
 			this.placementZoneStartY = 0;
 			this.shoreHealthEffect = -.1;
 			this.numItemsRequired = 3;
-			this.durability = .7;
+			this.durability = 1.0;
 		}
 		else if (name == "Gabion"){
 			this.placementZoneEndY = 0;
