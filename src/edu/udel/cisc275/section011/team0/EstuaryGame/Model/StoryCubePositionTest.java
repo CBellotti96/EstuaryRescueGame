@@ -13,14 +13,10 @@ public class StoryCubePositionTest {
 	public void testGetAllPositions() {
 		int n = 4;
 		StoryCubePosition.initializePositions(n);
-		boolean allContained = true;
 		for (StoryCubePosition scp : StoryCubePosition.getStartPositions())
-			if (!StoryCubePosition.getAllPositions().contains(scp))
-				allContained = false;
+			assertTrue(StoryCubePosition.getAllPositions().contains(scp));
 		for (StoryCubePosition scp : StoryCubePosition.getEndPositions())
-			if (!StoryCubePosition.getAllPositions().contains(scp))
-				allContained = false;
-		assertTrue(allContained);
+			assertTrue(StoryCubePosition.getAllPositions().contains(scp));
 	}
 	
 	@Test

@@ -46,12 +46,6 @@ public class StoryCubePosition {
 		this.y = y;
 	}
 	
-	public static void reset () {
-		allPositions = new ArrayList<StoryCubePosition>();
-		startPositions = new ArrayList<StoryCubePosition>();
-		endPositions = new ArrayList<StoryCubePosition>();
-	}
-	
 	/**
 	 * @author Ben Wiswell
 	 * Method to determine and initialize the StoryCubePositions based upon the number of desired

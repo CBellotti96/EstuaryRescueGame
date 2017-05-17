@@ -21,7 +21,7 @@ public class StoryModel {
 	public final static int xCoordMax = 160;
 	public final static int yCoordMax = 120;
 
-	private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>();
+	private ArrayList<StoryCube> cubes;
 	private boolean rolled;
 
 	public ArrayList<StoryCube> getCubes () {
@@ -33,6 +33,7 @@ public class StoryModel {
 	}
 	
 	public StoryModel (int n) {
+		this.cubes = new ArrayList<StoryCube>();
 		initializeModel(n);
 	}
 
@@ -41,6 +42,7 @@ public class StoryModel {
 	 * StoryModel constructor, initializes the story cubes.
 	 */
 	public StoryModel () {
+		this.cubes = new ArrayList<StoryCube>();
 		JFrame jf = new JFrame();
 		JOptionPane optionPane = new JOptionPane();
 		JSlider slider = getSlider(optionPane);

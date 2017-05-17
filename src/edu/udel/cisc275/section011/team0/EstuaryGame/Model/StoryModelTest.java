@@ -10,6 +10,15 @@ import javax.swing.JSlider;
 import org.junit.Test;
 
 public class StoryModelTest {
+	
+	@Test
+	public void testIsRolled() {
+		int n = 4;
+		StoryModel sm = new StoryModel(n);
+		assertFalse(sm.isRolled());
+		sm.roll();
+		assertTrue(sm.isRolled());
+	}
 
 	@Test
 	public void testInitializeModel() {
@@ -38,6 +47,14 @@ public class StoryModelTest {
 		assertEquals(rollState, sm.getCubes().get(0).getRollState());
 		assertEquals(x - StoryCube.speed, (int) moveTestCube.getRect(1, 0).getCenterX() - 1);
 		assertEquals(y - StoryCube.speed, (int) moveTestCube.getRect(1, 0).getCenterY() - 1);
+		moveTestCube.setX(target.getX());
+		moveTestCube.setY(target.getY());
+		sm.tick();
+		moveTestCube.setX(x);
+		moveTestCube.setY(y);
+		sm.tick();
+		assertEquals(x - StoryCube.speed, (int) moveTestCube.getRect(1, 0).getCenterX());
+		assertEquals(y - StoryCube.speed, (int) moveTestCube.getRect(1, 0).getCenterY());
 	}
 
 	@Test
@@ -45,11 +62,8 @@ public class StoryModelTest {
 		int n = 4;
 		StoryModel sm = new StoryModel(n);
 		sm.roll();
-		boolean allRolling = true;
 		for (StoryCube sc : sm.getCubes())
-			if (!sc.isRolling())
-				allRolling = false;
-		assertTrue(allRolling);
+			assertTrue(sc.isRolling());
 	}
 	
 	@Test
