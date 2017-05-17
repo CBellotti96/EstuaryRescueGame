@@ -28,11 +28,13 @@ public class MazeModel {
 	private MazeDifficulty mazeDifficulty;
 	private List<Direction> directions = new ArrayList<>();
 	private MazeGameMode mode;
-	private int tutorialStage;
+	
+	private double collisionX = 0;
+	private double collisionY = 0;
+	private double percentageReset = 0;
 	
 	public MazeModel() {
 		this.mode = MazeGameMode.TUTORIAL;
-		this.tutorialStage = 0;
 		this.mazeDifficulty = MazeDifficulty.NORMAL;
 		
 		// create maze sections
@@ -50,6 +52,7 @@ public class MazeModel {
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
 				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
+		player.markCheckpoint();
 		
 		exitButton = new MenuReturnItem();
 		
@@ -125,50 +128,57 @@ public class MazeModel {
 		this.mode = mode;
 	}
 	
-	public int getTutorialStage(){
-		return this.tutorialStage;
-	}
-	
-	public void setTutorialStage(){
-		tutorialStage++;
-	}
-	
 	public void tick () {
-		getCurrentSection().handleCollision(player);
-		
-		for (MazePredator predator : getCurrentSection().getPredators()) {
-			predator.move();
-			if (true == player.detectCollision(predator)){
-				player.handleCollision(predator);
+		if (getMode() == MazeGameMode.PLAYING) {
+			getCurrentSection().handleCollision(player);
+			
+			for (MazePredator predator : getCurrentSection().getPredators()) {
+				predator.move();
+				if (true == player.detectCollision(predator)){
+					setMode(MazeGameMode.RESET_CRAB);
+					collisionX = player.getXPos();
+					collisionY = player.getYPos();
+					percentageReset = 0;
+				}
 			}
-		}
-		
-		for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
-			if (true == player.detectCollision(obstacle)){
-				player.handleCollision(obstacle);
+			
+			for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
+				if (true == player.detectCollision(obstacle)){
+					player.handleCollision(obstacle);
+				}
 			}
-		}
-		
-		if (false == player.getIsColliding()){
-			player.resetSpeed();
-		}
-	
-		player.setIsColliding(false);
-		
-		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
-		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
-		if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {
-			if (currentSection < sections.length - 1) {
-				currentSection++;
-				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
-				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
-				this.setWeather(sections[currentSection].getWeather());
-				System.out.println(currentSection);
-			} else {
-				// TODO victory screen
-				this.setMode(MazeGameMode.WON);
-				Main.getInstance().setController(new MenuController());
+			
+			if (false == player.getIsColliding()){
+				player.resetSpeed();
 			}
+		
+			player.setIsColliding(false);
+			
+			int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
+			int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
+			if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {
+				if (currentSection < sections.length - 1) {
+					currentSection++;
+					player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
+					player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
+					setWeather(sections[currentSection].getWeather());
+					player.markCheckpoint();
+					System.out.println(currentSection);
+				} else {
+					// TODO victory screen
+					this.setMode(MazeGameMode.WIN_SCREEN);
+					Main.getInstance().setController(new MenuController());
+				}
+			}
+		} else if (getMode() == MazeGameMode.RESET_CRAB) {
+			if (percentageReset >= 1) {
+				setMode(MazeGameMode.PLAYING);
+			}
+			
+			System.out.println(percentageReset);
+			player.setXPos(collisionX + ((player.getXCheckpointPos() - collisionX) * percentageReset));
+			player.setYPos(collisionY + ((player.getYCheckpointPos() - collisionY) * percentageReset));
+			percentageReset += 0.01;
 		}
 	}
 	

@@ -68,7 +68,6 @@ public class MazeView extends JComponent {
 	
 	private BufferedImage tutorialImg;
 	private BufferedImage winImg;
-	private BufferedImage loseImg;
 	
 	public MazeView(MazeModel model){
 		this.model = model;
@@ -156,9 +155,9 @@ public class MazeView extends JComponent {
 		
 			tutorialImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/mazekeysinfo1.png"));
 
-			winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/keysinfo.png"));
+			//winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/keysinfo.png"));
 					
-			loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
+			//loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
 			
 		} catch(IOException e) {			
 			e.printStackTrace();
@@ -349,22 +348,18 @@ public class MazeView extends JComponent {
 				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, null);
 	
 		//drawing tutorial
-		if (model.getMode() == MazeGameMode.TUTORIAL){
-			switch(model.getTutorialStage()){
-			case 0:
-				//g.drawImage(tutorialImg, (SCREEN_WIDTH-500)/2, (SCREEN_HEIGHT-500/2), 500, 500, null);
-				model.setTutorialStage();
-			case 1:
-				model.setMode(MazeGameMode.NORMAL);
-			}
+		if (model.getMode() == MazeGameMode.TUTORIAL) {
+			g.drawImage(tutorialImg, SCREEN_WIDTH / 2 - tutorialImg.getWidth() / 2, 
+					SCREEN_HEIGHT / 2 - tutorialImg.getHeight() / 2, 
+					tutorialImg.getWidth(), tutorialImg.getWidth(), null);
 		}
-			
+		
 		//win screen
-		if (model.getMode() == MazeGameMode.WON){
+		/*if (model.getMode() == MazeGameMode.WIN_SCREEN){
 			g.drawImage(winImg, SCREEN_WIDTH-(SCREEN_WIDTH/4), 
 					SCREEN_HEIGHT-(SCREEN_HEIGHT/4), 
 					SCREEN_WIDTH/2, SCREEN_HEIGHT/2, null);
-		}
+		}*/
 		
 	}
 	

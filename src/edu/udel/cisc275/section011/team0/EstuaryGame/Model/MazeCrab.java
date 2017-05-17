@@ -37,7 +37,7 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Default constructor for MazeCrab. 
 	 * <p>
-	 * Invokes superconstructor, {@link <MazeEntity> [MazeEntity]}, using horizontal and vertical coordinates along with defaultSpeed.
+	 * Invokes superconstructor, {@link <MazeEntity> MazeEntity}, using horizontal and vertical coordinates along with defaultSpeed.
 	 * @param xPos	double specifying horizontal position of MazeCrab instance
 	 * @param yPos	double specifying vertical position of MazeCrab instance
 	 */
@@ -45,12 +45,17 @@ public class MazeCrab extends MazeEntity {
 		super(xPos, yPos, defaultSpeed);
 	}
 	
+	@Override
+	public String toString(){
+		return "crab";
+	}
+	
 	/**
 	 * Handles movement of MazeCrab.
 	 * <p>
 	 * Continually sets new x and y positions based off of current speed and position.
 	 * @param direction		enum signifying movement relative to current position
-	 * @see					{@link <Direction> [Direction (enum)]}
+	 * @see					{@link <Direction> Direction (enum)}
 	 */
 	public void move(Direction direction){
 		this.setXPos(this.getXPos() + direction.getXDir() * this.getSpeed());
@@ -77,11 +82,19 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Moves crab back to checkpointed positions.
 	 * <p>
-	 * Invoked when MazeCrab collides with {@link <MazePredator> [MazePredator]}.  
+	 * Invoked when MazeCrab collides with {@link <MazePredator> MazePredator}.  
 	 */
 	public void resetToCheckpoint(){
 		this.setXPos(this.xCheckpointPos);
 		this.setYPos(this.yCheckpointPos);
+	}
+	
+	public double getXCheckpointPos(){
+		return this.xCheckpointPos;
+	}
+	
+	public double getYCheckpointPos(){
+		return this.yCheckpointPos;
 	}
 	
 	/**
@@ -100,8 +113,8 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Invokes an entity's interference method.
 	 * <p>
-	 * This is called when {@link #detectCollision(MazeEntity) [detectCollision]} returns true.
-	 * @param entity	{@link <MazeEntity> [MazeEntity]} with which the crab is colliding
+	 * This is called when {@link #detectCollision(MazeEntity) detectCollision} returns true.
+	 * @param entity	{@link <MazeEntity> MazeEntity} with which the crab is colliding
 	 */
 	public void handleCollision(MazeEntity entity){
 		entity.interfereCrab(this);
@@ -150,10 +163,14 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Setter for {@link #isColliding}
 	 * <p>
-	 * Set to protected. Called in {@link <MazeModel> [MazeModel]}'s {@link MazeModel#tick} method.
+	 * Set to protected. Called in {@link <MazeModel> MazeModel}'s {@link MazeModel#tick} method.
 	 * @param collision		boolean value which isColliding is to be set to
 	 */
 	protected void setIsColliding(boolean collision){
 		this.isColliding = collision;
+	}
+	
+	protected double getDefaultSpeed(){
+		return this.defaultSpeed;
 	}
 }
