@@ -114,6 +114,27 @@ public class MazeCrabTest {
 		assertEquals(test.getXCheckpointPos(), test.getXPos(), 0);
 		assertEquals(test.getYCheckpointPos(), test.getYPos(), 0);
 	
+		
+		MazeEntity trash = new MazeObstacle(0.0, 0.0, 0.0, MazeObstacleType.TRASH);
+
+		test.setIsColliding(false);
+		test.handleCollision(trash);
+		assertEquals(test.getDefaultSpeed(), test.getSpeed(), 0);
+	
+		test.setIsColliding(true);
+		test.handleCollision(trash);
+		assertNotEquals(test.getDefaultSpeed(), test.getSpeed(), 0);
+	
+		test.resetSpeed();
+		MazeEntity seaweed = new MazeObstacle(0.0, 0.0, 0.0, MazeObstacleType.SEAWEED);
+		test.setIsColliding(false);
+		test.handleCollision(seaweed);
+		assertEquals(test.getDefaultSpeed(), test.getSpeed(), 0);
+	
+		test.setIsColliding(true);
+		test.handleCollision(seaweed);
+		assertNotEquals(test.getDefaultSpeed(), test.getSpeed(), 0);
+	
 	}
 	
 	@Test
