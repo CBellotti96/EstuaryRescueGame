@@ -83,11 +83,6 @@ public class ShoreDefenseType {
 			this.numItemsRequired = 1;
 			this.durability = 0;
 		}
-		//this.placementZoneStartY = placementZoneStartY;
-		//this.placementZoneEndY = placementZoneEndY;
-		//this.shoreHealthEffect = shoreHealthEffect;
-		//this.numItemsRequired = numItemsRequired;
-		//this.durability = durability;
 	}
 
 }

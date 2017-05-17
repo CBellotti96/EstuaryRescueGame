@@ -21,7 +21,6 @@ public class MenuController extends MouseAdapter implements Controller {
 	
 	@Override
 	public void tick(){
-		return;
 	}
 
 	@Override
@@ -40,5 +39,7 @@ public class MenuController extends MouseAdapter implements Controller {
 			}
 		}
 	}
+	
+	
 	
 }

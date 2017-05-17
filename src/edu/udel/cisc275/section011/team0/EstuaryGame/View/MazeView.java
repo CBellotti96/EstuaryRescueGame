@@ -67,6 +67,7 @@ public class MazeView extends JComponent {
 	private final int WATER_TILE_IMG_FRAME_SIZE = 64;
 	
 	private BufferedImage tutorialImg;
+	private BufferedImage sectionImg[];
 	private BufferedImage winImg;
 	
 	public MazeView(MazeModel model){
@@ -154,10 +155,12 @@ public class MazeView extends JComponent {
 			miniMapBorder = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/minimap_border.png"));
 		
 			tutorialImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/mazekeysinfo1.png"));
-
-			//winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/keysinfo.png"));
-					
-			//loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
+			sectionImg = new BufferedImage[] {
+					ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/stage1.png")),
+					ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/stage2.png")),
+					ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/stage3.png")),
+			};
+			winImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/winscr.png"));
 			
 		} catch(IOException e) {			
 			e.printStackTrace();
@@ -347,19 +350,27 @@ public class MazeView extends JComponent {
 				SALINE_GAUGE_HEIGHT + SALINE_GAUGE_MARGIN + WEATHER_ICON_MARGIN, 
 				WEATHER_ICON_WIDTH, WEATHER_ICON_HEIGHT, null);
 	
-		//drawing tutorial
+		// draw tutorial
 		if (model.getMode() == MazeGameMode.TUTORIAL) {
 			g.drawImage(tutorialImg, SCREEN_WIDTH / 2 - tutorialImg.getWidth() / 2, 
 					SCREEN_HEIGHT / 2 - tutorialImg.getHeight() / 2, 
 					tutorialImg.getWidth(), tutorialImg.getWidth(), null);
 		}
 		
+		if (model.getMode() == MazeGameMode.SECTION_CHANGE) {
+			g.drawImage(sectionImg[model.getCurrentSectionIndex()], 
+					SCREEN_WIDTH / 2 - tutorialImg.getWidth() / 2, 
+					SCREEN_HEIGHT / 2 - tutorialImg.getHeight() / 2, 
+					tutorialImg.getWidth(), tutorialImg.getWidth(), null);
+		}
+		
+		if (model.getMode() == MazeGameMode.WIN_SCREEN) {
+			g.drawImage(winImg, SCREEN_WIDTH / 2 - tutorialImg.getWidth() / 2, 
+					SCREEN_HEIGHT / 2 - tutorialImg.getHeight() / 2, 
+					tutorialImg.getWidth(), tutorialImg.getWidth(), null);
+		}
+		
 		//win screen
-		/*if (model.getMode() == MazeGameMode.WIN_SCREEN){
-			g.drawImage(winImg, SCREEN_WIDTH-(SCREEN_WIDTH/4), 
-					SCREEN_HEIGHT-(SCREEN_HEIGHT/4), 
-					SCREEN_WIDTH/2, SCREEN_HEIGHT/2, null);
-		}*/
 		
 	}
 	

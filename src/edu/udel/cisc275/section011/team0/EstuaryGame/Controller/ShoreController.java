@@ -87,9 +87,6 @@ public class ShoreController extends MouseAdapter implements Controller {
 					&& e.getY() > BOX_Y && e.getY() < BOX_Y + model.getTileHeight()){
 						clicked = item;
 					}
-					//&& model.getTiles().get(i).get(j).getTileContents() instanceof ShoreItem);
-						//Object o = model.getTiles().get(i).get(j).getTileContents();
-						//model.onClick((ShoreItem)o);
 				}
 			if(clicked != null){
 				model.onClick(clicked);
