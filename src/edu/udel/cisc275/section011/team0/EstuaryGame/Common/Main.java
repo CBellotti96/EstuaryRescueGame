@@ -13,7 +13,7 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 
 public class Main extends JFrame implements ActionListener {
 	
-	private static Main instance;
+	private static Main instance = new Main();
 	
 	public static Main getInstance() {
 		return instance;
@@ -31,8 +31,6 @@ public class Main extends JFrame implements ActionListener {
 	public static void main (String args[]) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				instance = new Main();
-
 				Timer timer = new Timer(16, instance);
 				timer.setActionCommand("Tick");
 				timer.setRepeats(true);

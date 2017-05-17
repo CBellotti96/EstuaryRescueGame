@@ -66,12 +66,33 @@ public class MazeModelTest {
 		test.getPlayer().setIsColliding(true);
 		test.tick();
 		
-		test.setMode(MazeGameMode.RESET_CRAB);
+		test.setMode(MazeGameMode.SECTION_CHANGE);
 		test.tick();
+		
+		test.setMode(MazeGameMode.RESET_CRAB);
+		for (int i = 0; i <= 100; i++) {
+			test.tick();
+		}
 		
 		test.setMode(MazeGameMode.WIN_SCREEN);
 		test.tick();
 		
+	}
+	
+	@Test 
+	public void getSalinityTest() {
+		double sectionSalinityDiff = (test.getMaxSalinity() - test.getMinSalinity()) / test.getSections().length;
+		double salinity = ((test.getCurrentSection().getProgression(test.getPlayer()) + test.getCurrentSectionIndex()) * sectionSalinityDiff)
+				* test.getWeather().getSalinitySensitivity()
+				+ test.getMinSalinity();
+		assertEquals(salinity, test.getSalinity(), 0.0001);
+	}
+	
+	@Test
+	public void getSalinityPercentTest() {
+		double salinityPercent = (test.getSalinity() - test.getMinSalinity()) 
+				/ (test.getMaxSalinity() - test.getMinSalinity());
+		assertEquals(salinityPercent, test.getSalinityPercent(), 0.0001);
 	}
 	
 }

@@ -30,16 +30,6 @@ public class MazeObstacle extends MazeEntity {
 	}
 	
 	/**
-	 * Changes horizontal/vertical position of an obstacle.
-	 * <p>
-	 * Tests type of obstacle and increments its horizontal and vertical position accordingly.
-	 * @param direction		enum signifying movement relative to current position
-	 * @see					{@link <Direction> [Direction (enum)]}
-	 */
-	public void move(Direction direction){
-	}
-	
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override

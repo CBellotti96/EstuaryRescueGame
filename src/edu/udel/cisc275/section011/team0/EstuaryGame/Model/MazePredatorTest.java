@@ -28,6 +28,13 @@ public class MazePredatorTest {
 		assertNotEquals(initXPos, test.getXPos(), 0);
 		assertNotEquals(initYPos, test.getYPos(), 0);
 	
+		test.setSpeed(0);
+		test.setXPos(test.getSpawnX() - test.getMaxDistanceFromSpawn() - 1);
+		test.setYPos(test.getSpawnX() - test.getMaxDistanceFromSpawn() - 1);
+		test.move();
+		assertNotEquals(initXPos, test.getXPos(), 0);
+		assertNotEquals(initYPos, test.getYPos(), 0);
+		
 	}
 	
 }

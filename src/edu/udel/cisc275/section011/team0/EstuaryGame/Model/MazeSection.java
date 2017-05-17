@@ -298,9 +298,6 @@ public class MazeSection {
 	 * @return	width of a single row
 	 */
 	public int getWidth() {
-		if(grid.length == 0) {
-			return 0;
-		}
 		return grid[0].length;
 	}
 	
@@ -310,14 +307,6 @@ public class MazeSection {
 	 */
 	public int getHeight() {
 		return grid.length;
-	}
-	
-	/**
-	 * Getter for entrance side.
-	 * @return	{@link Direction} in which entrance exists
-	 */
-	public Direction getEntranceSide() {
-		return entranceSide;
 	}
 	
 	/**
