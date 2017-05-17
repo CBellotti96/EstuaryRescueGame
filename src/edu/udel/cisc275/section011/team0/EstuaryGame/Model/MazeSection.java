@@ -236,31 +236,6 @@ public class MazeSection {
 		return rotated;
 	}
 	
-	private void printMaze () {
-		for (int y = 0; y < grid.length; y++) {
-			int row[] = grid[y];
-			System.out.print("|"); // leftmost wall
-			for (int x = 0; x < row.length; x++) {
-				int cell = row[x];
-				if (cell == 0 && y + 1 < grid.length && grid[y + 1][x] == 0) { // cell is empty, next cell down is within grid and empty
-					System.out.print(" ");
-				} else {
-					System.out.print(((cell & S) != 0) ? " " : "_");
-				}
-
-				if (cell == 0 && x + 1 < row.length && row[x + 1] == 0) {
-					System.out.print((y + 1 < grid.length && (grid[y + 1][x] == 0 
-							|| grid[y + 1][x + 1] == 0)) ? " " : "_");
-				} else if ((cell & E) != 0) {
-					System.out.print((((cell | row[x + 1]) & S) != 0) ? " " : "_");
-				} else {
-					System.out.print("|");
-				}
-			}
-		    System.out.println();
-		}
-	}
-	
 	private MazeSection(int grid[][], Direction entranceSide, 
 			Direction exitSide, int startTileX, int startTileY,
 			ArrayList<MazeObstacle> obstacles, ArrayList<MazePredator> predators,
@@ -290,9 +265,6 @@ public class MazeSection {
 	 * @return	width of a single row
 	 */
 	public int getWidth() {
-		if(grid.length == 0) {
-			return 0;
-		}
 		return grid[0].length;
 	}
 	
@@ -302,14 +274,6 @@ public class MazeSection {
 	 */
 	public int getHeight() {
 		return grid.length;
-	}
-	
-	/**
-	 * Getter for entrance side.
-	 * @return	{@link Direction} in which entrance exists
-	 */
-	public Direction getEntranceSide() {
-		return entranceSide;
 	}
 	
 	/**
