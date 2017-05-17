@@ -45,6 +45,9 @@ public class MazeCrab extends MazeEntity {
 		super(xPos, yPos, defaultSpeed);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString(){
 		return "crab";

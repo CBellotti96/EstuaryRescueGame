@@ -205,6 +205,11 @@ public class MazeSection {
 		return section;
 	}
 	
+	/**
+	 * Called after maze generation to align the exit side with its cardinal direction.
+	 * @param original	default alignment of the maze
+	 * @return			2D array containing the rotated locations of the maze walls
+	 */
 	private static int[][] rotateMazeLeft(int original[][]) {
 		int [][] transposed = new int[original[0].length][original.length];
 		for (int y = 0; y < original.length; y++) {
@@ -236,6 +241,9 @@ public class MazeSection {
 		return rotated;
 	}
 	
+	/**
+	 * Used for generating a text-based version of the maze.
+	 */
 	private void printMaze () {
 		for (int y = 0; y < grid.length; y++) {
 			int row[] = grid[y];
@@ -335,7 +343,11 @@ public class MazeSection {
 		return startTileY;
 	}
 	
-	
+	/**
+	 * Prevents the player from passing through the walls of the maze.
+	 * 
+	 * @param crab 	player
+	 */
 	public void handleCollision(MazeCrab crab) {
 		int currentTileX = (int) (crab.getXPos() + crab.getWidth() / 2);
 		int currentTileY = (int) (crab.getYPos() + crab.getHeight() / 2);
@@ -355,11 +367,15 @@ public class MazeSection {
 				&& (grid[currentTileY][currentTileX] & S) == 0)  {
 			crab.setYPos(currentTileY + 1 - crab.getHeight());
 		}
-		
-		
-		
 	}
 	
+	/**
+	 * Generates the distance from the exit of the maze.
+	 * <p>
+	 * Used in determining the color and level of the salinity gauge.
+	 * @param crab		player
+	 * @return			double denoting player's proximity to the exit
+	 */
 	public double getProgression(MazeCrab crab) {
 		switch(exitSide) {
 		case NORTH: return 1.0 - crab.getYPos() / (double) getHeight();
@@ -370,6 +386,13 @@ public class MazeSection {
 		}
 	}
 	
+	/**
+	 * Generates the number of MazeObstacles specified by the given MazeDifficulty
+	 * @param mazeDifficulty	level of the maze, determines number of obstacles
+	 * @param mazeWidth			horizontal size of the maze
+	 * @param mazeHeight		vertical size of the maze
+	 * @return					ArrayList of {@link <MazeObstacle> MazeObstacle} objects
+	 */
 	private static ArrayList<MazeObstacle> genObstacles(MazeDifficulty mazeDifficulty, int mazeWidth, int mazeHeight){
 		ArrayList<MazeObstacle> obstacles = new ArrayList<>();
 		for(int i=0; i < mazeDifficulty.getObstacleNum(); i++){
@@ -381,6 +404,14 @@ public class MazeSection {
 		return obstacles;
 	}
 	
+	/**
+	 * Generates the number of MazePredators specified by the given MazeDifficulty 
+	 * 
+	 * @param mazeDifficulty	level of the maze, determines number of predators
+	 * @param mazeWidth			horizontal size of the maze
+	 * @param mazeHeight		vertical size of the maze
+	 * @return					ArrayList of {@link <MazePredator> MazePredator} objects
+	 */
 	private static ArrayList<MazePredator> genPredators(MazeDifficulty mazeDifficulty, int mazeWidth, int mazeHeight){
 		ArrayList<MazePredator> predators = new ArrayList<>();
 		for(int i = 0; i < mazeDifficulty.getPredatorNum(); i++){
