@@ -1,5 +1,7 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Controller;
-
+/**
+*A ShoreController is the Controller of the Shore Defense minigame's MVC setup.
+**/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +23,11 @@ public class ShoreController extends MouseAdapter implements Controller {
 	private ShoreView view;
 	private ShoreItem clicked;
 	private int countWait;
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * ShoreController constructor that initializes the ShoreModel and ShoreView
+	 */
 	public ShoreController(){
 		
 		model = new ShoreModel();
@@ -29,7 +35,11 @@ public class ShoreController extends MouseAdapter implements Controller {
 		view.addMouseListener(this);
 		
 	}
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * Tick method to repaint the ShoreView and update the ShoreModel
+	 */
 	@Override
 	public void tick(){
 		model.onTick();
@@ -47,7 +57,13 @@ public class ShoreController extends MouseAdapter implements Controller {
 			}
 		}
 	}
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * Reacts to mouse event. picks up Shore Items, Places Shore Defenses, interact with the continue button in
+	 * the tutorial
+	 * @param e		The mouse click that triggers this method
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e){
 		if(model.getGameMode() == ShoreGameMode.TUTORIAL){
