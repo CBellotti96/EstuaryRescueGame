@@ -17,23 +17,15 @@ public class MenuController extends MouseAdapter implements Controller {
 		model = new MenuModel();
 		view = new MenuView(model);
 		view.addMouseListener(this);
-		view.addMouseMotionListener(this);
 	}
 	
 	@Override
 	public void tick(){
-		//view.repaint();
 	}
 
 	@Override
 	public JComponent getView() {
 		return view;
-	}
-	
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		view.setMouseX(e.getX());
-		view.setMouseY(e.getY());
 	}
 	
 	@Override

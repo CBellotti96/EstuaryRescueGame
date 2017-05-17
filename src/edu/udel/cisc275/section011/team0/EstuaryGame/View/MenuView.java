@@ -28,29 +28,16 @@ public class MenuView extends JComponent {
 	public int BOX_WIDTH;
 	public int BOX_HEIGHT;
 	
-	private BufferedImage mazeImg;
 	private BufferedImage mazeTextImg;
-	
-	private BufferedImage shoreImg;
 	private BufferedImage shoreTextImg;
-	
-	private BufferedImage storyImg;
 	private BufferedImage storyTextImg;
-	
-	private int mouseX;
-	private int mouseY;
 	
 	public MenuView (MenuModel model) {
 		this.model = model;
 		
 		try {
-			mazeImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_maze.png"));
 			mazeTextImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_maze_text.png"));
-			
-			shoreImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_shore.png"));
 			shoreTextImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_shore_text.png"));
-			
-			storyImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_story.png"));
 			storyTextImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/menu_story_text.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,33 +49,14 @@ public class MenuView extends JComponent {
 		SCREEN_WIDTH = getWidth();
 		SCREEN_HEIGHT = getHeight();
 		
-		g.setColor(Color.DARK_GRAY);
+		g.setColor(Color.CYAN);
 		g.drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+		g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 		
 		MARGIN = SCREEN_WIDTH / 24;
 		BOX_WIDTH = (SCREEN_WIDTH - MARGIN * (model.getMenuItems().size() + 1)) 
 				/ model.getMenuItems().size();
 		BOX_HEIGHT = (int) (BOX_WIDTH * 0.75);
-		
-		for (int i = 0; i < model.getMenuItems().size(); i++) {
-			int BOX_X = i * (BOX_WIDTH + MARGIN) + MARGIN;
-			int BOX_Y = SCREEN_HEIGHT / 2 - BOX_HEIGHT / 2;
-			
-			((Graphics2D) g).setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-	                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			if (mouseX > BOX_X && mouseX < BOX_X + BOX_WIDTH 
-					&& mouseY > BOX_Y && mouseY < BOX_Y + BOX_HEIGHT) {
-				
-				if (model.getMenuItems().get(i) instanceof MazeMenuItem) {
-					g.drawImage(mazeImg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-				} else if (model.getMenuItems().get(i) instanceof ShoreMenuItem) {
-					g.drawImage(shoreImg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-				} else if (model.getMenuItems().get(i) instanceof StoryMenuItem) {
-					g.drawImage(storyImg, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-				}
-				g.drawRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-			}
-		}
 		
 		for (int i = 0; i < model.getMenuItems().size(); i++) {
 			int BOX_X = i * (BOX_WIDTH + MARGIN) + MARGIN;
@@ -105,13 +73,5 @@ public class MenuView extends JComponent {
 			}
 		}
 		
-	}
-	
-	public void setMouseX (int x) {
-		this.mouseX = x;
-	} 
-	
-	public void setMouseY (int y) {
-		this.mouseY = y;
 	}
 }
