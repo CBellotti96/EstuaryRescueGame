@@ -40,7 +40,11 @@ import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShorePosition;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTile;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreTileType;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Model.ShoreWave;
-
+/**
+ * @author Chris Bellotti
+ * @author Alvin Tang
+ * A ShoreView extends JPanel and displays the contents of the Shore Defense minigame
+ */
 public class ShoreView extends JPanel {
 
 	private ShoreModel model;
@@ -76,7 +80,12 @@ public class ShoreView extends JPanel {
 	private JTextArea tutorialPane;
 	private int tutorialCountdown = 3;
 		
-
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * ShoreView constructor, loads in images for the Shore Defense minigame
+	 * @param model		The ShoreModel to be displayed
+	 */
 	public ShoreView(ShoreModel model){
 		setLayout(null);
 		this.model = model;
@@ -115,7 +124,14 @@ public class ShoreView extends JPanel {
 		}
 	}
 	
-	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * renderShore draws the shore for the Shore Defense minigame
+	 * @param g				encapsulates state information needed for rendering operations
+	 * @param screen_width	The width of the display
+	 * @param screen_height The height of the display
+	 */
 	public void renderShore(Graphics g, int screen_width, int screen_height){
 		int TILE_WIDTH = (int) (screen_width/model.getTilesInRow());
 		int TILE_HEIGHT = (int) (screen_height/model.getTilesInColumn());
@@ -140,6 +156,12 @@ public class ShoreView extends JPanel {
 		}
 		oceanTileImageIndex = (oceanTileImageIndex + 0.05) % OCEAN_TILE_IMAGE_FRAME_COUNT;
 	}	
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * paintComponent displays the visuals for the Shore Defense minigame
+	 * @param g		encapsulates state information needed for rendering operations
+	 */
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
@@ -377,6 +399,11 @@ public class ShoreView extends JPanel {
 			}
 		}
 	}
+	/**
+	 * @author Chris Bellotti
+	 * @author Alvin Tang
+	 * displayTextBox creates text boxes for the Tutorial
+	 */
 	public void displayTextbox(){
 		switch(model.getTutorialStage()){
 		case 1:

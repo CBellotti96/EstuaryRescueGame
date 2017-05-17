@@ -18,7 +18,7 @@ public class StoryCubePosition {
 	private static ArrayList<StoryCubePosition> startPositions = new ArrayList<StoryCubePosition>();
 	private static ArrayList<StoryCubePosition> endPositions = new ArrayList<StoryCubePosition>();
 	
-	private final static int size = 15;
+	public final static int size = 15;
 	
 	private int x;
 	private int y;

@@ -2,12 +2,37 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import static org.junit.Assert.*;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.junit.Test;
 
+import edu.udel.cisc275.section011.team0.EstuaryGame.View.StoryView;
+
 public class StoryCubeTest {
+	
+	@Test
+	public void testGetCubeFace() {
+		StoryCube sc = new StoryCube(0);
+		assertTrue(sc.getCubeFace() < StoryView.numImages);
+	}
+	
+	@Test
+	public void testIsSelected() {
+		StoryCube sc = new StoryCube(0);
+		assertFalse(sc.isSelected());
+		sc.setSelected(true);
+		assertTrue(sc.isSelected());
+	}
+	
+	@Test
+	public void testIsRolling() {
+		int n = 4;
+		StoryModel sm = new StoryModel(n);
+		StoryCube sc = new StoryCube(0);
+		assertFalse(sc.isRolling());
+		sc.setRolling(StoryCubePosition.getStartPositions().get(0));
+		assertTrue(sc.isRolling());
+	}
 
 	@Test
 	public void testIncrementRoll() {

@@ -32,26 +32,28 @@ public class MazeController extends KeyAdapter implements Controller {
 			Main.getInstance().setController(new MenuController());
 		}
 		
-		if ((MazeGameMode.TUTORIAL == model.getMode()) 
-				&& (pressedKeys.contains(KeyEvent.VK_SPACE))){
-			model.setMode(MazeGameMode.NORMAL);
+		if (model.getMode() == MazeGameMode.TUTORIAL
+				&& !pressedKeys.isEmpty()){
+			model.setMode(MazeGameMode.PLAYING);
 		}
 		
-		if (pressedKeys.contains(KeyEvent.VK_UP)) {
-			MazeCrab player = model.getPlayer();
-			player.setYPos(player.getYPos() - player.getSpeed());
-		}
-		if (pressedKeys.contains(KeyEvent.VK_DOWN)) {
-			MazeCrab player = model.getPlayer();
-			player.setYPos(player.getYPos() + player.getSpeed());
-		}
-		if (pressedKeys.contains(KeyEvent.VK_LEFT)) {
-			MazeCrab player = model.getPlayer();
-			player.setXPos(player.getXPos() - player.getSpeed());
-		}
-		if (pressedKeys.contains(KeyEvent.VK_RIGHT)) {
-			MazeCrab player = model.getPlayer();
-			player.setXPos(player.getXPos() + player.getSpeed());
+		if (model.getMode() == MazeGameMode.PLAYING) {
+			if (pressedKeys.contains(KeyEvent.VK_UP)) {
+				MazeCrab player = model.getPlayer();
+				player.setYPos(player.getYPos() - player.getSpeed());
+			}
+			if (pressedKeys.contains(KeyEvent.VK_DOWN)) {
+				MazeCrab player = model.getPlayer();
+				player.setYPos(player.getYPos() + player.getSpeed());
+			}
+			if (pressedKeys.contains(KeyEvent.VK_LEFT)) {
+				MazeCrab player = model.getPlayer();
+				player.setXPos(player.getXPos() - player.getSpeed());
+			}
+			if (pressedKeys.contains(KeyEvent.VK_RIGHT)) {
+				MazeCrab player = model.getPlayer();
+				player.setXPos(player.getXPos() + player.getSpeed());
+			}
 		}
 		
 		model.tick();

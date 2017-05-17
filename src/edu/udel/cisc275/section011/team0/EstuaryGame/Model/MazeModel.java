@@ -1,14 +1,10 @@
 package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
-import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 import edu.udel.cisc275.section011.team0.EstuaryGame.Common.Main;
-import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MazeController;
 import edu.udel.cisc275.section011.team0.EstuaryGame.Controller.MenuController;
 
 public class MazeModel {
@@ -24,15 +20,22 @@ public class MazeModel {
 	private static final int SECTION_HEIGHT = SECTION_WIDTH;
 	private MazeSection sections[] = new MazeSection[NUM_SECTIONS];
 	private int currentSection = 0;
-	private MenuReturnItem exitButton;
 	private MazeDifficulty mazeDifficulty;
 	private List<Direction> directions = new ArrayList<>();
 	private MazeGameMode mode;
-	private int tutorialStage;
+	
+	private double collisionX = 0;
+	private double collisionY = 0;
+	private double percentageReset = 0;
+	
+	private int sectionChangeTimer = 0;
+	
+	private int winScreenTimer = 0;
+	
+	private final static int MESSAGE_LENGTH = 300;
 	
 	public MazeModel() {
 		this.mode = MazeGameMode.TUTORIAL;
-		this.tutorialStage = 0;
 		this.mazeDifficulty = MazeDifficulty.NORMAL;
 		
 		// create maze sections
@@ -50,9 +53,7 @@ public class MazeModel {
 		
 		player = new MazeCrab(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2, 
 				sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
-		
-		exitButton = new MenuReturnItem();
-		
+		player.markCheckpoint();
 	}
 	
 	public MazeModel(MazeDifficulty mazeDifficulty){
@@ -113,6 +114,10 @@ public class MazeModel {
 		return sections[currentSection];
 	}
 	
+	public int getCurrentSectionIndex () {
+		return currentSection;
+	}
+	
 	public MazeDifficulty getDifficulty(){
 		return this.mazeDifficulty;
 	}
@@ -125,48 +130,64 @@ public class MazeModel {
 		this.mode = mode;
 	}
 	
-	public int getTutorialStage(){
-		return this.tutorialStage;
-	}
-	
-	public void setTutorialStage(){
-		tutorialStage++;
-	}
-	
 	public void tick () {
-		getCurrentSection().handleCollision(player);
-		
-		for (MazePredator predator : getCurrentSection().getPredators()) {
-			predator.move();
-			if (true == player.detectCollision(predator)){
-				player.handleCollision(predator);
+		if (getMode() == MazeGameMode.PLAYING) {
+			getCurrentSection().handleCollision(player);
+			
+			for (MazePredator predator : getCurrentSection().getPredators()) {
+				predator.move();
+				if (true == player.detectCollision(predator)){
+					setMode(MazeGameMode.RESET_CRAB);
+					collisionX = player.getXPos();
+					collisionY = player.getYPos();
+					percentageReset = 0;
+				}
 			}
-		}
-		
-		for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
-			if (true == player.detectCollision(obstacle)){
-				player.handleCollision(obstacle);
+			
+			for (MazeObstacle obstacle : getCurrentSection().getObstacles()){
+				if (true == player.detectCollision(obstacle)){
+					player.handleCollision(obstacle);
+				}
 			}
-		}
+			
+			if (false == player.getIsColliding()){
+				player.resetSpeed();
+			}
 		
-		if (false == player.getIsColliding()){
-			player.resetSpeed();
-		}
-	
-		player.setIsColliding(false);
-		
-		int currentTileX = (int) (player.getXPos() + player.getWidth() / 2);
-		int currentTileY = (int) (player.getYPos() + player.getHeight() / 2);
-		if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {
-			if (currentSection < sections.length - 1) {
-				currentSection++;
-				player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
-				player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
-				this.setWeather(sections[currentSection].getWeather());
-				System.out.println(currentSection);
-			} else {
-				// TODO victory screen
-				this.setMode(MazeGameMode.WON);
+			player.setIsColliding(false);
+			
+			int currentTileX = (int) (player.getXPos() + MazeCrab.getWidth() / 2);
+			int currentTileY = (int) (player.getYPos() + MazeCrab.getHeight() / 2);
+			if((getCurrentSection().getCell(currentTileY, currentTileX) & MazeSection.EXIT) != 0) {
+				if (currentSection < sections.length - 1) {
+					currentSection++;
+					player.setXPos(sections[currentSection].getStartTileX() + (1.0 - MazeCrab.getDefaultWidth()) / 2);
+					player.setYPos(sections[currentSection].getStartTileY() + (1.0 - MazeCrab.getDefaultHeight()) / 2);
+					setWeather(sections[currentSection].getWeather());
+					player.markCheckpoint();
+					sectionChangeTimer = MESSAGE_LENGTH;
+					setMode(MazeGameMode.SECTION_CHANGE);
+				} else {
+					winScreenTimer = MESSAGE_LENGTH;
+					this.setMode(MazeGameMode.WIN_SCREEN);
+				}
+			}
+		} else if (getMode() == MazeGameMode.RESET_CRAB) {
+			if (percentageReset >= 1) {
+				setMode(MazeGameMode.PLAYING);
+			}
+			
+			player.setXPos(collisionX + ((player.getXCheckpointPos() - collisionX) * percentageReset));
+			player.setYPos(collisionY + ((player.getYCheckpointPos() - collisionY) * percentageReset));
+			percentageReset += 0.01;
+		} else if (getMode() == MazeGameMode.SECTION_CHANGE) {
+			sectionChangeTimer--;
+			if (sectionChangeTimer <= 0) {
+				setMode(MazeGameMode.PLAYING);
+			}
+		} else if (getMode() == MazeGameMode.WIN_SCREEN) {
+			winScreenTimer--;
+			if (winScreenTimer <= 0) {
 				Main.getInstance().setController(new MenuController());
 			}
 		}

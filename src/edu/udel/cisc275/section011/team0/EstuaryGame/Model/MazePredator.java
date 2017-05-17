@@ -76,16 +76,27 @@ public class MazePredator extends MazeEntity {
 		}
 	}
 	
+	@Override
 	/**
 	 * Resets the position of {@link MazeCrab} instance to 
 	 * @param crab	instance of MazeCrab with which this is colliding
 	 */
-	@Override
 	public void interfereCrab(MazeCrab crab){
 		if (true == crab.getIsColliding()){
 			crab.resetToCheckpoint();
 		}
 	}
 	
+	public double getMaxDistanceFromSpawn(){
+		return this.maxDistanceFromSpawn;
+	}
+	
+	public double getSpawnX(){
+		return this.spawnX;
+	}
+	
+	public double getSpawnY(){
+		return this.spawnY;
+	}
 	
 }

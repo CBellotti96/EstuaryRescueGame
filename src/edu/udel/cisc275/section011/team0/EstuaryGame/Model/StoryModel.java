@@ -21,7 +21,7 @@ public class StoryModel {
 	public final static int xCoordMax = 160;
 	public final static int yCoordMax = 120;
 
-	private ArrayList<StoryCube> cubes = new ArrayList<StoryCube>();
+	private ArrayList<StoryCube> cubes;
 	private boolean rolled;
 
 	public ArrayList<StoryCube> getCubes () {
@@ -31,28 +31,31 @@ public class StoryModel {
 	public boolean isRolled () {
 		return this.rolled;
 	}
+	
+	public StoryModel (int n) {
+		this.cubes = new ArrayList<StoryCube>();
+		initializeModel(n);
+	}
 
 	/**
 	 * @author Ben Wiswell
 	 * StoryModel constructor, initializes the story cubes.
 	 */
 	public StoryModel () {
+		this.cubes = new ArrayList<StoryCube>();
 		JFrame jf = new JFrame();
 		JOptionPane optionPane = new JOptionPane();
+		optionPane.setInputValue(8);
 		JSlider slider = getSlider(optionPane);
 		optionPane.setMessage(new Object[] { "Select a number of die: ", slider });
 		optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
 		optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = optionPane.createDialog(jf, "Number of Story Cubes");
 		dialog.setVisible(true);
-		try {
-			initializeModel((int) optionPane.getInputValue());
-		} catch (Exception e) {
-			initializeModel(8);
-		}
+		initializeModel((int) optionPane.getInputValue());
 	}
 	
-	private JSlider getSlider(JOptionPane optionPane) {
+	public JSlider getSlider(JOptionPane optionPane) {
 	    JSlider slider = new JSlider(JSlider.HORIZONTAL, 4, 10, 8);
 	    slider.setMajorTickSpacing(2);
 	    slider.setPaintTicks(true);
