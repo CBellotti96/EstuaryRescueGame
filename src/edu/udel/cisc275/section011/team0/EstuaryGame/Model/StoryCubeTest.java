@@ -2,7 +2,6 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
 
 import static org.junit.Assert.*;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 
 import org.junit.Test;
