@@ -45,6 +45,7 @@ public class StoryModel {
 		this.cubes = new ArrayList<StoryCube>();
 		JFrame jf = new JFrame();
 		JOptionPane optionPane = new JOptionPane();
+		optionPane.setInputValue(8);
 		JSlider slider = getSlider(optionPane);
 		optionPane.setMessage(new Object[] { "Select a number of die: ", slider });
 		optionPane.setMessageType(JOptionPane.QUESTION_MESSAGE);
