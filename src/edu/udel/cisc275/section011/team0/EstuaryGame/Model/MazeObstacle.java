@@ -37,13 +37,6 @@ public class MazeObstacle extends MazeEntity {
 	 * @see					{@link <Direction> [Direction (enum)]}
 	 */
 	public void move(Direction direction){
-		if (this.type == MazeObstacleType.TRASH){
-			this.setXPos(this.getXPos() + direction.getXDir() * MazeObstacleType.TRASH.getDefaultSpeed());
-			this.setYPos(this.getYPos() + direction.getYDir() * MazeObstacleType.TRASH.getDefaultSpeed());
-		}
-		else if (this.type == MazeObstacleType.SEAWEED){
-			return;
-		}
 	}
 	
 	/**
