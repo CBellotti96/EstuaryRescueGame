@@ -46,8 +46,6 @@ public class ShoreView extends JPanel {
 	private ShoreModel model;
 	private ArrayList<ArrayList<ShoreTile>> modelTiles;
 	
-	private BufferedImage healthGaugeImg;
-	
 	private BufferedImage rockItemImg;
 	private BufferedImage oysterItemImg;
 	private BufferedImage seedItemImg;
@@ -70,7 +68,6 @@ public class ShoreView extends JPanel {
 	private BufferedImage loseImg;
 	
 	private BufferedImage beachTileImg;
-	private BufferedImage damagedTileImg;
 	private BufferedImage oceanTileImg[];
 	private double oceanTileImageIndex = 0;
 	private final int OCEAN_TILE_IMAGE_FRAME_COUNT = 15;
@@ -84,17 +81,14 @@ public class ShoreView extends JPanel {
 		setLayout(null);
 		this.model = model;
 		this.modelTiles = model.getTiles();
-		//ShoreItem r1 = new ShoreItem(new ShorePosition(10,10), model.getItemRock());
 		try {
 			beachTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_sand_center.png"));
-			damagedTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_dirt_north.png"));
 			oceanTileImg = new BufferedImage[OCEAN_TILE_IMAGE_FRAME_COUNT];
 			BufferedImage oceanTileImgFull = ImageIO.read(new File("Final Images/Backgrounds/water_tile.png"));
 			for (int i = 0; i < OCEAN_TILE_IMAGE_FRAME_COUNT; i++) {
 				oceanTileImg[i] = oceanTileImgFull.getSubimage(i * model.getTileWidth(), 0, 
 						model.getTileWidth(), model.getTileHeight());
 			}
-			//oceanTileImg = ImageIO.read(new File("Final Images/Backgrounds/tile_water_C.png"));
 			rockItemImg = ImageIO.read(new File("Final Images/Animals/food_pellet.png"));
 			oysterItemImg = ImageIO.read(new File("Final Images/Animals/clam_back_0.png"));
 			seedItemImg = ImageIO.read(new File("Final Images/Plants/seed.png"));
@@ -117,10 +111,8 @@ public class ShoreView extends JPanel {
 			loseImg = ImageIO.read(new File("Final Images/UI Buttons, Icons, Symbols/lose.png"));
 			tutorialPane = new JTextArea("");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//toolbarImg = new BufferedImage(model.getGameWidth(),model.getGameHeight()/20,BufferedImage.TYPE_INT_RGB);
 	}
 	
 	
@@ -144,9 +136,6 @@ public class ShoreView extends JPanel {
 					g.drawImage(oceanTileImg[(int) oceanTileImageIndex], x, y,
 							TILE_WIDTH, TILE_HEIGHT, null);
 				}
-				//else if(type == ShoreTileType.DAMAGED){
-					//img = damagedTileImg;
-				//}
 			}
 		}
 		oceanTileImageIndex = (oceanTileImageIndex + 0.05) % OCEAN_TILE_IMAGE_FRAME_COUNT;
@@ -235,10 +224,6 @@ public class ShoreView extends JPanel {
 				0,(SHORE_HEALTH_LEVEL_WIDTH), SHORE_HEALTH_LEVEL_HEIGHT);
 		g.fillRect((int) (SCREEN_WIDTH/2 + (SHORE_HEALTH_BAR_WIDTH/2) + (SHORE_HEALTH_BAR_WIDTH * (SHORE_HEALTH_LEVEL_PERCENT/100))),
 				0,(SHORE_HEALTH_LEVEL_WIDTH), SHORE_HEALTH_LEVEL_HEIGHT);
-		//g.setColor(ROCK_ITEM_COLOR);
-		//g.drawRect(200, 200, ROCK_ITEM_WIDTH, ROCK_ITEM_HEIGHT);
-		//g.fillRect(200, 200, ROCK_ITEM_WIDTH,  ROCK_ITEM_HEIGHT);
-		//paintComponent(g);
 		//draw items
 		for (ShoreItem it: model.getItems()){
 			if (it.getType() == model.itemRock){
@@ -390,8 +375,6 @@ public class ShoreView extends JPanel {
 				g.drawImage(loseImg, model.getTileWidth()*6, model.getTileHeight()*4, model.getTileWidth()*4, model.getTileHeight()*2, null);
 				break;
 			}
-			//g.setColor(Color.WHITE);
-			//g.drawString(tutorialText, 100, 100);
 		}
 	}
 	public void displayTextbox(){
@@ -425,7 +408,6 @@ public class ShoreView extends JPanel {
 			tutorialPane.setText(tutorialText);
 			tutorialPane.setEditable(false);
 			tutorialPane.setFont(new Font("Arial", Font.BOLD, (int)(model.getTileHeight()/3)));
-			//tutorialPane.setLineWrap(true);
 			tutorialPane.setBounds(0, (int) (model.getTilesInColumn()*model.getTileHeight()-(model.getTileHeight())),
 					model.getTileWidth()*model.getTilesInRow(), model.getTileHeight());
 			this.add(tutorialPane);
