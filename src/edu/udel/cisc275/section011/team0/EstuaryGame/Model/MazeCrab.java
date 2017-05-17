@@ -113,7 +113,7 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Invokes an entity's interference method.
 	 * <p>
-	 * This is called when {@link #detectCollision(MazeEntity) [detectCollision]} returns true.
+	 * This is called when {@link #detectCollision(MazeEntity) detectCollision} returns true.
 	 * @param entity	{@link <MazeEntity> MazeEntity} with which the crab is colliding
 	 */
 	public void handleCollision(MazeEntity entity){
@@ -163,7 +163,7 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Setter for {@link #isColliding}
 	 * <p>
-	 * Set to protected. Called in {@link <MazeModel> [MazeModel]}'s {@link MazeModel#tick} method.
+	 * Set to protected. Called in {@link <MazeModel> MazeModel}'s {@link MazeModel#tick} method.
 	 * @param collision		boolean value which isColliding is to be set to
 	 */
 	protected void setIsColliding(boolean collision){

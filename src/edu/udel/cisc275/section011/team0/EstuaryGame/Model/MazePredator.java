@@ -87,5 +87,16 @@ public class MazePredator extends MazeEntity {
 		}
 	}
 	
+	public double getMaxDistanceFromSpawn(){
+		return this.maxDistanceFromSpawn;
+	}
+	
+	public double getSpawnX(){
+		return this.spawnX;
+	}
+	
+	public double getSpawnY(){
+		return this.spawnY;
+	}
 	
 }
