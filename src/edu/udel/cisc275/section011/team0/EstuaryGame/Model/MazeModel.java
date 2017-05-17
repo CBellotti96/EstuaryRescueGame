@@ -28,11 +28,9 @@ public class MazeModel {
 	private MazeDifficulty mazeDifficulty;
 	private List<Direction> directions = new ArrayList<>();
 	private MazeGameMode mode;
-	private int tutorialStage;
 	
 	public MazeModel() {
 		this.mode = MazeGameMode.TUTORIAL;
-		this.tutorialStage = 0;
 		this.mazeDifficulty = MazeDifficulty.NORMAL;
 		
 		// create maze sections
@@ -125,14 +123,6 @@ public class MazeModel {
 		this.mode = mode;
 	}
 	
-	public int getTutorialStage(){
-		return this.tutorialStage;
-	}
-	
-	public void setTutorialStage(){
-		tutorialStage++;
-	}
-	
 	public void tick () {
 		getCurrentSection().handleCollision(player);
 		
@@ -166,7 +156,7 @@ public class MazeModel {
 				System.out.println(currentSection);
 			} else {
 				// TODO victory screen
-				this.setMode(MazeGameMode.WON);
+				this.setMode(MazeGameMode.WIN_SCREEN);
 				Main.getInstance().setController(new MenuController());
 			}
 		}
