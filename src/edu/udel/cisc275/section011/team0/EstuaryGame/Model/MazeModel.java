@@ -116,6 +116,10 @@ public class MazeModel {
 		return sections[currentSection];
 	}
 	
+	public int getCurrentSectionIndex(){
+		return this.currentSection;
+	}
+	
 	public MazeDifficulty getDifficulty(){
 		return this.mazeDifficulty;
 	}
@@ -127,6 +131,12 @@ public class MazeModel {
 	public void setMode(MazeGameMode mode){
 		this.mode = mode;
 	}
+	
+	public MazeSection[] getSections(){
+		return this.sections;
+	}
+	
+	
 	
 	public void tick () {
 		if (getMode() == MazeGameMode.PLAYING) {
@@ -165,7 +175,6 @@ public class MazeModel {
 					player.markCheckpoint();
 					System.out.println(currentSection);
 				} else {
-					// TODO victory screen
 					this.setMode(MazeGameMode.WIN_SCREEN);
 					Main.getInstance().setController(new MenuController());
 				}

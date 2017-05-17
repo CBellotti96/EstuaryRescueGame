@@ -138,13 +138,24 @@ public class MazeCrabTest {
 	}
 	
 	@Test
-	public void testGetDefaultWidth(){
+	public void getDefaultWidthTest(){
 		assertEquals(0.5, test.getDefaultWidth(), 0);
 	}
 	
 	@Test
-	public void testGetDefaultHeight(){
+	public void getDefaultHeightTest(){
 		assertEquals(0.5, test.getDefaultHeight(), 0);
+	}
+
+	@Test
+	public void getWidthTest(){
+		assertEquals(0.5, test.getWidth(), 0);
+	}
+	
+	@Test
+	public void getHeightTest(){
+		assertEquals(0.5, test.getHeight(), 0);
 	}
 	
 }
+

@@ -100,7 +100,7 @@ public class MazeCrab extends MazeEntity {
 	/**
 	 * Returns a boolean telling whether MazeCrab instance is in collision with a MazeEntity instance.
 	 * 
-	 * @param entity	{@link <MazeEntity> [MazeEntity]} currently being testing for collision
+	 * @param entity	{@link <MazeEntity> MazeEntity} currently being testing for collision
 	 */
 	public boolean detectCollision(MazeEntity entity){
 		if ((Math.abs((this.getXPos() - entity.getXPos())) < 0.5) && 
