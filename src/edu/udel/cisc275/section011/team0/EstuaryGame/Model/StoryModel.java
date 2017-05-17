@@ -31,6 +31,10 @@ public class StoryModel {
 	public boolean isRolled () {
 		return this.rolled;
 	}
+	
+	public StoryModel (int n) {
+		initializeModel(n);
+	}
 
 	/**
 	 * @author Ben Wiswell
@@ -45,14 +49,10 @@ public class StoryModel {
 		optionPane.setOptionType(JOptionPane.OK_CANCEL_OPTION);
 		JDialog dialog = optionPane.createDialog(jf, "Number of Story Cubes");
 		dialog.setVisible(true);
-		try {
-			initializeModel((int) optionPane.getInputValue());
-		} catch (Exception e) {
-			initializeModel(8);
-		}
+		initializeModel((int) optionPane.getInputValue());
 	}
 	
-	private JSlider getSlider(JOptionPane optionPane) {
+	public JSlider getSlider(JOptionPane optionPane) {
 	    JSlider slider = new JSlider(JSlider.HORIZONTAL, 4, 10, 8);
 	    slider.setMajorTickSpacing(2);
 	    slider.setPaintTicks(true);
