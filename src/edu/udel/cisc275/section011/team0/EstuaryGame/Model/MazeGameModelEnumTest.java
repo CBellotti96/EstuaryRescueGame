@@ -8,8 +8,9 @@ public class MazeGameModelEnumTest {
 	@Test
 	public void MazeGameModeValuesTest(){
 		assertNotNull(MazeGameMode.valueOf("TUTORIAL"));
-		assertNotNull(MazeGameMode.valueOf("NORMAL"));
-		assertNotNull(MazeGameMode.valueOf("WON"));
-		assertNotNull(MazeGameMode.valueOf("LOST"));
+		assertNotNull(MazeGameMode.valueOf("PLAYING"));
+		assertNotNull(MazeGameMode.valueOf("SECTION_CHANGE"));
+		assertNotNull(MazeGameMode.valueOf("RESET_CRAB"));
+		assertNotNull(MazeGameMode.valueOf("WIN_SCREEN"));
 	}
 }

@@ -37,13 +37,6 @@ public class MazeObstacle extends MazeEntity {
 	 * @see					{@link <Direction> [Direction (enum)]}
 	 */
 	public void move(Direction direction){
-		if (this.type == MazeObstacleType.TRASH){
-			this.setXPos(this.getXPos() + direction.getXDir() * MazeObstacleType.TRASH.getDefaultSpeed());
-			this.setYPos(this.getYPos() + direction.getYDir() * MazeObstacleType.TRASH.getDefaultSpeed());
-		}
-		else if (this.type == MazeObstacleType.SEAWEED){
-			return;
-		}
 	}
 	
 	/**
@@ -51,12 +44,13 @@ public class MazeObstacle extends MazeEntity {
 	 */
 	@Override
 	public void interfereCrab(MazeCrab crab){
-		if (this.type == MazeObstacleType.TRASH){
+		if (this.type == MazeObstacleType.TRASH && true == crab.getIsColliding()){
 			crab.setSpeed(MazeObstacleType.TRASH.getInterferenceFactor());
 		}
-		if (this.type == MazeObstacleType.SEAWEED){
+		if (this.type == MazeObstacleType.SEAWEED && true == crab.getIsColliding()){
 			crab.setSpeed(MazeObstacleType.SEAWEED.getInterferenceFactor());
 		}
+		
 	}
 	
 	/**

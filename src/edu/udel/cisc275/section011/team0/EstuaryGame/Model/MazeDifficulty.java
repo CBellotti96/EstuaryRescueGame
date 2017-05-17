@@ -10,9 +10,9 @@ package edu.udel.cisc275.section011.team0.EstuaryGame.Model;
  */
 public enum MazeDifficulty {
 	
-	EASY(5, 10, 3, 10.0, 3.0),
-	NORMAL(10, 15, 4, 7.5, 4.5),
-	HARD(15, 20, 5, 6.0, 5.0);
+	EASY(5, 10, 3),
+	NORMAL(10, 15, 4),
+	HARD(15, 20, 5);
 	
 	/**
 	 * Number of predators.
@@ -26,14 +26,6 @@ public enum MazeDifficulty {
 	 * Number of powerups.
 	 */
 	private final int powerupNum;
-	/**
-	 * Length of duration for positive effects.
-	 */
-	private final double posEffectDur;
-	/**
-	 * Length of duration for negative effects
-	 */
-	private final double negEffectDur;
 	
 	/**
 	 * Class constructor.
@@ -41,15 +33,11 @@ public enum MazeDifficulty {
 	 * @param predatorNum	number of predators
 	 * @param obstacleNum	number of obstacles
 	 * @param powerupNum	number of powerups
-	 * @param posEffectDur	double denoting duration of positive effects 
-	 * @param negEffectDur	double denoting duration of positive effects
 	 */
-	MazeDifficulty(int predatorNum, int obstacleNum, int powerupNum, double posEffectDur, double negEffectDur){
+	MazeDifficulty(int predatorNum, int obstacleNum, int powerupNum){
 		this.predatorNum = predatorNum;
 		this.obstacleNum = obstacleNum;
 		this.powerupNum = powerupNum;
-		this.posEffectDur = posEffectDur;
-		this.negEffectDur = negEffectDur;
 	}
 	
 	/**
@@ -76,20 +64,6 @@ public enum MazeDifficulty {
 		return this.powerupNum;
 	}
 	
-	/** 
-	 * Getter for {@link #posEffectDur}.
-	 * @return	
-	 */
-	public double getPosEffectDur(){
-		return this.posEffectDur;
-	}
-	
-	/**
-	 * Getter for {@link #negEffectDur}.
-	 * @return {@link #negEffectDur}
-	 */
-	public double getNegEffectDur(){
-		return this.negEffectDur;
-	}
+
 	
 }
